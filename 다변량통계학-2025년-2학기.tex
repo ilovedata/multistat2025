@@ -1,0 +1,655 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  11pt,
+  a4paper,
+  oneside]{scrbook}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+%----- my options----------------
+%\usepackage[utf8]{inputenc}
+%\usepackage{kotex}
+
+%\usepackage{xetexko}
+\usepackage{kotex} %-oblivoir}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\setmainhangulfont{NanumMyeongjo}
+\setsanshangulfont{NanumGothic}     % MalgunGothic
+\setmonohangulfont{NanumGothic}
+\setmathhangulfont{NanumGothic}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ left=20mm,
+ right=20mm,
+ top=20mm,
+ bottom=30mm
+ }
+ 
+\usepackage{setspace}
+
+
+
+\newcommand{\pardiff}[2]{\frac{\partial #1}{\partial #2 }}
+\newcommand{\pardiffl}[2]{{\partial #1}/{\partial #2 }}
+\newcommand{\pardiffd}[2]{\frac{\partial^2 #1}{\partial #2^t \partial #2 }}
+\newcommand{\pardiffdd}[3]{\frac{\partial^2 #1}{\partial #2 \partial #3 }}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\hatmat}{\pmb X ({\pmb X}^t {\pmb X} )^{-1} {\pmb X}^t}
+\newcommand{\hatmatt}[1]{\pmb X_{#1} ({\pmb X}_{#1}^t {\pmb X}_{#1})^{-1} {\pmb X}_{#1}^t}
+
+
+\onehalfspacing
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{그림}
+\else
+  \newcommand\figurename{그림}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{표}
+\else
+  \newcommand\tablename{표}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={다변량통계학-2025년 2학기},
+  pdfauthor={서울시립대학교 통계학과 이용희},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{다변량통계학-2025년 2학기}
+\author{서울시립대학교 통계학과 이용희}
+\date{2025-09-07}
+\begin{document}
+\frontmatter
+\maketitle
+
+\renewcommand*\contentsname{Table of contents}
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+
+\mainmatter
+\bookmarksetup{startatroot}
+
+\chapter*{Preface}\label{preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+\markboth{Preface}{Preface}
+
+이 책은 2025년 다변량통계학에 대한 온라인 교재입니다.
+
+\begin{tcolorbox}[enhanced jigsaw, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, colframe=quarto-callout-note-color-frame, bottomrule=.15mm, left=2mm, breakable, arc=.35mm, toprule=.15mm, toptitle=1mm, opacityback=0, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{표기법}, bottomtitle=1mm, opacitybacktitle=0.6, rightrule=.15mm, titlerule=0mm, leftrule=.75mm, colback=white]
+
+이 책에서 사용된 기호, 표기법, 프로그램의 규칙과 쓰임은 다음과 같습니다.
+
+\begin{itemize}
+\tightlist
+\item
+  스칼라(scalar)와 일변량 확률변수는 일반적으로 보통 글씨체의 소문자로
+  표기한다. 특별한 이유가 있는 경우 대문자로 표시할 것이다.
+\item
+  벡터, 행렬, 다변량 확률벡터는 \textbf{굵은 글씨체}로 표기한다.
+\item
+  통계 프로그램은 \texttt{R}을 이용하였다. 각 예제에 사용된 \texttt{R}
+  프로그램은 코드 상자를 열면 나타난다.
+\end{itemize}
+
+\end{tcolorbox}
+
+\bookmarksetup{startatroot}
+
+\chapter{다변량 자료의 표현과
+분포}\label{uxb2e4uxbcc0uxb7c9-uxc790uxb8ccuxc758-uxd45cuxd604uxacfc-uxbd84uxd3ec}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(here)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\FunctionTok{library}\NormalTok{(kableExtra)}
+\FunctionTok{library}\NormalTok{(flextable)}
+\end{Highlighting}
+\end{Shaded}
+
+다변량 자료(multivariate data)는 두 개 이상의 변수를 측정한 자료를
+말합니다. 예를 들어, 학생들의 키와 몸무게, 시험 점수와 공부 시간, 나이와
+소득 등이 다변량 자료에 해당합니다. 다변량 자료는 변수들 간의 관계를
+분석하고 이해하는 데 중요한 역할을 합니다. 다변량 자료를 효과적으로
+표현하고 분석하기 위해 다양한 그래프와 통계 기법이 사용됩니다. 이
+장에서는 다변량 자료의 표현 방법과 분포를 이해하는 데 필요한 기본 개념과
+도구들을 소개합니다.
+
+\section{예제:
+국민체력100}\label{uxc608uxc81c-uxad6duxbbfcuxccb4uxb825100}
+
+국민체력100은 국민의 체력증진과 건강증진을 위해 개발된 종합적인 체력측정
+프로그램이다. 이 프로그램은 다양한 연령대와 성별에 맞춘 체력측정 항목을
+포함하고 있으며, 이를 통해 개인의 체력 상태를 평가하고 개선할 수 있는
+기회를 제공한다.
+
+다음은 2024년에 청소년에 대한 국민체력100 측정 항목과 자료의 일부이다.
+먼저 측정항목에 대한 설명에 대한 자료를 보자.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"physical100\_teen\_2024.RData"}\NormalTok{))}
+\FunctionTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "selected_df"     "selected_var_df"
+\end{verbatim}
+
+\section{다변량
+확률변수}\label{uxb2e4uxbcc0uxb7c9-uxd655uxb960uxbcc0uxc218}
+
+\subsection{일변량분포}\label{uxc77cuxbcc0uxb7c9uxbd84uxd3ec}
+
+일변량 확률변수 \(X\)가 확률밀도함수 \(f(x)\)를 가지는 분포를 따를때
+기대값과 분산은 다음과 같이 정의된다.
+
+\[ E(X) = \int x f(x)  dx = \mu, \quad V(X) = E[ X-E(X)]^2=\int (x-\mu)^2 f(x) dx =\sigma^2 \]
+
+새로운 확률변수 \(Y\)가 확률변수 \(X\)의 선형변환으로 표시된다면
+(\(a\)와 \(b\)는 실수)
+
+\[ Y = aX+b \]
+
+일변량 확률변수 \(X\)의 기대값(평균)과 분산은 다음과 같이 계산된다.
+
+\[
+\begin{aligned}
+E(Y) &= E(aX+b) \\
+&= \int (ax+b) f(x) dx \\
+&= a \int x f(x) dx + b \\
+&= a E(X) + b\\
+&= a \mu + b \\
+V(Y) &= Var(aX+b) \\
+&= E[aX+b -E(aX+b)]^2 \\
+&= E[a(X-\mu)]^2 \\
+&= a^2 E(X-\mu)^2\\
+&= a^2 \sigma^2
+\end{aligned}
+\]
+
+\section{확률벡터와
+분포}\label{uxd655uxb960uxbca1uxd130uxc640-uxbd84uxd3ec}
+
+확률벡터 \(\pmb X\)가 \(p\) 차원의 다변량분포를 따른다고 하고
+결합확률밀도함수 \(f(\pmb x) =f(x_1,x_2,\dots,x_p)\)를 를 가진다고 하자.
+
+\[
+\pmb X =
+  \begin{bmatrix}
+X_1 \\
+X_2 \\
+X_3 \\
+..  \\
+X_p
+\end{bmatrix}
+\]
+
+다변량 확률벡터의 기대값(평균벡터)과 공분산(행렬)은 다음과 같이
+계산된다.
+
+\[
+\pmb E(\pmb X) =
+  \begin{bmatrix}
+E(X_1) \\
+E(X_2) \\
+E(X_3) \\
+..  \\
+E(X_p)
+\end{bmatrix}
+= 
+  \begin{bmatrix}
+\mu_1 \\
+\mu_2 \\
+..  \\
+\mu_p
+\end{bmatrix}
+=\pmb \mu
+\]
+
+\[
+V(\pmb X) =Cov(\pmb X) = E (\pmb X-\pmb \mu) (\pmb X-\pmb \mu)^t 
+= 
+  \begin{bmatrix}
+\sigma_{11} & \sigma_{12} & \dots & \sigma_{1p} \\
+\sigma_{12} & \sigma_{22} & \dots & \sigma_{2p} \\
+& \dots & \dots & \\
+\sigma_{1p} & \sigma_{2p} & \dots & \sigma_{pp} \\
+\end{bmatrix}
+= \pmb \Sigma
+\]
+
+여기서 \(\sigma_{ii}=V(X_i)\),
+\(\sigma_{ij} = Cov(X_i, X_j)=Cov(X_j, X_i)\)이다. 따라서 공분산 행렬
+\(\pmb \Sigma\)는 대칭행렬(symmetric matrix)이다. 다음 공식은 유용한
+공식이다.
+
+\[ \pmb \Sigma = E (\pmb X-\pmb \mu) (\pmb X-\pmb \mu)^t  = E(\pmb X \pmb X^t)-\pmb \mu \pmb \mu^t \]
+
+두 확률변수의 상관계수 \(\rho_{ij}\)는 다음과 같이 정의된다.
+
+\[ \rho_{ij} = \frac{Cov(X_i, X_j)}{ \sqrt{V(X_i) V(X_j)}} = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii}
+  \sigma_{jj}}} \]
+
+새로운 확률벡터 \(\pmb Y\)가 확률벡터 \(\pmb X\) 의 선형변환라고 하자.
+
+\[ \pmb Y = \pmb A  \pmb X + \pmb b \]
+
+단 여기서 \(\pmb A = \{ a_{ij} \}\)는 \(p \times p\) 실수 행렬이고
+\(\pmb b =(b_1 b_2 \dots b_p)^t\)는 \(p \times 1\) 실수 벡터이다.
+
+확률벡터 \(\pmb Y\)의 기대값(평균벡터)과 공분산은 다음과 같이 계산된다.
+
+\[
+\begin{aligned}
+E(\pmb Y ) &= E(\pmb A \pmb X+ \pmb b) \\
+&= \pmb A E(\pmb X)+ \pmb b \\
+&= \pmb A \pmb \mu+ \pmb b \\
+V(\pmb Y) &= Var(\pmb A \pmb X+ \pmb b) \\
+&= E[\pmb A \pmb X+ \pmb b -E(\pmb A \pmb X+ \pmb b)] [\pmb A \pmb X+ \pmb b -E(\pmb A \pmb X+ \pmb b)]^t \\
+&= E[\pmb A \pmb X -  \pmb A \pmb \mu] [\pmb A \pmb X -  \pmb A \pmb \mu]^t \\
+&= E[\pmb A (\pmb X - \pmb \mu)] [\pmb A (\pmb X - \pmb \mu)]^t \\
+&= \pmb A E [(\pmb X - \pmb \mu) (\pmb X - \pmb \mu)^t] \pmb A^t \\
+&= \pmb A \pmb \Sigma \pmb A^t
+\end{aligned}
+\]
+
+만약 표본 \(\pmb X_i, \pmb X_2, \dots, \pmb X_n\) 이 독립적으로 평균이
+\(\pmb \mu\) 이고 공분산이 \(\pmb \Sigma\) 인 분포에서 추출되었다면
+표본의 평균벡터 \(\bar {\pmb  X}\) 는 평균이 \(\pmb \mu\) 이고 공분산이
+\(\frac{1}{n}\pmb \Sigma\) 인 분포를 따른다.
+
+\[
+\bar {\pmb X} =
+  \begin{bmatrix}
+\sum_{i=1}^n X_{i1} / n  \\
+\sum_{i=1}^n X_{i2} / n \\
+\sum_{i=1}^n X_{i3} / n \\
+..  \\
+\sum_{i=1}^n X_{ip} / n 
+\end{bmatrix}
+\]
+
+여기서 \(X_{ij}\) 는 \(i\)번째 표본벡터
+\(\pmb X_i =(X_{i1} X_{i2} \dots X_{ip})^t\)의 \(j\)번째 확률변수이다.
+
+\section{다변량
+정규분포}\label{uxb2e4uxbcc0uxb7c9-uxc815uxaddcuxbd84uxd3ec}
+
+일변량 확률변수 \(X\)가 평균이 \(\mu\) 이고 분산이 \(\sigma^2\)인
+정규분포를 따른다면 다음과 같이 나타내고 \[ X \sim N(\mu, \sigma^2 ) \]
+확률밀도함수 \(f(x)\) 는 다음과 갇이 주어진다.
+
+\[ f(x) = (2 \pi \sigma^2)^{-1/2} \exp \left ( - \frac{(x-\mu)^2}{2} \right ) \]
+
+\(p\)-차원 확률벡터 \(\pmb X\)가 평균이 \(\pmb \mu\) 이고 공분산이
+\(\pmb \Sigma\)인 다변량 정규분포를 따른다면 다음과 같이 나타내고
+\[ \pmb X \sim N_p(\pmb \mu, \pmb \Sigma ) \] 확률밀도함수 \(f(\pmb x)\)
+는 다음과 갇이 주어진다.
+
+\[ f(\pmb x) = (2 \pi)^{-p/2} | \pmb \Sigma|^{-1/2} 
+   \exp \left ( - \frac{(\pmb x-\pmb \mu) \pmb \Sigma^{-1}(\pmb x-\pmb \mu)^t}{2} \right ) \]
+
+다변량 정규분포 \(N(\pmb \mu, \pmb \Sigma)\)를 따르는 확률벡터
+\(\pmb X\)를 다음과 같이 두 부분으로 나누면
+
+\[ 
+  \pmb X = 
+    \begin{bmatrix}
+  \pmb X_1 \\
+  \pmb X_2
+  \end{bmatrix}, \quad
+  \pmb X_1 = 
+    \begin{bmatrix}
+  \pmb X_{11} \\
+  \pmb X_{12} \\
+  \pmb \vdots \\
+  \pmb X_{1p}
+  \end{bmatrix}, \quad 
+  \pmb X_2= 
+    \begin{bmatrix}
+  \pmb X_{21} \\
+  \pmb X_{22} \\
+  \pmb \vdots \\
+  \pmb X_{2q}
+  \end{bmatrix}
+  \]
+
+각각 다변량 정규분포를 따르고 다음과 같이 나타낼 수 있다.
+
+\[ 
+  \begin{bmatrix}
+  E(\pmb X_1) \\
+  E(\pmb X_2)
+  \end{bmatrix}
+  =
+    \begin{bmatrix}
+  \pmb \mu_1 \\
+  \pmb \mu_2
+  \end{bmatrix}
+  , \quad 
+  \begin{bmatrix}
+  V(\pmb X_1) & Cov(\pmb X_1, X_2) \\
+  Cov(\pmb X_2 X_1) & V(\pmb X_2)
+  \end{bmatrix}
+  =
+    \begin{bmatrix}
+  \pmb \Sigma_{11} & \pmb \Sigma_{12} \\
+  \pmb \Sigma^t_{12} & \pmb \Sigma_{22}
+  \end{bmatrix}
+  \]
+
+\[  \pmb X =
+    \begin{bmatrix}
+  \pmb X_1 \\
+  \pmb X_2
+  \end{bmatrix}
+  \sim
+  N_{p+q} \left (
+    \begin{bmatrix}
+    \pmb \mu_1 \\
+    \pmb \mu_2
+    \end{bmatrix}
+    ,\begin{bmatrix}
+    \pmb \Sigma_{11} & \Sigma_{12} \\
+    \pmb \Sigma^t_{12} & \Sigma_{22}
+    \end{bmatrix}
+    \right )
+  \]
+
+확률벡터 \(\pmb X_2 = \pmb x_2\)가 주어진 경우 \(\pmb X_1\)의 조건부
+분포는 \(p\)-차원 다변량 정규분포를 따르고 평균과 공분산은 다음과 같다.
+
+\[ 
+  E(\pmb X_1 | \pmb X_2 = \pmb x_2 ) = \pmb \mu_1 + \pmb \Sigma_{12} \pmb \Sigma^{-1}_{22} (\pmb \mu_2 - \pmb x_2), \quad
+  V(\pmb X_1 | \pmb X_2 = \pmb x_2 )  = \pmb \Sigma_{11} -\pmb \Sigma_{12} \pmb \Sigma^{-1}_{22} \pmb \Sigma^t_{12}
+  \]
+
+예를 들어 \(2\)-차원 확률벡터 \(\pmb X=(X_1, X_2)^t\)가 평균이
+\(\pmb \mu=(\mu_1,\mu_2)^t\) 이고 공분산 \(\pmb \Sigma\)가 다음과 같이
+주어진
+
+\[
+\pmb \Sigma =
+  \begin{bmatrix}
+\sigma_{11} & \sigma_{12} \\
+\sigma_{12} & \sigma_{22}
+\end{bmatrix}
+\]
+
+이변량 정규분포를 따른다면 확률밀도함수 \(f(\pmb x)\)에서 \(\exp\)함수의
+인자는 다음과 같이 주어진다. \[
+\begin{aligned}
+&(\pmb x-\pmb \mu) \pmb \Sigma^{-1}(\pmb x-\pmb \mu)^t
+= \\
+&-\frac{1}{2 (1-\rho^2)} 
+\left [ 
+  \left ( \frac{(x_1-\mu_1)^2}{\sigma_{11}} \right )
+  +\left ( \frac{(x_2-\mu_2)^2}{\sigma_{22}} \right )
+  -2 \rho \left ( \frac{(x_1-\mu_1)}{\sqrt{\sigma_{11}}} \right )
+  \left ( \frac{(x_2-\mu_2)}{\sqrt{\sigma_{22}}} \right )
+  \right ]
+\end{aligned}
+\]
+
+그리고 \(p=2\)인 경우 확률밀도함수의 상수부분은 다음과 같이 주어진다.
+
+\[ (2 \pi)^{-p/2} | \pmb \Sigma|^{-1/2} = \frac{1}{ 2 \pi \sqrt{\sigma_{11} \sigma_{22} (1-\rho^2)}} \]
+
+여기서 \(\rho = \sigma_{12} / \sqrt{\sigma_{11} \sigma_{22}}\)
+
+만약 \(X_2 = x_2\)가 주어졌을 때 \(X_1\)의 조건부 분포는 정규분포이고
+평균과 분산은 다음과 같이 주어진다.
+
+\[ 
+  E( X_1 |  X_2 =  x_2 ) =  \mu_1 +  \frac{\sigma_{12}}{\sigma_{22}} ( \mu_2 -  x_2)  = \mu_1 +  \rho \frac{\sqrt{\sigma_{11}}}{\sqrt{\sigma_{22}}} ( \mu_2 -  x_2) \]
+
+\[
+  V( X_1 |  X_2 =  x_2 )  =  \sigma_{11} - \frac{\sigma^2_{12}}{\sigma_{22}}  = \sigma_{11}(1-\rho^2)
+\]
+
+다변량 정규분포에서 공분산이 0인 두 확률 변수는 독립이다.
+\[ \sigma_{ij} = 0 \leftrightarrow X_i \text{ and } X_j \text{ are independent} \]
+
+\section{표준정규분포로의
+변환}\label{uxd45cuxc900uxc815uxaddcuxbd84uxd3ecuxb85cuxc758-uxbcc0uxd658}
+
+일변량 확률변수 \(X\)가 평균이 \(\mu\) 이고 분산이 \(\sigma^2\)인 경우
+다음과 같은 선형변환을 고려하면.
+
+\[ Z = \frac{X - \mu}{\sigma} = (\sigma^2)^{-1/2} (X-\mu) \] 확률변수
+\(Z\) 는 평균이 \(0\) 이고 분산이 \(1\)인 분포를 따른다.
+
+\bookmarksetup{startatroot}
+
+\chapter*{References}\label{references}
+\addcontentsline{toc}{chapter}{References}
+
+\markboth{References}{References}
+
+\phantomsection\label{refs}
+
+
+\backmatter
+
+
+\end{document}

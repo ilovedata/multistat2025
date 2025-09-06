@@ -1,0 +1,80 @@
+project:
+  type: book
+
+execute:
+  cache: false
+
+book:
+  title: "다변량통계학-2025년 2학기"
+  author: "서울시립대학교 통계학과 이용희"
+  date: last-modified
+  downloads: [pdf]
+  chapters:
+    - index.qmd
+    - qmd/multivar-dist.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    lang: ko
+    language: custom.yml
+    code-fold: false
+    code-overflow: wrap
+    embed-resources: false
+    citations-hover: true
+    footnotes-hover: true
+    crossref:
+      fig-prefix: 그림   # (default is "Figure")
+      tbl-prefix: 표    # (default is "Table")
+      eq-prefix: 식     # (default is "Equation")
+      ref-hyperlink: true # (default is true)
+    include-in-header:
+      - text: |
+          <script type="text/javascript">
+           window.MathJax = {
+            tex: {
+              macros: {
+              RR: '{\\mathbb R}',                    // a simple string replacement
+              hatmat:'{\\pmb X ({\\pmb X}^t {\\pmb X} )^{-1} {\\pmb X}^t}',
+              bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+              pardiff: ['\\frac{\\partial#2}{\\partial#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+              pardifftwo: ['\\frac{\\partial#1}{\\partial#2}', 2],
+              pardiffd: ['\\frac{\\partial#1}{\\partial#2^t \\partial#2}', 2],
+              pardiffdd: ['\\frac{\\partial#1}{\\partial#3 \\partial#2}', 3],
+              norm: ['\\lVert#1\\rVert',1]
+            },
+            environments: {
+            braced: ["\\left\\{", "\\right\\}"]
+            }
+           }
+          };
+          </script>
+  pdf:
+    documentclass: scrbook
+    classoption: oneside
+    papersize: A4
+    fontsize: 11pt
+    lof: true
+    lot: true
+    code-overflow: wrap
+    language: custom.yml
+    latex-auto-install: true
+#    latex-tinytex: true
+    pdf-engine: xelatex
+    crossref:
+      fig-title: "그림"
+      tbl-title: "표"
+      fig-prefix:  "그림" # (default is "Figure")
+      tbl-prefix: '' #표    # (default is "Table")
+      eq-prefix:  '' #식     # (default is "Equation")
+      ref-hyperlink: true # (default is true)
+    include-in-header: latex/preamble.tex
+
+pdf-engine: xelatex
+keep-tex: false
+latex-min-runs: 2

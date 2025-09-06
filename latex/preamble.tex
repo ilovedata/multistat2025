@@ -1,0 +1,38 @@
+%----- my options----------------
+%\usepackage[utf8]{inputenc}
+%\usepackage{kotex}
+
+%\usepackage{xetexko}
+\usepackage{kotex} %-oblivoir}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\setmainhangulfont{NanumMyeongjo}
+\setsanshangulfont{NanumGothic}     % MalgunGothic
+\setmonohangulfont{NanumGothic}
+\setmathhangulfont{NanumGothic}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ left=20mm,
+ right=20mm,
+ top=20mm,
+ bottom=30mm
+ }
+ 
+\usepackage{setspace}
+
+
+
+\newcommand{\pardiff}[2]{\frac{\partial #1}{\partial #2 }}
+\newcommand{\pardiffl}[2]{{\partial #1}/{\partial #2 }}
+\newcommand{\pardiffd}[2]{\frac{\partial^2 #1}{\partial #2^t \partial #2 }}
+\newcommand{\pardiffdd}[3]{\frac{\partial^2 #1}{\partial #2 \partial #3 }}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\hatmat}{\pmb X ({\pmb X}^t {\pmb X} )^{-1} {\pmb X}^t}
+\newcommand{\hatmatt}[1]{\pmb X_{#1} ({\pmb X}_{#1}^t {\pmb X}_{#1})^{-1} {\pmb X}_{#1}^t}
+
+
+\onehalfspacing
