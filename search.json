@@ -1,0 +1,62 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "다변량통계학-2025년 2학기",
+    "section": "",
+    "text": "Preface\n이 책은 2025년 다변량통계학에 대한 온라인 교재입니다.\n\n\n\n\n\n\n표기법\n\n\n\n이 책에서 사용된 기호, 표기법, 프로그램의 규칙과 쓰임은 다음과 같습니다.\n\n스칼라(scalar)와 일변량 확률변수는 일반적으로 보통 글씨체의 소문자로 표기한다. 특별한 이유가 있는 경우 대문자로 표시할 것이다.\n벡터, 행렬, 다변량 확률벡터는 굵은 글씨체로 표기한다.\n통계 프로그램은 R을 이용하였다. 각 예제에 사용된 R 프로그램은 코드 상자를 열면 나타난다.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "qmd/multivar-dist.html",
+    "href": "qmd/multivar-dist.html",
+    "title": "1  다변량 자료의 표현과 분포",
+    "section": "",
+    "text": "1.1 예제: 국민체력100\n다변량 자료(multivariate data)는 두 개 이상의 변수를 측정한 자료를 말합니다. 예를 들어, 학생들의 키와 몸무게, 시험 점수와 공부 시간, 나이와 소득 등이 다변량 자료에 해당합니다. 다변량 자료는 변수들 간의 관계를 분석하고 이해하는 데 중요한 역할을 합니다. 다변량 자료를 효과적으로 표현하고 분석하기 위해 다양한 그래프와 통계 기법이 사용됩니다. 이 장에서는 다변량 자료의 표현 방법과 분포를 이해하는 데 필요한 기본 개념과 도구들을 소개합니다.\n국민체력100은 국민의 체력증진과 건강증진을 위해 개발된 종합적인 체력측정 프로그램이다. 이 프로그램은 다양한 연령대와 성별에 맞춘 체력측정 항목을 포함하고 있으며, 이를 통해 개인의 체력 상태를 평가하고 개선할 수 있는 기회를 제공한다.\n다음은 2024년에 청소년에 대한 국민체력100 측정 항목과 자료의 일부이다. 먼저 측정항목에 대한 설명에 대한 자료를 보자.\nload(here(\"data\", \"physical100_teen_2024.RData\"))\nls()\n\n[1] \"selected_df\"     \"selected_var_df\"",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>다변량 자료의 표현과 분포</span>"
+    ]
+  },
+  {
+    "objectID": "qmd/multivar-dist.html#다변량-확률변수",
+    "href": "qmd/multivar-dist.html#다변량-확률변수",
+    "title": "1  다변량 자료의 표현과 분포",
+    "section": "1.2 다변량 확률변수",
+    "text": "1.2 다변량 확률변수\n\n1.2.1 일변량분포\n일변량 확률변수 \\(X\\)가 확률밀도함수 \\(f(x)\\)를 가지는 분포를 따를때 기대값과 분산은 다음과 같이 정의된다.\n\\[ E(X) = \\int x f(x)  dx = \\mu, \\quad V(X) = E[ X-E(X)]^2=\\int (x-\\mu)^2 f(x) dx =\\sigma^2 \\]\n새로운 확률변수 \\(Y\\)가 확률변수 \\(X\\)의 선형변환으로 표시된다면 (\\(a\\)와 \\(b\\)는 실수)\n\\[ Y = aX+b \\]\n일변량 확률변수 \\(X\\)의 기대값(평균)과 분산은 다음과 같이 계산된다.\n\\[\n\\begin{aligned}\nE(Y) &= E(aX+b) \\\\\n&= \\int (ax+b) f(x) dx \\\\\n&= a \\int x f(x) dx + b \\\\\n&= a E(X) + b\\\\\n&= a \\mu + b \\\\\nV(Y) &= Var(aX+b) \\\\\n&= E[aX+b -E(aX+b)]^2 \\\\\n&= E[a(X-\\mu)]^2 \\\\\n&= a^2 E(X-\\mu)^2\\\\\n&= a^2 \\sigma^2\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>다변량 자료의 표현과 분포</span>"
+    ]
+  },
+  {
+    "objectID": "qmd/multivar-dist.html#확률벡터와-분포",
+    "href": "qmd/multivar-dist.html#확률벡터와-분포",
+    "title": "1  다변량 자료의 표현과 분포",
+    "section": "1.3 확률벡터와 분포",
+    "text": "1.3 확률벡터와 분포\n확률벡터 \\(\\pmb X\\)가 \\(p\\) 차원의 다변량분포를 따른다고 하고 결합확률밀도함수 \\(f(\\pmb x) =f(x_1,x_2,\\dots,x_p)\\)를 를 가진다고 하자.\n\\[\n\\pmb X =\n  \\begin{bmatrix}\nX_1 \\\\\nX_2 \\\\\nX_3 \\\\\n..  \\\\\nX_p\n\\end{bmatrix}\n\\]\n다변량 확률벡터의 기대값(평균벡터)과 공분산(행렬)은 다음과 같이 계산된다.\n\\[\n\\pmb E(\\pmb X) =\n  \\begin{bmatrix}\nE(X_1) \\\\\nE(X_2) \\\\\nE(X_3) \\\\\n..  \\\\\nE(X_p)\n\\end{bmatrix}\n=\n  \\begin{bmatrix}\n\\mu_1 \\\\\n\\mu_2 \\\\\n..  \\\\\n\\mu_p\n\\end{bmatrix}\n=\\pmb \\mu\n\\]\n\\[\nV(\\pmb X) =Cov(\\pmb X) = E (\\pmb X-\\pmb \\mu) (\\pmb X-\\pmb \\mu)^t\n=\n  \\begin{bmatrix}\n\\sigma_{11} & \\sigma_{12} & \\dots & \\sigma_{1p} \\\\\n\\sigma_{12} & \\sigma_{22} & \\dots & \\sigma_{2p} \\\\\n& \\dots & \\dots & \\\\\n\\sigma_{1p} & \\sigma_{2p} & \\dots & \\sigma_{pp} \\\\\n\\end{bmatrix}\n= \\pmb \\Sigma\n\\]\n여기서 \\(\\sigma_{ii}=V(X_i)\\), \\(\\sigma_{ij} = Cov(X_i, X_j)=Cov(X_j, X_i)\\)이다. 따라서 공분산 행렬 \\(\\pmb \\Sigma\\)는 대칭행렬(symmetric matrix)이다. 다음 공식은 유용한 공식이다.\n\\[ \\pmb \\Sigma = E (\\pmb X-\\pmb \\mu) (\\pmb X-\\pmb \\mu)^t  = E(\\pmb X \\pmb X^t)-\\pmb \\mu \\pmb \\mu^t \\]\n두 확률변수의 상관계수 \\(\\rho_{ij}\\)는 다음과 같이 정의된다.\n\\[ \\rho_{ij} = \\frac{Cov(X_i, X_j)}{ \\sqrt{V(X_i) V(X_j)}} = \\frac{\\sigma_{ij}}{\\sqrt{\\sigma_{ii}\n  \\sigma_{jj}}} \\]\n새로운 확률벡터 \\(\\pmb Y\\)가 확률벡터 \\(\\pmb X\\) 의 선형변환라고 하자.\n\\[ \\pmb Y = \\pmb A  \\pmb X + \\pmb b \\]\n단 여기서 \\(\\pmb A = \\{ a_{ij} \\}\\)는 \\(p \\times p\\) 실수 행렬이고 \\(\\pmb b =(b_1 b_2 \\dots b_p)^t\\)는 \\(p \\times 1\\) 실수 벡터이다.\n확률벡터 \\(\\pmb Y\\)의 기대값(평균벡터)과 공분산은 다음과 같이 계산된다.\n\\[\n\\begin{aligned}\nE(\\pmb Y ) &= E(\\pmb A \\pmb X+ \\pmb b) \\\\\n&= \\pmb A E(\\pmb X)+ \\pmb b \\\\\n&= \\pmb A \\pmb \\mu+ \\pmb b \\\\\nV(\\pmb Y) &= Var(\\pmb A \\pmb X+ \\pmb b) \\\\\n&= E[\\pmb A \\pmb X+ \\pmb b -E(\\pmb A \\pmb X+ \\pmb b)] [\\pmb A \\pmb X+ \\pmb b -E(\\pmb A \\pmb X+ \\pmb b)]^t \\\\\n&= E[\\pmb A \\pmb X -  \\pmb A \\pmb \\mu] [\\pmb A \\pmb X -  \\pmb A \\pmb \\mu]^t \\\\\n&= E[\\pmb A (\\pmb X - \\pmb \\mu)] [\\pmb A (\\pmb X - \\pmb \\mu)]^t \\\\\n&= \\pmb A E [(\\pmb X - \\pmb \\mu) (\\pmb X - \\pmb \\mu)^t] \\pmb A^t \\\\\n&= \\pmb A \\pmb \\Sigma \\pmb A^t\n\\end{aligned}\n\\]\n만약 표본 \\(\\pmb X_i, \\pmb X_2, \\dots, \\pmb X_n\\) 이 독립적으로 평균이 \\(\\pmb \\mu\\) 이고 공분산이 \\(\\pmb \\Sigma\\) 인 분포에서 추출되었다면 표본의 평균벡터 \\(\\bar {\\pmb  X}\\) 는 평균이 \\(\\pmb \\mu\\) 이고 공분산이 \\(\\frac{1}{n}\\pmb \\Sigma\\) 인 분포를 따른다.\n\\[\n\\bar {\\pmb X} =\n  \\begin{bmatrix}\n\\sum_{i=1}^n X_{i1} / n  \\\\\n\\sum_{i=1}^n X_{i2} / n \\\\\n\\sum_{i=1}^n X_{i3} / n \\\\\n..  \\\\\n\\sum_{i=1}^n X_{ip} / n\n\\end{bmatrix}\n\\]\n여기서 \\(X_{ij}\\) 는 \\(i\\)번째 표본벡터 \\(\\pmb X_i =(X_{i1} X_{i2} \\dots X_{ip})^t\\)의 \\(j\\)번째 확률변수이다.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>다변량 자료의 표현과 분포</span>"
+    ]
+  },
+  {
+    "objectID": "qmd/multivar-dist.html#다변량-정규분포",
+    "href": "qmd/multivar-dist.html#다변량-정규분포",
+    "title": "1  다변량 자료의 표현과 분포",
+    "section": "1.4 다변량 정규분포",
+    "text": "1.4 다변량 정규분포\n일변량 확률변수 \\(X\\)가 평균이 \\(\\mu\\) 이고 분산이 \\(\\sigma^2\\)인 정규분포를 따른다면 다음과 같이 나타내고 \\[ X \\sim N(\\mu, \\sigma^2 ) \\] 확률밀도함수 \\(f(x)\\) 는 다음과 갇이 주어진다.\n\\[ f(x) = (2 \\pi \\sigma^2)^{-1/2} \\exp \\left ( - \\frac{(x-\\mu)^2}{2} \\right ) \\]\n\\(p\\)-차원 확률벡터 \\(\\pmb X\\)가 평균이 \\(\\pmb \\mu\\) 이고 공분산이 \\(\\pmb \\Sigma\\)인 다변량 정규분포를 따른다면 다음과 같이 나타내고 \\[ \\pmb X \\sim N_p(\\pmb \\mu, \\pmb \\Sigma ) \\] 확률밀도함수 \\(f(\\pmb x)\\) 는 다음과 갇이 주어진다.\n\\[ f(\\pmb x) = (2 \\pi)^{-p/2} | \\pmb \\Sigma|^{-1/2}\n   \\exp \\left ( - \\frac{(\\pmb x-\\pmb \\mu) \\pmb \\Sigma^{-1}(\\pmb x-\\pmb \\mu)^t}{2} \\right ) \\]\n다변량 정규분포 \\(N(\\pmb \\mu, \\pmb \\Sigma)\\)를 따르는 확률벡터 \\(\\pmb X\\)를 다음과 같이 두 부분으로 나누면\n\\[\n  \\pmb X =\n    \\begin{bmatrix}\n  \\pmb X_1 \\\\\n  \\pmb X_2\n  \\end{bmatrix}, \\quad\n  \\pmb X_1 =\n    \\begin{bmatrix}\n  \\pmb X_{11} \\\\\n  \\pmb X_{12} \\\\\n  \\pmb \\vdots \\\\\n  \\pmb X_{1p}\n  \\end{bmatrix}, \\quad\n  \\pmb X_2=\n    \\begin{bmatrix}\n  \\pmb X_{21} \\\\\n  \\pmb X_{22} \\\\\n  \\pmb \\vdots \\\\\n  \\pmb X_{2q}\n  \\end{bmatrix}\n  \\]\n각각 다변량 정규분포를 따르고 다음과 같이 나타낼 수 있다.\n\\[\n  \\begin{bmatrix}\n  E(\\pmb X_1) \\\\\n  E(\\pmb X_2)\n  \\end{bmatrix}\n  =\n    \\begin{bmatrix}\n  \\pmb \\mu_1 \\\\\n  \\pmb \\mu_2\n  \\end{bmatrix}\n  , \\quad\n  \\begin{bmatrix}\n  V(\\pmb X_1) & Cov(\\pmb X_1, X_2) \\\\\n  Cov(\\pmb X_2 X_1) & V(\\pmb X_2)\n  \\end{bmatrix}\n  =\n    \\begin{bmatrix}\n  \\pmb \\Sigma_{11} & \\pmb \\Sigma_{12} \\\\\n  \\pmb \\Sigma^t_{12} & \\pmb \\Sigma_{22}\n  \\end{bmatrix}\n  \\]\n\\[  \\pmb X =\n    \\begin{bmatrix}\n  \\pmb X_1 \\\\\n  \\pmb X_2\n  \\end{bmatrix}\n  \\sim\n  N_{p+q} \\left (\n    \\begin{bmatrix}\n    \\pmb \\mu_1 \\\\\n    \\pmb \\mu_2\n    \\end{bmatrix}\n    ,\\begin{bmatrix}\n    \\pmb \\Sigma_{11} & \\Sigma_{12} \\\\\n    \\pmb \\Sigma^t_{12} & \\Sigma_{22}\n    \\end{bmatrix}\n    \\right )\n  \\]\n확률벡터 \\(\\pmb X_2 = \\pmb x_2\\)가 주어진 경우 \\(\\pmb X_1\\)의 조건부 분포는 \\(p\\)-차원 다변량 정규분포를 따르고 평균과 공분산은 다음과 같다.\n\\[\n  E(\\pmb X_1 | \\pmb X_2 = \\pmb x_2 ) = \\pmb \\mu_1 + \\pmb \\Sigma_{12} \\pmb \\Sigma^{-1}_{22} (\\pmb \\mu_2 - \\pmb x_2), \\quad\n  V(\\pmb X_1 | \\pmb X_2 = \\pmb x_2 )  = \\pmb \\Sigma_{11} -\\pmb \\Sigma_{12} \\pmb \\Sigma^{-1}_{22} \\pmb \\Sigma^t_{12}\n  \\]\n예를 들어 \\(2\\)-차원 확률벡터 \\(\\pmb X=(X_1, X_2)^t\\)가 평균이 \\(\\pmb \\mu=(\\mu_1,\\mu_2)^t\\) 이고 공분산 \\(\\pmb \\Sigma\\)가 다음과 같이 주어진\n\\[\n\\pmb \\Sigma =\n  \\begin{bmatrix}\n\\sigma_{11} & \\sigma_{12} \\\\\n\\sigma_{12} & \\sigma_{22}\n\\end{bmatrix}\n\\]\n이변량 정규분포를 따른다면 확률밀도함수 \\(f(\\pmb x)\\)에서 \\(\\exp\\)함수의 인자는 다음과 같이 주어진다. \\[\n\\begin{aligned}\n&(\\pmb x-\\pmb \\mu) \\pmb \\Sigma^{-1}(\\pmb x-\\pmb \\mu)^t\n= \\\\\n&-\\frac{1}{2 (1-\\rho^2)}\n\\left [\n  \\left ( \\frac{(x_1-\\mu_1)^2}{\\sigma_{11}} \\right )\n  +\\left ( \\frac{(x_2-\\mu_2)^2}{\\sigma_{22}} \\right )\n  -2 \\rho \\left ( \\frac{(x_1-\\mu_1)}{\\sqrt{\\sigma_{11}}} \\right )\n  \\left ( \\frac{(x_2-\\mu_2)}{\\sqrt{\\sigma_{22}}} \\right )\n  \\right ]\n\\end{aligned}\n\\]\n그리고 \\(p=2\\)인 경우 확률밀도함수의 상수부분은 다음과 같이 주어진다.\n\\[ (2 \\pi)^{-p/2} | \\pmb \\Sigma|^{-1/2} = \\frac{1}{ 2 \\pi \\sqrt{\\sigma_{11} \\sigma_{22} (1-\\rho^2)}} \\]\n여기서 \\(\\rho = \\sigma_{12} / \\sqrt{\\sigma_{11} \\sigma_{22}}\\)\n만약 \\(X_2 = x_2\\)가 주어졌을 때 \\(X_1\\)의 조건부 분포는 정규분포이고 평균과 분산은 다음과 같이 주어진다.\n\\[\n  E( X_1 |  X_2 =  x_2 ) =  \\mu_1 +  \\frac{\\sigma_{12}}{\\sigma_{22}} ( \\mu_2 -  x_2)  = \\mu_1 +  \\rho \\frac{\\sqrt{\\sigma_{11}}}{\\sqrt{\\sigma_{22}}} ( \\mu_2 -  x_2) \\]\n\\[\n  V( X_1 |  X_2 =  x_2 )  =  \\sigma_{11} - \\frac{\\sigma^2_{12}}{\\sigma_{22}}  = \\sigma_{11}(1-\\rho^2)\n\\]\n다변량 정규분포에서 공분산이 0인 두 확률 변수는 독립이다. \\[ \\sigma_{ij} = 0 \\leftrightarrow X_i \\text{ and } X_j \\text{ are independent} \\]",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>다변량 자료의 표현과 분포</span>"
+    ]
+  },
+  {
+    "objectID": "qmd/multivar-dist.html#표준정규분포로의-변환",
+    "href": "qmd/multivar-dist.html#표준정규분포로의-변환",
+    "title": "1  다변량 자료의 표현과 분포",
+    "section": "1.5 표준정규분포로의 변환",
+    "text": "1.5 표준정규분포로의 변환\n일변량 확률변수 \\(X\\)가 평균이 \\(\\mu\\) 이고 분산이 \\(\\sigma^2\\)인 경우 다음과 같은 선형변환을 고려하면.\n\\[ Z = \\frac{X - \\mu}{\\sigma} = (\\sigma^2)^{-1/2} (X-\\mu) \\] 확률변수 \\(Z\\) 는 평균이 \\(0\\) 이고 분산이 \\(1\\)인 분포를 따른다.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>다변량 자료의 표현과 분포</span>"
+    ]
+  }
+]
