@@ -12,6 +12,7 @@ book:
   chapters:
     - index.qmd
     - qmd/multivar-dist.qmd
+    - qmd/multivar-vis.qmd
     - references.qmd
 
 bibliography: references.bib
