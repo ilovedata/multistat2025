@@ -38,5 +38,35 @@
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>확률벡터와 다변량 정규분포</span>"
     ]
+  },
+  {
+    "objectID": "qmd/multivar-vis.html",
+    "href": "qmd/multivar-vis.html",
+    "title": "2  다변량 자료의 시각화",
+    "section": "",
+    "text": "2.1 산점도 그림\n일반적으로 많이 사용하는 회귀모형(regression model) 은 반응변수와 이에 영향을 주는 설명변수들의 관계를 분석하는 모형이다. 따라서 주로 회귀모형에서 시각화 방법은 반응변수와 설명변수의 관계를 나타내는 그림이며 주로 2개의 변수의 관계를 파악하는 산점도 그림 (scatter plot) 이 많이 사용된다.\n다변량 분석은 여러 개의 확률 변수들의 관계를 분석하는 통계 기법이다. 회귀모형과 다른 점은 주로 예측에 관심이 있는 반응변수가 없는 것이며 따라서 분석의 특성상 3개 이상의 변수의 관계를 한 그림에 시각화하는 방밥이 필요하다.\n이 장에서는 다변량 분석에서 여러 개의 변수들의 관계를 동시에 시각화 방법들을 알아보려고 한다.\n앞에서 언급한 것과 같이 3개의 변수를 산점도에 나타내려면 x 축, y 축 과 더불어서 점의 특성(색깔, 모양 등)을 이용할 수 있다.\nR 패키지 gapminder 에 포함된 gapminder 데이터는 전 세계 여러 국가의 경제, 보건 지표를 연도별로 기록한 공개 자료이다. 원본은 [Gapminder 재단]{https://www.gapminder.org/} 에서 제공한다. gapminder 데이터는 1952년부터 2007년까지 5년 단위로 측정한 각 국가별 경제 수준과 건강 상태를 시계열로 비교 가능하게 정리한 자료이다.\nhead(gapminder::gapminder)\n\n# A tibble: 6 × 6\n  country     continent  year lifeExp      pop gdpPercap\n  &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;\n1 Afghanistan Asia       1952    28.8  8425333      779.\n2 Afghanistan Asia       1957    30.3  9240934      821.\n3 Afghanistan Asia       1962    32.0 10267083      853.\n4 Afghanistan Asia       1967    34.0 11537966      836.\n5 Afghanistan Asia       1972    36.1 13079460      740.\n6 Afghanistan Asia       1977    38.4 14880372      786.\n이제 gapminder 데이터에서 2007년 자료를 이용하여 1인당 국민소득(gdpPercap)과 기대수명(lifeExp)의 관계를 산점도로 나타내고, 대륙(continent)에 따라 점의 크기로 다르게 나타내는 그림을 그려보자. 이렇게 점의 크기를 변수의 값에 따라 변하는 산점도를 버블 차트(bubble chart) 라고 한다.\ngapminder::gapminder %&gt;%\n  filter(year == 2007) %&gt;%\n  ggplot(aes(x = gdpPercap, y = lifeExp, size=pop)) +\n  geom_point(alpha = 0.5, color=\"blue\") +\n  labs(title = \"1인당 국민소득과 기대수명의 관계 (2007년)\",\n       x = \"1인당 국민소득\",\n       y = \"기대수명\",\n       size = \"인구수\") +\n  theme(text = element_text(family = \"noto\")) # 한글 폰트 설정(lib(showtext) 패키지 필요)\n위의 그림을 보면 1인당 국민소득과 기대수명의 관계가 선형적이지 않음을 알 수 있다. 따라서 x 축을 로그 스케일로 변환하여 다시 그려보자.\ngapminder::gapminder %&gt;%\n  filter(year == 2007) %&gt;%\n  ggplot(aes(x = gdpPercap, y = lifeExp, size=pop)) +\n  geom_point(alpha = 0.5, color=\"blue\") + # alpha는 점의 투명도\n  scale_x_log10() + # x축을 로그 스케일로 변환\n  labs(title = \"1인당 국민소득과 기대수명의 관계 (2007년)\",\n       x = \"1인당 국민소득 (로그 스케일)\",\n       y = \"기대수명\",\n       size = \"인구수\") +\n  theme(text = element_text(family = \"noto\"))\n위의 그림에서 나라가 속한 대륙에 따라 점의 색깔을 다르게 나타내어 보자. 많은 경우 자료는 특정 그룹별로 분석하는 경우가 많기 떄문에 그룹을 시각적으로 나타내는 것이 중요하다.\ngapminder::gapminder %&gt;%\n  filter(year == 2007) %&gt;%\n  ggplot(aes(x = gdpPercap, y = lifeExp, size=pop, color=continent)) +\n  geom_point(alpha = 0.5) +\n  scale_x_log10() + # x축을 로그 스케일로 변환\n  labs(title = \"1인당 국민소득과 기대수명의 관계 (2007년)\",\n       x = \"1인당 국민소득 (로그 스케일)\",\n       y = \"기대수명\",\n       size = \"인구수\",\n       color = \"대륙\") +\n  theme(text = element_text(family = \"noto\"))\n이렇게 그룹화하여 시각화 하는 경우 그룹마다 산점도를 따로 나타내는 방법으로 facet 기능을 사용할 수 있다. facet 기능은 ggplot2 패키지에서 제공하는 기능으로 facet_wrap() 함수와 facet_grid() 함수가 있다.\ngapminder::gapminder %&gt;%\n  filter(year == 2007) %&gt;%\n  ggplot(aes(x = gdpPercap, y = lifeExp, size=pop)) +\n  geom_point(alpha = 0.5, color=\"blue\") +\n  scale_x_log10() + \n  labs(title = \"1인당 국민소득과 기대수명의 관계 (2007년)\",\n       x = \"1인당 국민소득 (로그 스케일)\",\n       y = \"기대수명\",\n       size = \"인구수\") +\n  facet_wrap(~ continent) + # 대륙별로 산점도 따로 표시\n  theme(text = element_text(family = \"noto\"))\n위의 그림에서 아시아에 속한 나라들만 선택해서 점의 크기를 인구에 비례하게 하고 또한 나라의 이름을 표시해보자.\ngapminder::gapminder %&gt;%\n  filter(year == 2007, continent == \"Asia\") %&gt;%\n  ggplot(aes(x = gdpPercap, y = lifeExp, size=pop, label=country)) +\n  geom_point(alpha = 0.5, color=\"blue\") +\n  geom_text(vjust = -1, size=3) + # 나라 이름 표시\n  scale_x_log10() + # x축을 로그 스케일로 변환\n  labs(title = \"1인당 국민소득과 기대수명의 관계 (2007년, 아시아 국가)\",\n       x = \"1인당 국민소득 (로그 스케일)\",\n       y = \"기대수명\",\n       color = \"대륙\") +\n  theme(text = element_text(family = \"noto\"))",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>다변량 자료의 시각화</span>"
+    ]
+  },
+  {
+    "objectID": "qmd/multivar-vis.html#산점도-그림",
+    "href": "qmd/multivar-vis.html#산점도-그림",
+    "title": "2  다변량 자료의 시각화",
+    "section": "",
+    "text": "변수명\n설명\n\n\n\n\ncountry\n국가 이름\n\n\ncontinent\n대륙 이름\n\n\nyear\n연도\n\n\nlifeExp\n기대수명 (average life expectancy)\n\n\npop\n인구 (population)\n\n\ngdpPercap\n1인당 국민소득 (gross domestic product per capita)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>다변량 자료의 시각화</span>"
+    ]
+  },
+  {
+    "objectID": "qmd/multivar-vis.html#상관계수-행렬",
+    "href": "qmd/multivar-vis.html#상관계수-행렬",
+    "title": "2  다변량 자료의 시각화",
+    "section": "2.2 상관계수 행렬",
+    "text": "2.2 상관계수 행렬\n다변량 분석에서 상관계수는 여러 개의 변수들의 관계를 파악하는 가장 기본적인 통계량으로서 시각화를 이용하면 더 쉽게 이해할 수 있다.\n상관계수 행렬(correlation matrix)은 여러 변수들 간의 상관계수를 한눈에 볼 수 있도록 정리한 그림이다. 상관계수 행렬을 시각화하는 방법으로는 히트맵(heatmap)이나 페어 플롯(pair plot) 등이 있다.\n상관계수 행렬에 대한 예제는 앞 장에서 살펴본 국민체력100 자료를 이용하고자 한다.\n먼저 가장 감단한 방법인 pair() 함수를 이용하여 페어 플롯을 그려보자. pair() 함수는 R에 기본으로 포함된 함수로서 여러 변수들 간의 산점도와 히스토그램을 한눈에 볼 수 있도록 그려준다.\n\nload(here(\"data\", \"physical100.RData\"))\n# 국민체력100 자료에서 남자만 선택하여 데이터프레임 df 생성\ndf &lt;- physical100_df %&gt;% \n  filter(sex == \"남성\") %&gt;%\n  select(height, weight, body_fat_pct, grip_left, sit_forward,hang_time)\n\n# pair() 함수를 이용하여 상관계수 행렬 그리기\npairs(df, pch=19, cex=0.1)\n\n\n\n\n\n\n\n\n위와 같은 상관계수 산점도 행렬에 다음과 같이 회귀 직선을 추가하여 변수들 간의 관계를 더 명확히 나타낼 수 있다. 다음 코드는 panel 인수를 이용하여 각 산점도에 회귀 직선을 추가하는 방법을 보여준다.\n\npairs(\n  df,\n  panel = function(x, y) {\n    points(x, y, pch=19, cex=0.1)\n    abline(lm(y ~ x), col = \"red\", lwd = 1.5)  # 선형회귀 직선\n  }\n)\n\n\n\n\n\n\n\n\n위의 상관계수 행렬 그림에 좀 더 유용한 정보를 추가하는 다양한 방법들이 있다. 예를 들어, GGally 패키지의 ggpairs() 함수를 이용하면 상관계수 행렬에 상관계수 값과 각 변수에 대한 히스토그램을 추가하여 볼수 있다.\n\nggpairs(df,\n        upper = list(continuous = wrap(\"cor\", size = 4)), # 상관계수 표시\n        lower = list(continuous = wrap(\"points\", alpha=0.3, size=0.5)), # 산점도\n        diag = list(continuous = wrap(\"barDiag\", fill=\"lightblue\"))) + # 히스토그램\n  theme(text = element_text(family = \"noto\"))\n\n\n\n\n\n\n\n\n최근에는 상관계수 행렬을 히트맵(heatmap)으로 나타내기도 한다. 히트맵은 색깔로 값의 크기를 나타내는 그림으로서 상관계수 행렬을 히트맵으로 나타내면 변수들 간의 관계를 쉽게 파악할 수 있다.\n특히, 변수의 개수가 매우 많은 경우 산점도를 이용한 상관계수 행렬은 시각적으로 분석이 어렵기 때문에 히트맵으로 나타내는 것이 더 유용할 수 있다. 패키지 pheatmap 의 pheatmap() 함수를 이용하여 상관계수 행렬을 히트맵으로 나타내보자. pheatmap() 함수의 유용한 점은 상관계수가 큰 변수끼리 군집화(clustering)하여 시각화할 수 있다는 점이다\n자료는 국민체력100 자료에서 남자에 대한 모든 변수를 이용한 자료를 이용한다.\n\n# 국민체력100 자료에서 남자만 선택하여 데이터프레임 df 생성\ndf &lt;- physical100_df %&gt;% \n  filter(sex == \"남성\") %&gt;%\n  select(-sex)\n\n# 상관계수 행렬 계산\ncor_mat &lt;- cor(df, use=\"pairwise.complete.obs\") # 결측치가 있는 경우 pairwise로 계산\n\n# 히트맵 그리기\npheatmap::pheatmap(cor_mat,  display_numbers = TRUE, number_format = \"%.2f\")",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>다변량 자료의 시각화</span>"
+    ]
   }
 ]
