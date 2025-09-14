@@ -8,9 +8,12 @@ editor:
 #| echo: true
 #| message: false
 #| warning: false
+#| 
+library(Hotelling)
 library(tidyverse)
 library(here)
 library(knitr)
+library(purrr)
 library(rmarkdown)
 library(kableExtra)
 library(flextable)

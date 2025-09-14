@@ -13,7 +13,11 @@ book:
     - index.qmd
     - qmd/multivar-dist.qmd
     - qmd/multivar-vis.qmd
+    - qmd/multivar-test.qmd
     - references.qmd
+  appendices:
+    - qmd/math_mat_basic.qmd
+    - qmd/app-likelihood-ratio.qmd
 
 bibliography: references.bib
 
@@ -71,8 +75,8 @@ format:
       fig-title: "그림"
       tbl-title: "표"
       fig-prefix:  "그림" # (default is "Figure")
-      tbl-prefix: '' #표    # (default is "Table")
-      eq-prefix:  '' #식     # (default is "Equation")
+      tbl-prefix: 표    # (default is "Table")
+      eq-prefix:  식     # (default is "Equation")
       ref-hyperlink: true # (default is true)
     include-in-header: latex/preamble.tex
 

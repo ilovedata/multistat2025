@@ -1,0 +1,268 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| 
+library(Hotelling)
+library(tidyverse)
+library(here)
+library(knitr)
+library(purrr)
+library(rmarkdown)
+library(kableExtra)
+library(flextable)
+```
+
+# 다변량 가설 검정 {sec-multitest}
+
+이번 장에서는 다변량 벡터의 자료에 대한 가설 검정법을 간단히 학습한다. 다변량에서 평균에 대한 검정은 일변량 벡터에서의 t-겁정의 개념을 확장하여 이해하는 것이 중요하다. 일변량 확률 분포에서 두 그룹의 평균을 비교하는 t-겁정 방법을 다변량으로 확장하는 방법을 단계별로 살펴보자. 
+
+참고로 이 장에서는 두 그룹에 대한  분산 또는 공분산이 같다고 가정한다. 공분산이 다른 경우는 아래 방법들을 확장해서 적용할 수 있지만 좀 더 복잡한 통계적 추론이 필요하다.
+
+## t-검정 
+
+기초통계학에서 나오는 가장 기본적이고 자주 쓰이는 가설검정 방법은 두 집단의 평균의 차이를
+검정하는 t-검정(t-test)이다.
+
+두 집단이 평균이 다르고 분산이 동일한 정규분포 $N(\mu_1, \sigma^2)$, $N(\mu_2, \sigma^2)$를 따른다고 가정하고 
+다음과 같이 각각 $n_1, n_2$개의 독립 표본을 얻었다고 하자. 
+
+$$ 
+X_{1}, X_{2}, \dots, X_{n_1} \sim N(\mu_1, \sigma^2), \quad Y_{1}, Y_{2}, \dots, Y_{n_2} \sim N(\mu_2, \sigma^2) 
+$$ 
+
+위의 가설을 다음과 같은 t-통계량을 이용하여 검정할 수 있다.
+
+$$ 
+t_0 =\frac {\bar X -\bar Y } {  S_p \sqrt{1/n_1 + 1/n_2}} 
+$$ {#eq-test-uni-tstat} 
+
+
+여기서 $\bar X$, $\bar Y$은 각 그룹의 표본 평균이다.  또한 $S_p^2$ 은 두 집단의 공통분산 추정량(pooled variance estimator)이며 다음과 같이 계산한다.
+
+$$ \hat \sigma^2 = S_p^2 =  \frac { \sum_{i=1}^{n_1} (X_{i} -\bar X)^2 + \sum_{i=1}^{n_2} (Y_{i} -\bar Y)^2 } { n_1 + n_2 -2} $$
+
+@eq-test-uni-tstat 의  t-검정 통계량의 분자는 집단 간의 평균의 차이를 나타낸다. 즉 $\bar X-\bar Y$는 두 집단의 표본 평균의 차이를 추정하는 양이고 그 차이가 크면 클수록 두 집단의 모평균의 차이  $\mu_1 - \mu_2$가 크다는 것을 의미한다. 
+
+t-검정 통계량의 분모는 두 집단의 공통분산 추정량 $\hat \sigma^2 =S_p^2$에 비례한다. 즉 집단 내의 변동을 반영하는 $S_p^2$ 이 크면 클수록 t-검정 통계량은 그 크기가 작아져서  두 그룹 간에 차이가 있다는 증거가 약해진다.
+
+정리해보면 t-검정 통계량은 **집단 간의 변동**(between-group variation)을 **집단 내의 변동**(within-group variation) 으로 나누어준 값이다. 다른 말로 급간 변동과 급내 변동을 사용하기도 한다. 
+
+
+이제 t-검정 통계량을 **제곱하면** 다음과 같이 표현할 수 있다.
+
+$$  
+t_0^2 =\frac { (\bar X -\bar Y)^2 } { S_p^2 (1/n_1 + 1/n_2)} = \frac{\text{between-group variation}} {\text{within-group variation}} 
+$$ {#eq-test-uni-tstat2}
+
+통계학에서 등장하는 평균에 대한 겁정 통계량은 식 @eq-test-uni-tstat2 과 같이 그룹간 변동과 그룹내 변동의 비(ratio)로 이루어 진 경우가 많다. 이제  더 나아가 검정 통계량의 다른 해석으로 통계적 거리의 의미를 살펴보자.
+
+## 통계적 거리 
+
+다변량 벡터의 평균에 대한 가설 검정을 위해서 다변량 벡터의 통계적 거리(statistical distance)의 개념에 대해서 알아보자. 
+
+먼저 일변량 벡터의 가설검정에 나타나는 t-검정 통계량의 형태를 @eq-test-uni-tstat2 으로 나타내면 다음과 같은 사실을 알 수 있다.
+
+- 분자는 두 그룹의 평균에 대한 추정량의 공간적 거리, 즉 $\bar X  - \bar Y$ 로서 두 그룹의 평균이 유클리디안 공간(Euclidean distance)에서 얼마나 떨어져 있는 가를 나타낸다. 검정 통계량에서는 거리의 제곱을 사용하였다.
+
+- 분모는 두 그룹의 거리에 대한 통계적 불확실성을 반영한다. 이는 추정량의 분산 $S^2_p$ 를 통해서 나타내며, $S^2_p$ 가 커지면 공간적인 거리가 동일해도 통계적인 의미에서의 거리는 줄어드는 것이다.  
+
+이제 두 p-차원 확률 벡터  $\pmb X$ 와 $\pmb Y$에 대한 공간적 거리 $d( \pmb X, \pmb Y)$ 는 다음과 같이 정의된다. 
+
+$$
+d( \pmb X, \pmb Y)^2 =  (\pmb X - \pmb Y)^t (\pmb X - \pmb Y) 
+$$
+이제 두 확률 벡터의 차이 $\pmb X - \pmb Y$의 불확실성을 나타내는 공분산 행렬을 $\pmb \Sigma$ 하면, 확률 벡터의 통계적 거리(statistical distnace 또는 Mahalanobis distance) 는 다음과 같이 정의 된다.
+
+$$
+ d( \pmb X, \pmb Y | {\pmb \Sigma})^2 =   (\pmb X - \pmb Y)^t  {\pmb \Sigma}^{-1} (\pmb X - \pmb Y) 
+$$ {#eq-test-stat-dist}
+
+
+여기서 $\Sigma^{-1}$ 은 공분산 행렬 $\Sigma$ 의 역행렬(inverse matrix)이다.
+
+@eq-test-stat-dist 의 통계적 거리는 일변량에서 사용되는 t-검정 통계량의 형태를 다변량 확률변수에 대해서 확장할 수 있는 방법을 제공해 준다. 
+
+
+## 호텔링의 $T^2$ 검정
+
+이제 다변량 벡터의 평균에 대한 검정을 위해서 위에서 정의한 통계적 거리를 이용하여 호텔링의 $T^2$ 검정(Hotelling's $T^2$ test)을 살펴보자.
+
+확률 벡터 $\pmb X$ 과 $\pmb Y$ 가 평균이 각각 $\pmb \mu_1$, $\pmb \mu_2$ 이고 공분산이  $\pmb \Sigma$ 인 p-차원 다변량 정규 분포를 따른다고 가정하자.
+
+$$ \pmb X \sim N_p(\pmb \mu_1, \pmb \Sigma), \quad \pmb Y \sim N_p(\pmb \mu_2, \pmb \Sigma) $$
+
+호텔링의 $T^2$ 검정은 두 그룹의 다변량 평균 벡터가 같은지에 대한 가설검정 방법이다. 즉 다음과 같은 가설을 검정한다.
+
+$$
+H_0: \pmb \mu_1 = \pmb \mu_2
+$$
+
+이제 가설 검정을 위하여 두 그룹에서 각각 $n_1, n_2$개의 다변량 표본이 관측되었다고 하자. 
+
+$$
+\pmb X_1, \pmb X_2, \dots, \pmb X_{n_1} \sim_{IID} N(\pmb \mu_1, \pmb \Sigma), \quad \pmb Y_1, \pmb Y_2, \dots, \pmb Y_{n_2} \sim_{IID} N(\pmb \mu_2, \pmb \Sigma)
+$$
+
+평균 벡터에 대한 추정량은 각 표본 평균 $\bar {\pmb X}$ 과 
+$\bar {\pmb Y}$ 이고  공분산 행렬의 합동 추정량 $\pmb {S}_p$ 을 다음과 같이 정의한다.
+
+$$
+\pmb S_p = \hat {\pmb \Sigma} = 
+\frac{1}{n_1 + n_2 -2} \left( \sum_{i=1}^{n_1} (\pmb X_i - \bar {\pmb X})(\pmb X_i - \bar {\pmb X})^t + \sum_{i=1}^{n_2} (\pmb Y_i - \bar {\pmb Y})(\pmb Y_i - \bar {\pmb Y})^t \right)
+$$ {#eq-test-pooled-cov}
+
+
+두 그룹의 평균벡터가 같은지에 대한 검정을 위하여 호텔링의 $T^2$ 검정 통계량은 @eq-test-stat-dist 의 형태로 다음과 같이 정의된다.
+
+$$
+\begin{aligned}
+T^2 & = (\bar {\pmb X} - \bar {\pmb Y})^t \left [ \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )  \pmb S_p \right ]^{-1} (\bar {\pmb X} - \bar {\pmb Y}) \\
+& = \frac{n_1 n_2}{n_1 + n_2} (\bar {\pmb X} - \bar {\pmb Y})^t \pmb S_p^{-1} (\bar {\pmb X} - \bar {\pmb Y})
+\end{aligned}
+$$ {#eq-test-hotelling-t2}
+
+위의 호텔링의 $T^2$ 통계량은 두 그룹의 평균 벡터 $\bar {\pmb X}$ 와 $\bar {\pmb Y}$ 의 차이에 대한 통계적 거리(statistical distance)를 나타낸다. 즉 두 그룹의 평균 벡터의 차이 $\bar {\pmb X} - \bar {\pmb Y}$ 에 대한 제곱항을 그 차이의 불확실성을 나타내는 공분산 행렬 $\pmb S$ 의 역행렬로 나누어준 값이다.
+일변량에서 t-검정과 동일하게 @eq-test-hotelling-t2 의 값이 커지면 귀무가설에 반하는 정도가 커지는 것이다. 
+
+호텔링 통계량 $T^2$ 은 귀무가설이 참인 경우, 즉 $\pmb \mu_1 = \pmb \mu_2$ 일때 자유도가 각각 $p$ 와 $n_2+n_2-p-1$ 을 가지는 F-분포를 따른다. 이 때 $p$ 는 확률 벡터의 차원이다.
+
+$$
+\frac{n_1 + n_2 - p -1}{(n_1 + n_2 -2)p} T^2 \sim F_{p, n_1 + n_2 - p -1} \quad \text{ if } H_0: \pmb {\mu_1} = \pmb {\mu_2} \text{ is true}
+$$
+따라서 유의수준 $\alpha$ 에서 귀무가설을 검정하기 위해서는 다음과 같이 F-분포에서 기각역을 구하여 $T^2$ 값과 비교한다.
+
+$$
+\text{Reject } H_0 \quad  \text{ if } \frac{n_1 + n_2 - p -1}{(n_1 + n_2 -2)p} T^2 > F_{\alpha; p, n_1 + n_2 - p -1}
+$$
+또는 다음과 같이 계산한 p-값(p-value) 가 유의수준 $\alpha$ 보다 작으면 귀무가설을 기각한다.
+
+$$
+\text{p-value } = P \left ( F_{p, n_1 + n_2 - p -1} > \frac{n_1 + n_2 - p -1}{(n_1 + n_2 -2)p} T^2 \right )
+$$
+
+## 예제: 두 그룹의 평균벡터 검정
+
+
+이 예제에서는 다변량 통계학에서 가장 자주 사용되는 피셔의 아이리스(Fisher’s Iris) 자료를 이용하여 두 그룹의 평균벡터에 대한 검정을 배워보자.
+
+R에 내장된 `iris`(Fisher’s Iris) 자료는 1930년대 식물학자 Edgar Anderson 가 채집하고 측정한 붓꽃(iris) 데이터를 통계학자 R. A. Fisher(1936) 가 선형판별분석(Linear Discrimination Anslysis) 예제로 분석하면서 널리 알려졌다. 총 3개 종(Setosa, Versicolor, Virginica) 에서  각각 50개 표본으로 구성된 균형 자료(balanced data)이며 붓꽃의 특성을 나타내는 4개의 변수(단위: cm)로 구성되어 있다.
+
+- `Sepal.Length`: 꽃받침 길이
+- `Sepal.Width` : 꽃받침 너비
+- `Petal.Length`: 꽃잎 길이
+- `Petal.Width` : 꽃잎 너비
+- `Species`: 범주형(세 종: `setosa`, `versicolor`, `virginica`)
+
+```{r}
+data(iris)
+str(iris)
+head(iris)
+```
+
+이제  `iris` 자료에서 `versicolor`  와  `virginica` 두 종(각 50개 표본, $p=4$ 변수)로 두 종에 대한 평균벡터가  동등한지 검정을 R 프로그램으로 수행해보자. 먼저 두 개의 종만 포함하는 자료를 만들고 표본 통계량을 구해보자. 
+
+```{r}
+# 패키지
+#install.packages(c("Hotelling", "biotools"), dependencies = TRUE)
+##library(Hotelling)
+#library(biotools)
+
+df <- iris %>% 
+      filter(Species %in% c("versicolor", "virginica"))
+
+df$Species <- droplevels(df$Species)  # 두 수준만
+
+head(df)
+
+# 각 그룹의 표본 크기
+n1 <- sum(df$Species=="versicolor")
+n2 <- sum(df$Species=="virginica")
+p <- ncol(df)-1  # 변수 개수
+n1; n2; p
+```
+
+다음으로 두 그룹에 대한 평균 벡터와 두 그룹의 평균의 차이를 나타내는 벡터를 구해보자.
+
+```{r}
+# 그룹별 4개의 변수에 대한 평균 
+mean_vec <- df %>% group_by(Species) %>%
+       summarise(across(Sepal.Length:Petal.Width, list(mean=mean), .names="{col}_{fn}"))
+mean_vec
+
+mean_x <- mean_vec %>%
+  filter(Species=="versicolor") %>%
+  select(Sepal.Length_mean, Sepal.Width_mean, Petal.Length_mean, Petal.Width_mean) %>%
+  as.matrix()
+
+mean_y <- mean_vec %>%
+  filter(Species=="virginica") %>%
+  select(Sepal.Length_mean, Sepal.Width_mean, Petal.Length_mean, Petal.Width_mean) %>%
+  as.matrix()
+
+mean_diff <- mean_x - mean_y
+mean_diff
+```
+
+이제 두 그룹에 대한 공분산 행렬을 구하고 합동 분산 추정량을 구해보자.
+
+```{r}
+# 그룹별 4개의 변수에 대한 공분산 행렬을 List 형식으로 저장
+cov_tbl <- df %>%
+  group_by(Species) %>%
+  summarise(cov = list(cov(across(where(is.numeric)))), .groups = "drop")
+cov_tbl
+
+# versicolor 종의 공분산 행렬 꺼내기 (마지막에 .[[1]] 은 앞의 개체에서 첫 번째 요소를 추출하는 명령)
+cov_x <- cov_tbl %>% filter(Species == "versicolor") %>% pull(cov) %>% .[[1]]
+cov_x
+
+# virginica 종의 공분산 행렬 꺼내기
+cov_y <- cov_tbl %>% filter(Species == "virginica") %>% pull(cov) %>% .[[1]]
+cov_y
+
+# 합동 공분산 행렬
+Sp <- ((n1-1) * cov_x  + (n2-1) * cov_y  ) / (n1 + n2 - 2)
+Sp
+```
+
+
+이제 다음과 같이 위에서 구한 표본 통계량을 이용하여 Hotelling $T^2$ 을 다음과 같이 구할 수 있다.
+
+```{r}
+# 평균벡터와 공분산 행렬의 차원 확인 
+dim(mean_diff); dim(Sp)
+
+# Hotelling T^2 통계량 계산
+T2 <- (n1*n2/(n1+n2)) * mean_diff %*% solve(Sp) %*% t(mean_diff)
+T2
+```
+이제 기각역을 다음과 같이 구하고 위의 호텔링의 $T^2$ 통계량과 비교해보자 
+
+```{r}
+# 유의수준
+alpha <- 0.05
+# F-분포의 임계값
+F_crit <- qf(1-alpha, df1 = p, df2 = n1 + n2 - p - 1)
+F_crit
+```
+
+호텔링의 $T^2$ 통계량의 값 `r T2` 이 기각역 `r F_crit` 보다 크므로 귀무가설을 기각한다. 즉, 두 종 
+`versicolor`와 `virginica`의 평균벡터가 통계적으로 유의하게 다르다고 할 수 있다.
+
+위에서 직접구한 것과 동일한 결과를 주는 R 패키지 `Hotelling`의 `hotelling.test()` 함수를 사용하여 검정을 수행해보자. 이 함수는 등공분산 가정을 전제로 한다. 
+
+
+```{r}
+library(Hotelling)
+res <- hotelling.test(Sepal.Length + Sepal.Width + Petal.Length + Petal.Width ~ Species, data = df, var.equal = TRUE)
+res
+```
+
+

@@ -1,0 +1,591 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# 행렬의 기초 {#sec-matrix-basic}
+
+이 장에서는 회귀분석의 이론 전개에 필요한 행렬 이론과 선형 대수의 기초에
+대하여 알아볼 것이다.
+
+## 벡터와 행렬
+
+다음 $p$-차원 벡터(vector) 또는 열벡터(column vector) $\pmb a$ 는 $p$개의
+원소 $a_1, a_2, \dots, a_p$ 를 하나의 열(column)에 배치한 형태를 가진
+개체이다.
+
+$$
+\pmb a = 
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_p 
+\end{bmatrix}
+$$ {#eq-vector-def}
+
+차원이 $n \times p$ 인 행렬 $\pmb A$ 는 다음과 같이 $n$개의 행과 $p$ 개의
+열에 원소 $a_{ij}$를 다음과 같이 배치한 형태를 가진다.
+
+$$
+\pmb A = 
+\begin{bmatrix}
+a_{11} & a_{12} & \dots & a_{1p} \\
+a_{21} & a_{22} & \dots & a_{2p} \\
+\vdots & \vdots &    & \dots \\
+a_{n1} & a_{n2} & \dots & a_{np} 
+\end{bmatrix}
+$$
+
+## 두 행렬의 덧셈
+
+두 행렬 $\pmb A$ 와 $\pmb B$ 를 더하는 규칙은 다음과 같다.
+
+- 두 행렬 $\pmb A$ 와 $\pmb B$ 는 행과 열의 갯수가 같아야 한다.
+- $\pmb A + \pmb B = \pmb C$ 라고 하면, 덧셈의 결과로 만들어진 행렬 $\pmb C$는 두 행렬과 같은 수의 행과 열을 가지면 각 원소는 다음과 같다.
+
+$$ \pmb A + \pmb B = \pmb C \quad \rightarrow \quad c_{ij} = a_{ij} + b_{ij} $$
+
+## 스칼라곱
+
+임의의 실수 $\lambda$ (스칼라)가 주어졌을 때, $\lambda$ 와 행렬 $\pmb A$의 스칼라곱(scalar product) 는 행렬의 모든 원소에 $\lambda$ 를 곱해준 행렬로 정의된다.
+
+예를 들어 $\lambda=2$, $\pmb A \in \RR^{2\times 3}$ 인 경우
+
+$$
+\lambda \pmb A = 
+2
+\begin{bmatrix}
+1 & 2 & 3 \\
+-1 & 0 & 2
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 & 4 & 6 \\
+-2 & 0 & 4
+\end{bmatrix}
+$$
+
+
+
+## 벡터와 행렬의 곱셈
+
+$n \times p$ 인 행렬 $\pmb A$ 와 $p$-차원 벡터(vector) $\pmb b$는 다음과
+같이 두 개의 서로 다른 형태로 나타낼 수 있다.
+
+### 행과 열의 내적
+
+먼저 행렬과 벡터의 곱셈은 행렬 $\pmb A$ 의 행벡터와 벡터 $\pmb b$ 의
+내적(inner product)로 나타낼 수 있다.
+
+$$
+\begin{aligned}
+{\pmb A} {\pmb b} & = 
+\begin{bmatrix}
+a_{11} & a_{12} & \dots & a_{1p} \\
+a_{21} & a_{22} & \dots & a_{2p} \\
+\vdots & \vdots &    & \dots \\
+a_{n1} & a_{n2} & \dots & a_{np} 
+\end{bmatrix}
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p 
+\end{bmatrix} \\
+& = 
+\begin{bmatrix}
+{\pmb r}^t_1 \\
+{\pmb r}^t_2 \\
+\vdots \\
+{\pmb r}^t_n 
+\end{bmatrix} 
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p 
+\end{bmatrix} 
+\quad 
+\text{ where }
+{\pmb r}^t_i =
+\begin{bmatrix}
+a_{i1} & a_{i2} & \dots & a_{ip} 
+\end{bmatrix}  \\
+& = 
+\begin{bmatrix}
+{\pmb r}^t_1 {\pmb b} \\
+{\pmb r}^t_2 {\pmb b} \\
+\vdots \\
+{\pmb r}^t_n {\pmb b}
+\end{bmatrix}  
+ = 
+\begin{bmatrix}
+\sum_{j=1}^p a_{1j} b_j \\
+\sum_{j=1}^p a_{2j} b_j \\
+\vdots \\
+\sum_{j=1}^p a_{nj} b_j
+\end{bmatrix} \\
+& = 
+\begin{bmatrix}
+ <\pmb r_1, \pmb b>  \\
+ <\pmb r_2, \pmb b> \\
+\vdots \\
+ <\pmb r_n, \pmb b>
+\end{bmatrix}
+\end{aligned}
+$$
+
+
+위에서 $< \pmb a, \pmb b>$ 는 다음과 같은 두 벡터의 내적(inner product)을
+의미한다.
+
+$$ < \pmb a, \pmb b> = {\pmb a}^t {\pmb b} = \sum_{i=1}^p a_i b_i $$
+
+### 열벡터의 선형조합
+
+이제 행렬과 벡터의 곱셈을 행렬을 구성하는 열벡터들의 선형조합(linear
+combination)으로 나타낼 수 있다.
+
+$$
+\begin{aligned}
+{\pmb A} {\pmb b} & = 
+\begin{bmatrix}
+a_{11} & a_{12} & \dots & a_{1p} \\
+a_{21} & a_{22} & \dots & a_{2p} \\
+\vdots & \vdots &    & \dots \\
+a_{n1} & a_{n2} & \dots & a_{np} 
+\end{bmatrix}
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p 
+\end{bmatrix} \\
+& = 
+\begin{bmatrix}
+{\pmb c}_1 & {\pmb c}_2 & \dots & {\pmb c}_p 
+\end{bmatrix} 
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p 
+\end{bmatrix} 
+\quad 
+\text{ where }
+{\pmb c}_j =
+\begin{bmatrix}
+a_{1j} \\
+a_{2j} \\
+\vdots \\
+a_{nj} 
+\end{bmatrix} \\
+& =
+b_1 
+\begin{bmatrix}
+a_{11} \\
+a_{21} \\
+\vdots \\
+a_{n1} 
+\end{bmatrix} 
++ 
+b_2 
+\begin{bmatrix}
+a_{12} \\
+a_{22} \\
+\vdots \\
+a_{n2} 
+\end{bmatrix} 
++ \cdots + 
+b_p 
+\begin{bmatrix}
+a_{1p} \\
+a_{2p} \\
+\vdots \\
+a_{np} 
+\end{bmatrix}  \\
+& =
+b_1 {\pmb c}_1 + b_2 {\pmb c}_2 + \cdots + b_p {\pmb c}_p \\
+\end{aligned}
+$$
+
+##  행렬의 전치
+
+$\pmb A^t$는 행렬의 전치(transpose)를 나타낸다. 행렬의 전치는 원소의 행과 열을 바꾸어 만든 행렬이다.
+
+$$
+{\pmb A}  = 
+\begin{bmatrix}
+a_{11} & a_{12} & \dots & a_{1p} \\
+a_{21} & a_{22} & \dots & a_{2p} \\
+\vdots & \vdots &    & \dots \\
+a_{n1} & a_{n2} & \dots & a_{np} 
+\end{bmatrix}
+= \{ a_{ij} \}_{ n \times p}
+\quad
+\rightarrow
+\quad
+{\pmb A}^t  =
+\begin{bmatrix}
+a_{11} & a_{21} & \dots & a_{n1} \\
+a_{12} & a_{22} & \dots & a_{n2} \\
+\vdots & \vdots &    & \dots \\
+a_{1p} & a_{2p} & \dots & a_{np}
+\end{bmatrix}
+= \{ a_{ji} \}_{ p \times n}
+$$
+
+## 행렬의 곱셈
+
+
+
+먼저 두 행렬 $\pmb A$ 와 $\pmb B$ 의 곱셈 
+
+$$ \pmb A \times \pmb B \equiv \pmb A \pmb B $$  
+
+을 정의하려면 다음과 같은 조건이 만족되어야 한다. 
+
+- 행렬 $\pmb A$  의 열의 갯수와 행렬 $\pmb B$ 의 행의 갯수가 같아야 한다
+
+따라서 두 행렬의 곱셈은 순서를 바꾸면 정의 자체가 안될 수 있다.
+
+이제 두 행렬 $\pmb A \in \RR^{m \times n}$ 와 $\pmb B \in \RR^{n \times k}$의 곱셈은 다음과 같이 정의된다.
+
+$$ \pmb A \pmb B =  \pmb C$$
+
+행렬 $\pmb C$ 는 $m$ 개의 행과 $k$개의 열로 구성된 행렬이며($\pmb C \in \RR^{m \times k}$) 각 원소 $c_{ij}$는 다음과 같이 정의된다.
+
+$$  c_{ij} = \sum_{l=1}^n a_{il} b_{lk}, \quad i=1,2,\dots,m; j=1,2,\dots,k $$
+
+
+먼저 간단한 예제로 다음과 같은 두 개의 행렬의 곱을 생각해 보자.
+
+$$
+\pmb A \pmb B =
+\begin{bmatrix}
+1 & 2 \\
+3 & 4 
+\end{bmatrix}
+\begin{bmatrix}
+0 & 1 \\
+-1 & 2
+\end{bmatrix}
+=
+\begin{bmatrix}
+(1)(0) + (2)(-1) & (1)(1) + (2)(2) \\
+(3)(0) + (4)(-1) & (3)(1) + (4)(2)
+\end{bmatrix}
+=
+\begin{bmatrix}
+-2 & 5 \\
+-4 & 11
+\end{bmatrix}
+$$
+
+곱하는 순서를 바꾸어 계산해 보자.
+
+$$
+\pmb B \pmb A =
+\begin{bmatrix}
+0 & 1 \\
+-1 & 2
+\end{bmatrix}
+\begin{bmatrix}
+1 & 2 \\
+3 & 4 
+\end{bmatrix}
+=
+\begin{bmatrix}
+(0)(1) + (1)(3) & (0)(2) + (1)(4) \\
+(-1)(1) + (2)(3) & (-1)(2) + (2)(4)
+\end{bmatrix}
+=
+\begin{bmatrix}
+3 & 4 \\
+5 & 6
+\end{bmatrix}
+$$
+
+위 두 결과를 보면 행렬의 곱셈에서는 교환법칙이 성립하지 않음을 알 수 있다.
+
+이제 차원이 다른 두 행렬의 곱셈을 살펴보자.
+
+$$
+\pmb A =
+\begin{bmatrix}
+1 & 2 & 3\\
+3 & 2 & 1
+\end{bmatrix},
+\quad
+\pmb B =
+\begin{bmatrix}
+0 & 2 \\
+1 & -1 \\
+0 & 1
+\end{bmatrix}
+$$
+
+두 행렬의 곱셈은  다음과 같이 계산할 수 있다.
+
+$$
+\pmb A \pmb B =
+\begin{bmatrix}
+1 & 2 & 3\\
+3 & 2 & 1
+\end{bmatrix}
+\begin{bmatrix}
+0 & 2 \\
+1 & -1 \\
+0 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 & 3 \\
+2 & 5
+\end{bmatrix}
+$$
+
+두 행렬의 곱하는 순서를 바꾸면 차원이 전혀 다른 행렬이 얻어진다.
+
+
+$$
+\pmb B \pmb A =
+\begin{bmatrix}
+0 & 2 \\
+1 & -1 \\
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 & 2 & 3\\
+3 & 2 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+6 & 4 & 2 \\
+-2 & 0 & 2 \\
+3 & 2 & 1
+\end{bmatrix}
+$$
+
+**행렬의 곱셈은 교환법칙이 성립하지 않는다.**
+
+$$  \pmb A \pmb B \ne  \pmb B \pmb A$$   {#eq-product-not}
+
+
+::: {.callout-caution}
+**교환법칙이 성립하지 않는다**는 의미는 @eq-product-not 이 언제나 성립한다는 의미는 아니다. 아래와 같이 특별한 경우 교환법칙이 성립하는 경우도 있다.
+
+
+$$
+\begin{bmatrix}
+1 & 2 \\
+1 & 3 
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 \\
+0 & 1 
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 2 \\
+1 & 3 
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+0 & 1 
+\end{bmatrix}
+\begin{bmatrix}
+1 & 2 \\
+1 & 3 
+\end{bmatrix}
+$$
+:::
+
+- 행렬의 곱셈은 결합법칙과 배분법칙은 성립한다.
+
+$$ (\pmb A \pmb B) \pmb C = \pmb A (\pmb B \pmb C) $$
+
+$$ (\pmb A + \pmb B) \pmb C = \pmb A \pmb C +  \pmb B \pmb C $$
+
+
+
+
+
+
+
+
+## 단위벡터와 항등행렬
+
+$i$번째 단위벡터 $\pmb e_i$를 정의하자. 단위벡터 $\pmb e_i$는 $n$- 차원
+벡터로서 $i$번째 원소만 1이고 나머지는 0인 벡터이다.
+
+$$ \pmb e_i = 
+\begin{bmatrix}
+0 \\
+0 \\
+\vdots \\ 
+0 \\  
+1 \\
+0 \\
+\vdots \\
+0 
+\end{bmatrix}
+$$
+
+즉 $n$-차원 항등행렬 $\pmb I$는 n개의 단위벡터들을 모아놓은 것이다. 단위행렬은 대각원소가 1이고 나머지는 0인 정방행렬이다.
+
+$$  \pmb I = [ \pmb e_1 ~~ \pmb e_2 ~~ \dots ~~ \pmb e_n ] $$
+
+
+## 대각합
+
+$\pmb A = \{ a_{ij} \}$를 $n \times n$ 정방행렬(square matrix)인 경우,
+행렬의 대각 원소(diagonal element)들의 합(trace)을 $tr(\pmb A)$로 표시한다.
+
+$$ tr(\pmb A) = \sum_{i=1}^n a_{ii} $$
+
+두 행렬의 덧셈(뺄셈)에 대한 대각합에 대한 성질들은 다음과 같다.
+
+$$ tr( {\pmb A} \pm {\pmb B}) = tr({\pmb A}) \pm tr({\pmb B}) $$
+
+
+
+::: {.callout-caution}
+
+행렬의 곱셈은 일반적으로 교환법칙이 성립하지 않지만 대각합의 연산은
+교환법칙이 성립한다.
+
+$$  tr(\pmb A \pmb B)  = tr( \pmb B \pmb A) $$
+:::
+
+대각합은 교환법칙이 성립히기 떄문에 다음과 같은 성질이 성립한다.
+
+$$
+\operatorname{tr}(\pmb {A} \pmb {K} \pmb {L})=\operatorname{tr}(\pmb {K} \pmb {L} \pmb {A})
+$$
+
+벡터의 연산에서도 대각합의 교환법칙이 성립되어 다음과 같은 유용한 식이 성립한다.
+
+$$
+\operatorname{tr}\left(\pmb {x} \pmb {y}^t \right)=\operatorname{tr}\left(\pmb {y}^t  \pmb {x}\right)=\pmb {y}^t  \pmb {x} \in \mathbb{R} .
+$$
+
+대각합의 교환법칙때문에 어떤 행렬의 앞에 특정 행렬을 곱하고, 뒤에 역행렬을 곱해도 대각합은 변하지 않는다. 
+
+$$
+\operatorname{tr}\left(\pmb {S}^{-1} \pmb {A} \pmb {S}\right) = \operatorname{tr}\left(\pmb {A} \pmb {S} \pmb {S}^{-1}\right)=\operatorname{tr}(\pmb {A})
+$$
+
+
+
+대각합에 대한 그 밖의 성질들은 다음과 같다.
+
+- $\operatorname{tr}(\alpha \pmb {A})=\alpha \operatorname{tr}(\pmb {A}), \alpha \in \mathbb{R}$ for $\pmb {A} \in \mathbb{R}^{n \times n}$
+
+- $\operatorname{tr}\left(\pmb {I}_n\right)=n$
+
+
+
+
+## 행렬식 {#sec-mat-determ}
+
+$\pmb A$의 행렬식(determinant)을 $det(\pmb A)=|\pmb A|$로 표기한다.
+
+이차원 행렬 $\pmb A$ 의 행렬식은 다음과 같이 계산한다.
+
+$$
+\operatorname{det}( \pmb {A})=\left|\begin{array}{ll}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{array}\right|=a_{11} a_{22}-a_{12} a_{21} .
+$$
+
+만약 행렬 $\pmb A$가 대각행렬(diagonal matrix)이면 $|\pmb A|$는 행렬의
+대각원소의 곱이다 ($| \pmb A| =\prod a_{ii}$).
+
+두 행렬의 곱의 행렬식은 각 행렬의 행렬식의 곱이다.
+
+$$ |\pmb A \pmb B | = | \pmb A| |\pmb B| $$
+
+행렬식에 대한 유용한 공식들은 다음과 같다.
+
+-   $|{\pmb A}^t| = |{\pmb A}|$
+-   $|c {\pmb A}| = c^n |{\pmb A}|$
+
+만약 행렬 $\pmb A$가 다음과 같은 분할행렬(partitioned matrix) 의 형태를
+가지면
+
+$$ 
+\pmb A =
+\begin{bmatrix}
+{\pmb A}_{11} & {\pmb A}_{12} \\
+{\pmb 0} & {\pmb A}_{22}
+\end{bmatrix}
+$$
+
+행렬 $\pmb A$의 행렬식은 다음과 같이 주어진다.
+
+$$ |{\pmb A}| = |{\pmb A}_{11}| |{\pmb A}_{22} | $$
+
+다음과 같은 행렬식에 대한 공식도 유용하다. p-차원 행렬 $\pmb A$가 역행렬이 존재하고 벡터 $\pmb u$ 와 $\pmb v$ 에 대하여 
+
+$$ | \pmb A + \pmb u \pmb v^t | = | \pmb A | (1 + \pmb v^t \pmb A^{-1} \pmb u)  $$
+
+## 역행렬
+
+만약 정방행렬 $\pmb A$가 다음과 같은 조건을 만족하면 정칙행렬(invertible
+matrix 또는 nonsingular matrix)이라고 부른다.
+
+$$  \pmb A \pmb A^{-1} = \pmb A^{-1} \pmb A = \pmb I $$
+이경우 $\pmb A^{-1}$ 를 행렬 $\pmb A$의 역행렬(inverse matrix) 이라고 정의한다.
+
+역행렬이 존재할 조건은 행렬 $\pmb A$의 행렬식이 0이 아니어야 한다.
+
+
+
+## 직교행렬
+
+만약 정방행렬 $\pmb P$가 다음과 같은 조건을 만족하면 직교행렬(orthogonal
+matrix)라고 부른다.
+
+$$  \pmb P \pmb P^t = \pmb P^t \pmb P = \pmb I $$
+
+직교행렬의 정의에서 주의할 점은 $\pmb P \pmb P^t = \pmb I $ 와 $\pmb P^t \pmb P = \pmb I$ 이 모두 성립하해야 한다는 점이다. 
+
+행렬 $\pmb P$ 의 역행렬은 $\pmb P^t$ 이다. 
+
+$$ \pmb P^{-1} = \pmb P^t$$ 
+
+만약 $\pmb P$가 직교행렬이면 다음과 같은 성질을 가진다.
+
+-   $| \pmb P | = \pm 1$ , 왜냐하면
+    $$  | \pmb P \pmb P^t | = | \pmb P | |\pmb P^t |  = | \pmb P|^2 = |\pmb I| =1 $$
+
+-   임의의 정방행렬 $\pmb A$에 대하여 다음이 성립한다.
+    $$ tr(\pmb P \pmb A \pmb P^t) = tr(\pmb A \pmb P^t \pmb P) = tr(\pmb A) $$
+
+
+
+
+## 우드베리 공식 
+
+다음은 우드베리공식(Woodbury formula) 과 파생된 유용한 공식들이다.
+
+$$ 
+(\pmb A+\pmb U\pmb C\pmb V)^{-1} = \pmb A^{-1}-\pmb A^{-1} \pmb U (\pmb C^{-1} + \pmb V \pmb A^{-1}\pmb U)^{-1} \pmb V \pmb A^{-1} 
+$$
+
+$$ 
+(\pmb I+\pmb U \pmb C\pmb V)^{-1} = \pmb I - \pmb U (\pmb C^{-1} + \pmb V \pmb U)^{-1} \pmb V 
+$$
+
+$$ (\pmb A+\pmb u\pmb v^t)^{-1} = \pmb A^{-1} - \frac{ \pmb A^{-1} \pmb u\pmb v^t \pmb A^{-1}}{1+\pmb v^t \pmb A^{-1}\pmb u} $$ {#eq-woodbury}
+
+$$ 
+(a \pmb I_n + b \pmb 1_n \pmb 1_n^t)^{-1} = \frac{1}{a} \left [ \pmb I_n - \frac{b}{a+nb} \pmb 1 \pmb 1^t \right ] 
+$$
+
+
