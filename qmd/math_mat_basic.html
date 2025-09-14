@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>부록 A — 행렬의 기초 – 다변량통계학-2025년 2학기</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../qmd/app-likelihood-ratio.html" rel="next">
+<link href="../references.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d3c9390091c69a50683db05bc45f20d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script>
+<script type="text/javascript">
+ window.MathJax = {
+  tex: {
+    macros: {
+    RR: '{\\mathbb R}',                    // a simple string replacement
+    hatmat:'{\\pmb X ({\\pmb X}^t {\\pmb X} )^{-1} {\\pmb X}^t}',
+    bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+    pardiff: ['\\frac{\\partial#2}{\\partial#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+    pardifftwo: ['\\frac{\\partial#1}{\\partial#2}', 2],
+    pardiffd: ['\\frac{\\partial#1}{\\partial#2^t \\partial#2}', 2],
+    pardiffdd: ['\\frac{\\partial#1}{\\partial#3 \\partial#2}', 3],
+    norm: ['\\lVert#1\\rVert',1]
+  },
+  environments: {
+  braced: ["\\left\\{", "\\right\\}"]
+  }
+ }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html">Appendices</a></li><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">행렬의 기초</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">다변량통계학-2025년 2학기</a> 
+        <div class="sidebar-tools-main">
+    <a href="../다변량통계학-2025년-2학기.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="검색"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-dist.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">확률벡터와 다변량 정규분포</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-vis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">다변량 자료의 시각화</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">다변량 가설 검정</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/math_mat_basic.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">행렬의 기초</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/app-likelihood-ratio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">가능도비 검정</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#벡터와-행렬" id="toc-벡터와-행렬" class="nav-link active" data-scroll-target="#벡터와-행렬"><span class="header-section-number">A.1</span> 벡터와 행렬</a></li>
+  <li><a href="#두-행렬의-덧셈" id="toc-두-행렬의-덧셈" class="nav-link" data-scroll-target="#두-행렬의-덧셈"><span class="header-section-number">A.2</span> 두 행렬의 덧셈</a></li>
+  <li><a href="#스칼라곱" id="toc-스칼라곱" class="nav-link" data-scroll-target="#스칼라곱"><span class="header-section-number">A.3</span> 스칼라곱</a></li>
+  <li><a href="#벡터와-행렬의-곱셈" id="toc-벡터와-행렬의-곱셈" class="nav-link" data-scroll-target="#벡터와-행렬의-곱셈"><span class="header-section-number">A.4</span> 벡터와 행렬의 곱셈</a>
+  <ul class="collapse">
+  <li><a href="#행과-열의-내적" id="toc-행과-열의-내적" class="nav-link" data-scroll-target="#행과-열의-내적"><span class="header-section-number">A.4.1</span> 행과 열의 내적</a></li>
+  <li><a href="#열벡터의-선형조합" id="toc-열벡터의-선형조합" class="nav-link" data-scroll-target="#열벡터의-선형조합"><span class="header-section-number">A.4.2</span> 열벡터의 선형조합</a></li>
+  </ul></li>
+  <li><a href="#행렬의-전치" id="toc-행렬의-전치" class="nav-link" data-scroll-target="#행렬의-전치"><span class="header-section-number">A.5</span> 행렬의 전치</a></li>
+  <li><a href="#행렬의-곱셈" id="toc-행렬의-곱셈" class="nav-link" data-scroll-target="#행렬의-곱셈"><span class="header-section-number">A.6</span> 행렬의 곱셈</a></li>
+  <li><a href="#단위벡터와-항등행렬" id="toc-단위벡터와-항등행렬" class="nav-link" data-scroll-target="#단위벡터와-항등행렬"><span class="header-section-number">A.7</span> 단위벡터와 항등행렬</a></li>
+  <li><a href="#대각합" id="toc-대각합" class="nav-link" data-scroll-target="#대각합"><span class="header-section-number">A.8</span> 대각합</a></li>
+  <li><a href="#sec-mat-determ" id="toc-sec-mat-determ" class="nav-link" data-scroll-target="#sec-mat-determ"><span class="header-section-number">A.9</span> 행렬식</a></li>
+  <li><a href="#역행렬" id="toc-역행렬" class="nav-link" data-scroll-target="#역행렬"><span class="header-section-number">A.10</span> 역행렬</a></li>
+  <li><a href="#직교행렬" id="toc-직교행렬" class="nav-link" data-scroll-target="#직교행렬"><span class="header-section-number">A.11</span> 직교행렬</a></li>
+  <li><a href="#우드베리-공식" id="toc-우드베리-공식" class="nav-link" data-scroll-target="#우드베리-공식"><span class="header-section-number">A.12</span> 우드베리 공식</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html">Appendices</a></li><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">행렬의 기초</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-matrix-basic" class="quarto-section-identifier">부록 A — 행렬의 기초</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>이 장에서는 회귀분석의 이론 전개에 필요한 행렬 이론과 선형 대수의 기초에 대하여 알아볼 것이다.</p>
+<section id="벡터와-행렬" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="벡터와-행렬"><span class="header-section-number">A.1</span> 벡터와 행렬</h2>
+<p>다음 <span class="math inline">\(p\)</span>-차원 벡터(vector) 또는 열벡터(column vector) <span class="math inline">\(\pmb a\)</span> 는 <span class="math inline">\(p\)</span>개의 원소 <span class="math inline">\(a_1, a_2, \dots, a_p\)</span> 를 하나의 열(column)에 배치한 형태를 가진 개체이다.</p>
+<p><span id="eq-vector-def"><span class="math display">\[
+\pmb a =
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_p
+\end{bmatrix}
+\tag{A.1}\]</span></span></p>
+<p>차원이 <span class="math inline">\(n \times p\)</span> 인 행렬 <span class="math inline">\(\pmb A\)</span> 는 다음과 같이 <span class="math inline">\(n\)</span>개의 행과 <span class="math inline">\(p\)</span> 개의 열에 원소 <span class="math inline">\(a_{ij}\)</span>를 다음과 같이 배치한 형태를 가진다.</p>
+<p><span class="math display">\[
+\pmb A =
+\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; \dots &amp; a_{1p} \\
+a_{21} &amp; a_{22} &amp; \dots &amp; a_{2p} \\
+\vdots &amp; \vdots &amp;    &amp; \dots \\
+a_{n1} &amp; a_{n2} &amp; \dots &amp; a_{np}
+\end{bmatrix}
+\]</span></p>
+</section>
+<section id="두-행렬의-덧셈" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="두-행렬의-덧셈"><span class="header-section-number">A.2</span> 두 행렬의 덧셈</h2>
+<p>두 행렬 <span class="math inline">\(\pmb A\)</span> 와 <span class="math inline">\(\pmb B\)</span> 를 더하는 규칙은 다음과 같다.</p>
+<ul>
+<li>두 행렬 <span class="math inline">\(\pmb A\)</span> 와 <span class="math inline">\(\pmb B\)</span> 는 행과 열의 갯수가 같아야 한다.</li>
+<li><span class="math inline">\(\pmb A + \pmb B = \pmb C\)</span> 라고 하면, 덧셈의 결과로 만들어진 행렬 <span class="math inline">\(\pmb C\)</span>는 두 행렬과 같은 수의 행과 열을 가지면 각 원소는 다음과 같다.</li>
+</ul>
+<p><span class="math display">\[ \pmb A + \pmb B = \pmb C \quad \rightarrow \quad c_{ij} = a_{ij} + b_{ij} \]</span></p>
+</section>
+<section id="스칼라곱" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="스칼라곱"><span class="header-section-number">A.3</span> 스칼라곱</h2>
+<p>임의의 실수 <span class="math inline">\(\lambda\)</span> (스칼라)가 주어졌을 때, <span class="math inline">\(\lambda\)</span> 와 행렬 <span class="math inline">\(\pmb A\)</span>의 스칼라곱(scalar product) 는 행렬의 모든 원소에 <span class="math inline">\(\lambda\)</span> 를 곱해준 행렬로 정의된다.</p>
+<p>예를 들어 <span class="math inline">\(\lambda=2\)</span>, <span class="math inline">\(\pmb A \in \RR^{2\times 3}\)</span> 인 경우</p>
+<p><span class="math display">\[
+\lambda \pmb A =
+2
+\begin{bmatrix}
+1 &amp; 2 &amp; 3 \\
+-1 &amp; 0 &amp; 2
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 &amp; 4 &amp; 6 \\
+-2 &amp; 0 &amp; 4
+\end{bmatrix}
+\]</span></p>
+</section>
+<section id="벡터와-행렬의-곱셈" class="level2" data-number="A.4">
+<h2 data-number="A.4" class="anchored" data-anchor-id="벡터와-행렬의-곱셈"><span class="header-section-number">A.4</span> 벡터와 행렬의 곱셈</h2>
+<p><span class="math inline">\(n \times p\)</span> 인 행렬 <span class="math inline">\(\pmb A\)</span> 와 <span class="math inline">\(p\)</span>-차원 벡터(vector) <span class="math inline">\(\pmb b\)</span>는 다음과 같이 두 개의 서로 다른 형태로 나타낼 수 있다.</p>
+<section id="행과-열의-내적" class="level3" data-number="A.4.1">
+<h3 data-number="A.4.1" class="anchored" data-anchor-id="행과-열의-내적"><span class="header-section-number">A.4.1</span> 행과 열의 내적</h3>
+<p>먼저 행렬과 벡터의 곱셈은 행렬 <span class="math inline">\(\pmb A\)</span> 의 행벡터와 벡터 <span class="math inline">\(\pmb b\)</span> 의 내적(inner product)로 나타낼 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+{\pmb A} {\pmb b} &amp; =
+\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; \dots &amp; a_{1p} \\
+a_{21} &amp; a_{22} &amp; \dots &amp; a_{2p} \\
+\vdots &amp; \vdots &amp;    &amp; \dots \\
+a_{n1} &amp; a_{n2} &amp; \dots &amp; a_{np}
+\end{bmatrix}
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p
+\end{bmatrix} \\
+&amp; =
+\begin{bmatrix}
+{\pmb r}^t_1 \\
+{\pmb r}^t_2 \\
+\vdots \\
+{\pmb r}^t_n
+\end{bmatrix}
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p
+\end{bmatrix}
+\quad
+\text{ where }
+{\pmb r}^t_i =
+\begin{bmatrix}
+a_{i1} &amp; a_{i2} &amp; \dots &amp; a_{ip}
+\end{bmatrix}  \\
+&amp; =
+\begin{bmatrix}
+{\pmb r}^t_1 {\pmb b} \\
+{\pmb r}^t_2 {\pmb b} \\
+\vdots \\
+{\pmb r}^t_n {\pmb b}
+\end{bmatrix}  
+=
+\begin{bmatrix}
+\sum_{j=1}^p a_{1j} b_j \\
+\sum_{j=1}^p a_{2j} b_j \\
+\vdots \\
+\sum_{j=1}^p a_{nj} b_j
+\end{bmatrix} \\
+&amp; =
+\begin{bmatrix}
+&lt;\pmb r_1, \pmb b&gt;  \\
+&lt;\pmb r_2, \pmb b&gt; \\
+\vdots \\
+&lt;\pmb r_n, \pmb b&gt;
+\end{bmatrix}
+\end{aligned}
+\]</span></p>
+<p>위에서 <span class="math inline">\(&lt; \pmb a, \pmb b&gt;\)</span> 는 다음과 같은 두 벡터의 내적(inner product)을 의미한다.</p>
+<p><span class="math display">\[ &lt; \pmb a, \pmb b&gt; = {\pmb a}^t {\pmb b} = \sum_{i=1}^p a_i b_i \]</span></p>
+</section>
+<section id="열벡터의-선형조합" class="level3" data-number="A.4.2">
+<h3 data-number="A.4.2" class="anchored" data-anchor-id="열벡터의-선형조합"><span class="header-section-number">A.4.2</span> 열벡터의 선형조합</h3>
+<p>이제 행렬과 벡터의 곱셈을 행렬을 구성하는 열벡터들의 선형조합(linear combination)으로 나타낼 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+{\pmb A} {\pmb b} &amp; =
+\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; \dots &amp; a_{1p} \\
+a_{21} &amp; a_{22} &amp; \dots &amp; a_{2p} \\
+\vdots &amp; \vdots &amp;    &amp; \dots \\
+a_{n1} &amp; a_{n2} &amp; \dots &amp; a_{np}
+\end{bmatrix}
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p
+\end{bmatrix} \\
+&amp; =
+\begin{bmatrix}
+{\pmb c}_1 &amp; {\pmb c}_2 &amp; \dots &amp; {\pmb c}_p
+\end{bmatrix}
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_p
+\end{bmatrix}
+\quad
+\text{ where }
+{\pmb c}_j =
+\begin{bmatrix}
+a_{1j} \\
+a_{2j} \\
+\vdots \\
+a_{nj}
+\end{bmatrix} \\
+&amp; =
+b_1
+\begin{bmatrix}
+a_{11} \\
+a_{21} \\
+\vdots \\
+a_{n1}
+\end{bmatrix}
++
+b_2
+\begin{bmatrix}
+a_{12} \\
+a_{22} \\
+\vdots \\
+a_{n2}
+\end{bmatrix}
++ \cdots +
+b_p
+\begin{bmatrix}
+a_{1p} \\
+a_{2p} \\
+\vdots \\
+a_{np}
+\end{bmatrix}  \\
+&amp; =
+b_1 {\pmb c}_1 + b_2 {\pmb c}_2 + \cdots + b_p {\pmb c}_p \\
+\end{aligned}
+\]</span></p>
+</section>
+</section>
+<section id="행렬의-전치" class="level2" data-number="A.5">
+<h2 data-number="A.5" class="anchored" data-anchor-id="행렬의-전치"><span class="header-section-number">A.5</span> 행렬의 전치</h2>
+<p><span class="math inline">\(\pmb A^t\)</span>는 행렬의 전치(transpose)를 나타낸다. 행렬의 전치는 원소의 행과 열을 바꾸어 만든 행렬이다.</p>
+<p><span class="math display">\[
+{\pmb A}  =
+\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; \dots &amp; a_{1p} \\
+a_{21} &amp; a_{22} &amp; \dots &amp; a_{2p} \\
+\vdots &amp; \vdots &amp;    &amp; \dots \\
+a_{n1} &amp; a_{n2} &amp; \dots &amp; a_{np}
+\end{bmatrix}
+= \{ a_{ij} \}_{ n \times p}
+\quad
+\rightarrow
+\quad
+{\pmb A}^t  =
+\begin{bmatrix}
+a_{11} &amp; a_{21} &amp; \dots &amp; a_{n1} \\
+a_{12} &amp; a_{22} &amp; \dots &amp; a_{n2} \\
+\vdots &amp; \vdots &amp;    &amp; \dots \\
+a_{1p} &amp; a_{2p} &amp; \dots &amp; a_{np}
+\end{bmatrix}
+= \{ a_{ji} \}_{ p \times n}
+\]</span></p>
+</section>
+<section id="행렬의-곱셈" class="level2" data-number="A.6">
+<h2 data-number="A.6" class="anchored" data-anchor-id="행렬의-곱셈"><span class="header-section-number">A.6</span> 행렬의 곱셈</h2>
+<p>먼저 두 행렬 <span class="math inline">\(\pmb A\)</span> 와 <span class="math inline">\(\pmb B\)</span> 의 곱셈</p>
+<p><span class="math display">\[ \pmb A \times \pmb B \equiv \pmb A \pmb B \]</span></p>
+<p>을 정의하려면 다음과 같은 조건이 만족되어야 한다.</p>
+<ul>
+<li>행렬 <span class="math inline">\(\pmb A\)</span> 의 열의 갯수와 행렬 <span class="math inline">\(\pmb B\)</span> 의 행의 갯수가 같아야 한다</li>
+</ul>
+<p>따라서 두 행렬의 곱셈은 순서를 바꾸면 정의 자체가 안될 수 있다.</p>
+<p>이제 두 행렬 <span class="math inline">\(\pmb A \in \RR^{m \times n}\)</span> 와 <span class="math inline">\(\pmb B \in \RR^{n \times k}\)</span>의 곱셈은 다음과 같이 정의된다.</p>
+<p><span class="math display">\[ \pmb A \pmb B =  \pmb C\]</span></p>
+<p>행렬 <span class="math inline">\(\pmb C\)</span> 는 <span class="math inline">\(m\)</span> 개의 행과 <span class="math inline">\(k\)</span>개의 열로 구성된 행렬이며(<span class="math inline">\(\pmb C \in \RR^{m \times k}\)</span>) 각 원소 <span class="math inline">\(c_{ij}\)</span>는 다음과 같이 정의된다.</p>
+<p><span class="math display">\[  c_{ij} = \sum_{l=1}^n a_{il} b_{lk}, \quad i=1,2,\dots,m; j=1,2,\dots,k \]</span></p>
+<p>먼저 간단한 예제로 다음과 같은 두 개의 행렬의 곱을 생각해 보자.</p>
+<p><span class="math display">\[
+\pmb A \pmb B =
+\begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 4
+\end{bmatrix}
+\begin{bmatrix}
+0 &amp; 1 \\
+-1 &amp; 2
+\end{bmatrix}
+=
+\begin{bmatrix}
+(1)(0) + (2)(-1) &amp; (1)(1) + (2)(2) \\
+(3)(0) + (4)(-1) &amp; (3)(1) + (4)(2)
+\end{bmatrix}
+=
+\begin{bmatrix}
+-2 &amp; 5 \\
+-4 &amp; 11
+\end{bmatrix}
+\]</span></p>
+<p>곱하는 순서를 바꾸어 계산해 보자.</p>
+<p><span class="math display">\[
+\pmb B \pmb A =
+\begin{bmatrix}
+0 &amp; 1 \\
+-1 &amp; 2
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 4
+\end{bmatrix}
+=
+\begin{bmatrix}
+(0)(1) + (1)(3) &amp; (0)(2) + (1)(4) \\
+(-1)(1) + (2)(3) &amp; (-1)(2) + (2)(4)
+\end{bmatrix}
+=
+\begin{bmatrix}
+3 &amp; 4 \\
+5 &amp; 6
+\end{bmatrix}
+\]</span></p>
+<p>위 두 결과를 보면 행렬의 곱셈에서는 교환법칙이 성립하지 않음을 알 수 있다.</p>
+<p>이제 차원이 다른 두 행렬의 곱셈을 살펴보자.</p>
+<p><span class="math display">\[
+\pmb A =
+\begin{bmatrix}
+1 &amp; 2 &amp; 3\\
+3 &amp; 2 &amp; 1
+\end{bmatrix},
+\quad
+\pmb B =
+\begin{bmatrix}
+0 &amp; 2 \\
+1 &amp; -1 \\
+0 &amp; 1
+\end{bmatrix}
+\]</span></p>
+<p>두 행렬의 곱셈은 다음과 같이 계산할 수 있다.</p>
+<p><span class="math display">\[
+\pmb A \pmb B =
+\begin{bmatrix}
+1 &amp; 2 &amp; 3\\
+3 &amp; 2 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+0 &amp; 2 \\
+1 &amp; -1 \\
+0 &amp; 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 &amp; 3 \\
+2 &amp; 5
+\end{bmatrix}
+\]</span></p>
+<p>두 행렬의 곱하는 순서를 바꾸면 차원이 전혀 다른 행렬이 얻어진다.</p>
+<p><span class="math display">\[
+\pmb B \pmb A =
+\begin{bmatrix}
+0 &amp; 2 \\
+1 &amp; -1 \\
+0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 2 &amp; 3\\
+3 &amp; 2 &amp; 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+6 &amp; 4 &amp; 2 \\
+-2 &amp; 0 &amp; 2 \\
+3 &amp; 2 &amp; 1
+\end{bmatrix}
+\]</span></p>
+<p><strong>행렬의 곱셈은 교환법칙이 성립하지 않는다.</strong></p>
+<p><span id="eq-product-not"><span class="math display">\[  \pmb A \pmb B \ne  \pmb B \pmb A \tag{A.2}\]</span></span></p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+주의
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>교환법칙이 성립하지 않는다</strong>는 의미는 <a href="#eq-product-not" class="quarto-xref">식&nbsp;<span>A.2</span></a> 이 언제나 성립한다는 의미는 아니다. 아래와 같이 특별한 경우 교환법칙이 성립하는 경우도 있다.</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+1 &amp; 2 \\
+1 &amp; 3
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp; 2 \\
+1 &amp; 3
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 2 \\
+1 &amp; 3
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<ul>
+<li>행렬의 곱셈은 결합법칙과 배분법칙은 성립한다.</li>
+</ul>
+<p><span class="math display">\[ (\pmb A \pmb B) \pmb C = \pmb A (\pmb B \pmb C) \]</span></p>
+<p><span class="math display">\[ (\pmb A + \pmb B) \pmb C = \pmb A \pmb C +  \pmb B \pmb C \]</span></p>
+</section>
+<section id="단위벡터와-항등행렬" class="level2" data-number="A.7">
+<h2 data-number="A.7" class="anchored" data-anchor-id="단위벡터와-항등행렬"><span class="header-section-number">A.7</span> 단위벡터와 항등행렬</h2>
+<p><span class="math inline">\(i\)</span>번째 단위벡터 <span class="math inline">\(\pmb e_i\)</span>를 정의하자. 단위벡터 <span class="math inline">\(\pmb e_i\)</span>는 <span class="math inline">\(n\)</span>- 차원 벡터로서 <span class="math inline">\(i\)</span>번째 원소만 1이고 나머지는 0인 벡터이다.</p>
+<p><span class="math display">\[ \pmb e_i =
+\begin{bmatrix}
+0 \\
+0 \\
+\vdots \\
+0 \\  
+1 \\
+0 \\
+\vdots \\
+0
+\end{bmatrix}
+\]</span></p>
+<p>즉 <span class="math inline">\(n\)</span>-차원 항등행렬 <span class="math inline">\(\pmb I\)</span>는 n개의 단위벡터들을 모아놓은 것이다. 단위행렬은 대각원소가 1이고 나머지는 0인 정방행렬이다.</p>
+<p><span class="math display">\[  \pmb I = [ \pmb e_1 ~~ \pmb e_2 ~~ \dots ~~ \pmb e_n ] \]</span></p>
+</section>
+<section id="대각합" class="level2" data-number="A.8">
+<h2 data-number="A.8" class="anchored" data-anchor-id="대각합"><span class="header-section-number">A.8</span> 대각합</h2>
+<p><span class="math inline">\(\pmb A = \{ a_{ij} \}\)</span>를 <span class="math inline">\(n \times n\)</span> 정방행렬(square matrix)인 경우, 행렬의 대각 원소(diagonal element)들의 합(trace)을 <span class="math inline">\(tr(\pmb A)\)</span>로 표시한다.</p>
+<p><span class="math display">\[ tr(\pmb A) = \sum_{i=1}^n a_{ii} \]</span></p>
+<p>두 행렬의 덧셈(뺄셈)에 대한 대각합에 대한 성질들은 다음과 같다.</p>
+<p><span class="math display">\[ tr( {\pmb A} \pm {\pmb B}) = tr({\pmb A}) \pm tr({\pmb B}) \]</span></p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+주의
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>행렬의 곱셈은 일반적으로 교환법칙이 성립하지 않지만 대각합의 연산은 교환법칙이 성립한다.</p>
+<p><span class="math display">\[  tr(\pmb A \pmb B)  = tr( \pmb B \pmb A) \]</span></p>
+</div>
+</div>
+<p>대각합은 교환법칙이 성립히기 떄문에 다음과 같은 성질이 성립한다.</p>
+<p><span class="math display">\[
+\operatorname{tr}(\pmb {A} \pmb {K} \pmb {L})=\operatorname{tr}(\pmb {K} \pmb {L} \pmb {A})
+\]</span></p>
+<p>벡터의 연산에서도 대각합의 교환법칙이 성립되어 다음과 같은 유용한 식이 성립한다.</p>
+<p><span class="math display">\[
+\operatorname{tr}\left(\pmb {x} \pmb {y}^t \right)=\operatorname{tr}\left(\pmb {y}^t  \pmb {x}\right)=\pmb {y}^t  \pmb {x} \in \mathbb{R} .
+\]</span></p>
+<p>대각합의 교환법칙때문에 어떤 행렬의 앞에 특정 행렬을 곱하고, 뒤에 역행렬을 곱해도 대각합은 변하지 않는다.</p>
+<p><span class="math display">\[
+\operatorname{tr}\left(\pmb {S}^{-1} \pmb {A} \pmb {S}\right) = \operatorname{tr}\left(\pmb {A} \pmb {S} \pmb {S}^{-1}\right)=\operatorname{tr}(\pmb {A})
+\]</span></p>
+<p>대각합에 대한 그 밖의 성질들은 다음과 같다.</p>
+<ul>
+<li><p><span class="math inline">\(\operatorname{tr}(\alpha \pmb {A})=\alpha \operatorname{tr}(\pmb {A}), \alpha \in \mathbb{R}\)</span> for <span class="math inline">\(\pmb {A} \in \mathbb{R}^{n \times n}\)</span></p></li>
+<li><p><span class="math inline">\(\operatorname{tr}\left(\pmb {I}_n\right)=n\)</span></p></li>
+</ul>
+</section>
+<section id="sec-mat-determ" class="level2" data-number="A.9">
+<h2 data-number="A.9" class="anchored" data-anchor-id="sec-mat-determ"><span class="header-section-number">A.9</span> 행렬식</h2>
+<p><span class="math inline">\(\pmb A\)</span>의 행렬식(determinant)을 <span class="math inline">\(det(\pmb A)=|\pmb A|\)</span>로 표기한다.</p>
+<p>이차원 행렬 <span class="math inline">\(\pmb A\)</span> 의 행렬식은 다음과 같이 계산한다.</p>
+<p><span class="math display">\[
+\operatorname{det}( \pmb {A})=\left|\begin{array}{ll}
+a_{11} &amp; a_{12} \\
+a_{21} &amp; a_{22}
+\end{array}\right|=a_{11} a_{22}-a_{12} a_{21} .
+\]</span></p>
+<p>만약 행렬 <span class="math inline">\(\pmb A\)</span>가 대각행렬(diagonal matrix)이면 <span class="math inline">\(|\pmb A|\)</span>는 행렬의 대각원소의 곱이다 (<span class="math inline">\(| \pmb A| =\prod a_{ii}\)</span>).</p>
+<p>두 행렬의 곱의 행렬식은 각 행렬의 행렬식의 곱이다.</p>
+<p><span class="math display">\[ |\pmb A \pmb B | = | \pmb A| |\pmb B| \]</span></p>
+<p>행렬식에 대한 유용한 공식들은 다음과 같다.</p>
+<ul>
+<li><span class="math inline">\(|{\pmb A}^t| = |{\pmb A}|\)</span></li>
+<li><span class="math inline">\(|c {\pmb A}| = c^n |{\pmb A}|\)</span></li>
+</ul>
+<p>만약 행렬 <span class="math inline">\(\pmb A\)</span>가 다음과 같은 분할행렬(partitioned matrix) 의 형태를 가지면</p>
+<p><span class="math display">\[
+\pmb A =
+\begin{bmatrix}
+{\pmb A}_{11} &amp; {\pmb A}_{12} \\
+{\pmb 0} &amp; {\pmb A}_{22}
+\end{bmatrix}
+\]</span></p>
+<p>행렬 <span class="math inline">\(\pmb A\)</span>의 행렬식은 다음과 같이 주어진다.</p>
+<p><span class="math display">\[ |{\pmb A}| = |{\pmb A}_{11}| |{\pmb A}_{22} | \]</span></p>
+<p>다음과 같은 행렬식에 대한 공식도 유용하다. p-차원 행렬 <span class="math inline">\(\pmb A\)</span>가 역행렬이 존재하고 벡터 <span class="math inline">\(\pmb u\)</span> 와 <span class="math inline">\(\pmb v\)</span> 에 대하여</p>
+<p><span class="math display">\[ | \pmb A + \pmb u \pmb v^t | = | \pmb A | (1 + \pmb v^t \pmb A^{-1} \pmb u)  \]</span></p>
+</section>
+<section id="역행렬" class="level2" data-number="A.10">
+<h2 data-number="A.10" class="anchored" data-anchor-id="역행렬"><span class="header-section-number">A.10</span> 역행렬</h2>
+<p>만약 정방행렬 <span class="math inline">\(\pmb A\)</span>가 다음과 같은 조건을 만족하면 정칙행렬(invertible matrix 또는 nonsingular matrix)이라고 부른다.</p>
+<p><span class="math display">\[  \pmb A \pmb A^{-1} = \pmb A^{-1} \pmb A = \pmb I \]</span> 이경우 <span class="math inline">\(\pmb A^{-1}\)</span> 를 행렬 <span class="math inline">\(\pmb A\)</span>의 역행렬(inverse matrix) 이라고 정의한다.</p>
+<p>역행렬이 존재할 조건은 행렬 <span class="math inline">\(\pmb A\)</span>의 행렬식이 0이 아니어야 한다.</p>
+</section>
+<section id="직교행렬" class="level2" data-number="A.11">
+<h2 data-number="A.11" class="anchored" data-anchor-id="직교행렬"><span class="header-section-number">A.11</span> 직교행렬</h2>
+<p>만약 정방행렬 <span class="math inline">\(\pmb P\)</span>가 다음과 같은 조건을 만족하면 직교행렬(orthogonal matrix)라고 부른다.</p>
+<p><span class="math display">\[  \pmb P \pmb P^t = \pmb P^t \pmb P = \pmb I \]</span></p>
+<p>직교행렬의 정의에서 주의할 점은 $P P^t = I $ 와 <span class="math inline">\(\pmb P^t \pmb P = \pmb I\)</span> 이 모두 성립하해야 한다는 점이다.</p>
+<p>행렬 <span class="math inline">\(\pmb P\)</span> 의 역행렬은 <span class="math inline">\(\pmb P^t\)</span> 이다.</p>
+<p><span class="math display">\[ \pmb P^{-1} = \pmb P^t\]</span></p>
+<p>만약 <span class="math inline">\(\pmb P\)</span>가 직교행렬이면 다음과 같은 성질을 가진다.</p>
+<ul>
+<li><p><span class="math inline">\(| \pmb P | = \pm 1\)</span> , 왜냐하면 <span class="math display">\[  | \pmb P \pmb P^t | = | \pmb P | |\pmb P^t |  = | \pmb P|^2 = |\pmb I| =1 \]</span></p></li>
+<li><p>임의의 정방행렬 <span class="math inline">\(\pmb A\)</span>에 대하여 다음이 성립한다. <span class="math display">\[ tr(\pmb P \pmb A \pmb P^t) = tr(\pmb A \pmb P^t \pmb P) = tr(\pmb A) \]</span></p></li>
+</ul>
+</section>
+<section id="우드베리-공식" class="level2" data-number="A.12">
+<h2 data-number="A.12" class="anchored" data-anchor-id="우드베리-공식"><span class="header-section-number">A.12</span> 우드베리 공식</h2>
+<p>다음은 우드베리공식(Woodbury formula) 과 파생된 유용한 공식들이다.</p>
+<p><span class="math display">\[
+(\pmb A+\pmb U\pmb C\pmb V)^{-1} = \pmb A^{-1}-\pmb A^{-1} \pmb U (\pmb C^{-1} + \pmb V \pmb A^{-1}\pmb U)^{-1} \pmb V \pmb A^{-1}
+\]</span></p>
+<p><span class="math display">\[
+(\pmb I+\pmb U \pmb C\pmb V)^{-1} = \pmb I - \pmb U (\pmb C^{-1} + \pmb V \pmb U)^{-1} \pmb V
+\]</span></p>
+<p><span id="eq-woodbury"><span class="math display">\[ (\pmb A+\pmb u\pmb v^t)^{-1} = \pmb A^{-1} - \frac{ \pmb A^{-1} \pmb u\pmb v^t \pmb A^{-1}}{1+\pmb v^t \pmb A^{-1}\pmb u}  \tag{A.3}\]</span></span></p>
+<p><span class="math display">\[
+(a \pmb I_n + b \pmb 1_n \pmb 1_n^t)^{-1} = \frac{1}{a} \left [ \pmb I_n - \frac{b}{a+nb} \pmb 1 \pmb 1^t \right ]
+\]</span></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "복사완료!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "복사완료!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../references.html" class="pagination-link" aria-label="References">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">References</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../qmd/app-likelihood-ratio.html" class="pagination-link" aria-label="가능도비 검정">
+        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">가능도비 검정</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
