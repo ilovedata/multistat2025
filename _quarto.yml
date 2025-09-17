@@ -14,6 +14,7 @@ book:
     - qmd/multivar-dist.qmd
     - qmd/multivar-vis.qmd
     - qmd/multivar-test.qmd
+    - qmd/multivar-cov.qmd
     - references.qmd
   appendices:
     - qmd/math_mat_basic.qmd
