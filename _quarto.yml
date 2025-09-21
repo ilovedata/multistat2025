@@ -15,6 +15,7 @@ book:
     - qmd/multivar-vis.qmd
     - qmd/multivar-test.qmd
     - qmd/multivar-cov.qmd
+    - qmd/multivar-discrim.qmd
     - references.qmd
   appendices:
     - qmd/math_mat_basic.qmd
@@ -70,7 +71,7 @@ format:
     code-overflow: wrap
     language: custom.yml
     latex-auto-install: true
-#    latex-tinytex: true
+    latex-tinytex: true
     pdf-engine: xelatex
     crossref:
       fig-title: "그림"
