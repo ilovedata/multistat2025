@@ -56,7 +56,7 @@ showtext_auto()
 
 
 
-## 분포와 팝별규칙
+## 분포와 판별규칙
 
 이 장에서는  두 개의 집단(population)  $P_1$ 과 $P_2$ 을 고려한다. 예를 들어 
 은행에서는  전체 고객을 안전 고객과 위험 고객, 두 집단으로 나눌 수 있다.
@@ -169,6 +169,7 @@ $$
 $$ 
 P (P_i | \pmb X = \pmb x) \propto \pi_i f_i(\pmb x), \quad i=1,2
 $$
+
 ### 최적 판별 규칙 
 
 이제 판별에서 발생하는 오류에 대한 비용도 함께 고려할 수 있는 최적의 규칙을 고려해 보자. 앞 절에서 정의한 오류에 대한 비용 $c_{12}$ 와 $c_{21}$ 을 고려할 때 최적 판별 규칙은  다음에서 정의한 기대 오류비용 (Expected cost of misclassification; ECM) 을 최소로 하는 규칙이다.
@@ -298,7 +299,7 @@ m &  = \frac{1}{2} (\bar {\pmb x}_1-\bar {\pmb x}_2)^t
 \end{aligned}
 $$ {#eq-discrim-sample-rule-const}
 
-ECM을 최소화하는 판별 규칙은 다음과 같이 특성값 $\pmb x_0$의 선형함수로 나타낼 수 있다.
+ECM을 최소화하는 판별 규칙은 다음과 같이 특성값 $\pmb x_0$의 **선형함수**로 나타낼 수 있다.
 
 $$
 \pmb a^t \pmb x_0 >  m + \log \left ( \frac{c(1|2)}{c(2|1)} \frac{\pi_2}{\pi_1} \right )
@@ -334,7 +335,7 @@ k= \frac{1}{2} \log \left ( \frac{| \pmb \Sigma_1 |}{| \pmb \Sigma_2 |}
 
 
 
-## Fisher의 판별함수
+## Fisher의 선형 판별함수
 
 Fisher(1938)는 위에서 다룬 ECM을 최소화하는 판별함수를 유도하는 방법과 완전히 다른 규칙을 사용하여  ECM을 최소화하는 방법과 동일한 결과를 유도하였다.
 
