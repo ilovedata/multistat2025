@@ -268,14 +268,15 @@ window.Quarto = {
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#분포와-팝별규칙" id="toc-분포와-팝별규칙" class="nav-link active" data-scroll-target="#분포와-팝별규칙"><span class="header-section-number">5.1</span> 분포와 팝별규칙</a>
+  <li><a href="#분포와-판별규칙" id="toc-분포와-판별규칙" class="nav-link active" data-scroll-target="#분포와-판별규칙"><span class="header-section-number">5.1</span> 분포와 판별규칙</a>
   <ul class="collapse">
   <li><a href="#판별-오류와-비용" id="toc-판별-오류와-비용" class="nav-link" data-scroll-target="#판별-오류와-비용"><span class="header-section-number">5.1.1</span> 판별 오류와 비용</a></li>
   <li><a href="#최대가능도-규칙" id="toc-최대가능도-규칙" class="nav-link" data-scroll-target="#최대가능도-규칙"><span class="header-section-number">5.1.2</span> 최대가능도 규칙</a></li>
   <li><a href="#베이지안-규칙" id="toc-베이지안-규칙" class="nav-link" data-scroll-target="#베이지안-규칙"><span class="header-section-number">5.1.3</span> 베이지안 규칙</a></li>
+  <li><a href="#최적-판별-규칙" id="toc-최적-판별-규칙" class="nav-link" data-scroll-target="#최적-판별-규칙"><span class="header-section-number">5.1.4</span> 최적 판별 규칙</a></li>
   </ul></li>
   <li><a href="#다변량-정규분포와-판별-규칙" id="toc-다변량-정규분포와-판별-규칙" class="nav-link" data-scroll-target="#다변량-정규분포와-판별-규칙"><span class="header-section-number">5.2</span> 다변량 정규분포와 판별 규칙</a></li>
-  <li><a href="#fisher의-판별함수" id="toc-fisher의-판별함수" class="nav-link" data-scroll-target="#fisher의-판별함수"><span class="header-section-number">5.3</span> Fisher의 판별함수</a></li>
+  <li><a href="#fisher의-선형-판별함수" id="toc-fisher의-선형-판별함수" class="nav-link" data-scroll-target="#fisher의-선형-판별함수"><span class="header-section-number">5.3</span> Fisher의 선형 판별함수</a></li>
   <li><a href="#예제-잔디깎는-트렉터" id="toc-예제-잔디깎는-트렉터" class="nav-link" data-scroll-target="#예제-잔디깎는-트렉터"><span class="header-section-number">5.4</span> 예제: 잔디깎는 트렉터</a></li>
   </ul>
 </nav>
@@ -331,8 +332,8 @@ window.Quarto = {
 <li><p>잘못된 판단(error)과 그에 상응하는 비용(cost)</p></li>
 <li><p>어떤 규칙이 좋은 것인지 판단하는 기준</p></li>
 </ul>
-<section id="분포와-팝별규칙" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="분포와-팝별규칙"><span class="header-section-number">5.1</span> 분포와 팝별규칙</h2>
+<section id="분포와-판별규칙" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="분포와-판별규칙"><span class="header-section-number">5.1</span> 분포와 판별규칙</h2>
 <p>이 장에서는 두 개의 집단(population) <span class="math inline">\(P_1\)</span> 과 <span class="math inline">\(P_2\)</span> 을 고려한다. 예를 들어 은행에서는 전체 고객을 안전 고객과 위험 고객, 두 집단으로 나눌 수 있다.</p>
 <p>각 집단에 속하는 개체들의 특성(확률벡터) <span class="math inline">\(\pmb X\)</span> 은 속하는 집단에 따라서 각각 분포 <span class="math inline">\(F_i(\pmb x)\)</span>, <span class="math inline">\(i=1,2\)</span> 를 따른다고 가정한다. 또한 <span class="math inline">\(f_i(\pmb x)\)</span>를 분포 <span class="math inline">\(F_i\)</span>의 확률밀도함수라고 하자.</p>
 <p>판별 규칙(discrimination rule) 은 새로운 개체의 특성 <span class="math inline">\(\pmb X = \pmb x\)</span> 가 주어졌을 때 이 개체가 어느 집단에 속하는지 결정하는 방법이다. 이러한 규칙은 개체의 특성삾이 가질 수 있는 전체 공간(표본공간)을 겹치지 않는 두 집합 <span class="math inline">\(R_1\)</span> 과 <span class="math inline">\(R_2\)</span> 로 나누고 관측된 값이 <span class="math inline">\(R_1\)</span> 에 속하면 새로운 개체를 <span class="math inline">\(P_1\)</span> 에 베정하고, 반대로 <span class="math inline">\(R_2\)</span> 에 속하면 <span class="math inline">\(P_2\)</span>에 배정하는 것으로 주어진다.</p>
@@ -403,7 +404,10 @@ R_2 = \{ \pmb x | f_2(\pmb x) \ge f_1(\pmb x) \}
 위의 규칙에서 가능도 함수와 사전 확률의 곱을 사후 확률(posterior probability)이라고 한다. 사후 확률은 관측된 표본의 값이 주어진 경우 개체가 집단에 속할 확률을 의미한다.</p>
 <p><span class="math display">\[
 P (P_i | \pmb X = \pmb x) \propto \pi_i f_i(\pmb x), \quad i=1,2
-\]</span> ### 최적 판별 규칙</p>
+\]</span></p>
+</section>
+<section id="최적-판별-규칙" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="최적-판별-규칙"><span class="header-section-number">5.1.4</span> 최적 판별 규칙</h3>
 <p>이제 판별에서 발생하는 오류에 대한 비용도 함께 고려할 수 있는 최적의 규칙을 고려해 보자. 앞 절에서 정의한 오류에 대한 비용 <span class="math inline">\(c_{12}\)</span> 와 <span class="math inline">\(c_{21}\)</span> 을 고려할 때 최적 판별 규칙은 다음에서 정의한 기대 오류비용 (Expected cost of misclassification; ECM) 을 최소로 하는 규칙이다.</p>
 <p><span id="eq-discrim-ecm"><span class="math display">\[
 \text{ECM} = c_{12} p_{12} \pi_2 + c_{21} p_{21} \pi_1
@@ -493,7 +497,7 @@ m &amp;  = \frac{1}{2} (\bar {\pmb x}_1-\bar {\pmb x}_2)^t
 \bar {\pmb x}_1 + \pmb a^t \bar {\pmb x}_2)
 \end{aligned}
 \tag{5.12}\]</span></span></p>
-<p>ECM을 최소화하는 판별 규칙은 다음과 같이 특성값 <span class="math inline">\(\pmb x_0\)</span>의 선형함수로 나타낼 수 있다.</p>
+<p>ECM을 최소화하는 판별 규칙은 다음과 같이 특성값 <span class="math inline">\(\pmb x_0\)</span>의 <strong>선형함수</strong>로 나타낼 수 있다.</p>
 <p><span id="eq-discrim-linear-rule"><span class="math display">\[
 \pmb a^t \pmb x_0 &gt;  m + \log \left ( \frac{c(1|2)}{c(2|1)} \frac{\pi_2}{\pi_1} \right )
 \tag{5.13}\]</span></span></p>
@@ -519,8 +523,8 @@ k= \frac{1}{2} \log \left ( \frac{| \pmb \Sigma_1 |}{| \pmb \Sigma_2 |}
 \pmb \mu_2^t \pmb \Sigma_2^{-1} \pmb \mu_2) \]
 --->
 </section>
-<section id="fisher의-판별함수" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="fisher의-판별함수"><span class="header-section-number">5.3</span> Fisher의 판별함수</h2>
+<section id="fisher의-선형-판별함수" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="fisher의-선형-판별함수"><span class="header-section-number">5.3</span> Fisher의 선형 판별함수</h2>
 <p>Fisher(1938)는 위에서 다룬 ECM을 최소화하는 판별함수를 유도하는 방법과 완전히 다른 규칙을 사용하여 ECM을 최소화하는 방법과 동일한 결과를 유도하였다.</p>
 <p>Fisher는 다변량 확률벡터 <span class="math inline">\(\pmb x\)</span>를 일변량 변수 <span class="math inline">\(y\)</span> 로 선형변환하여 차원을 축소하는 방법을 고려하였다. 차원을 축소할 때 축소된 차원의 특성값 <span class="math inline">\(y\)</span>가 두 집단을 최대로 구별되게 하는 선형변환을 구하는 문제를 생각하였다. Fisher의 방법은 특성값 벡터 <span class="math inline">\(\pmb x\)</span>에 확률적 분포가정을 고려하지 않는다.</p>
 <p>특성값 벡터 <span class="math inline">\(\pmb x_1\)</span>을 집단 <span class="math inline">\(P_1\)</span>의 특성값이라고 하고 <span class="math inline">\(\pmb x_2\)</span>을 집단 <span class="math inline">\(P_2\)</span>의 특성벡터라고 하자. 이제 특성값 벡터 <span class="math inline">\(\pmb x_1\)</span>과 <span class="math inline">\(\pmb x_2\)</span>에 동시에 적용하는 선형변환 벡터를 <span class="math inline">\(\pmb a\)</span>라고 하고 각 집단의 일변량 특성값 <span class="math inline">\(y_1\)</span>과 $ y_2$를 다음과 같이 정의하자.</p>
