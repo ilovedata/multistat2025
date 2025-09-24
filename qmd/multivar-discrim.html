@@ -610,7 +610,7 @@ m=\frac{1}{2} (\bar {\pmb x}_1-\bar {\pmb x}_2)^t \pmb S_{p}^{-1} (\bar
 <section id="예제-잔디깎는-트렉터" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="예제-잔디깎는-트렉터"><span class="header-section-number">5.4</span> 예제: 잔디깎는 트렉터</h2>
 <p>다음은 미국에서 한 소비용품 판매점이 잔디깍는 트랙터(lawn mower)의 소유 여부에 대한 가구의 소득과 집 크기의 관계를 알아보기 위하여 고객의 정보를 수집한 자료이다. 총 24개의 자료가 있고 트랙터를 소유하지 않는 집과 소유한 집이 각각 12개이다.</p>
-<p>변수 <code>income</code> 과 <code>lotsize</code> 는 각각 가구 소득과 집의 크기에 대한 변수이다. 트랙터를 소유한 상태를 나타내는 변수는 <code>class</code> 이며 값이 1이면 소유하지 않는 상태(<code>NO</code>,<strong>그룹 1</strong>), 2이면 소유한 상태(<code>YES</code>, <strong>그룹 2</strong>) 를 나타낸다.</p>
+<p>변수 <code>income</code> 과 <code>lotsize</code> 는 각각 가구 소득과 집의 크기에 대한 변수이다. 트랙터를 소유한 상태를 나타내는 변수는 <code>class</code> 이며 값이 2 이면 소유하지 않는 상태(<code>NO</code>,<strong>그룹 1</strong>), 1 이면 소유한 상태(<code>YES</code>, <strong>그룹 2</strong>) 를 나타낸다.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"lawn.csv"</span>) , <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">""</span>)</span>
@@ -760,7 +760,7 @@ lotsize -0.7851847</code></pre>
 <p>다시 쓰면</p>
 <p><span class="math display">\[
 (-0.1002303) \times  (70)  + (-0.7851847) \times  (16)  = -19.5790766
-\]</span> 따라서 -19.5790766 &lt; -21.7387617 이므로 그룹 1 에 속한다고 판별한다.즉 트랙터를 소유하지 않는 집단에 속한다고 판별한다.</p>
+\]</span> 따라서 -19.5790766 &gt; -21.7387617 이므로 그룹 1 (<code>NO</code>) 에 속한다고 판별한다.즉 트랙터를 소유하지 않는 집단에 속한다고 판별한다.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(a) <span class="sc">%*%</span> x_0 <span class="sc">&gt;</span> m</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -768,7 +768,7 @@ lotsize -0.7851847</code></pre>
 [1,] TRUE</code></pre>
 </div>
 </div>
-<p>즉, <code>income</code> 과 <code>lotsize</code>가 각각 70, 16 이면 <span class="math inline">\(\pmb a^t \pmb x_0 &gt; m\)</span> 을 만족하므로 트렉터를 소유하지 않을 그룹에 속한다고 판별한다.</p>
+<p>즉, <code>income</code> 과 <code>lotsize</code>가 각각 70, 16 이면 <span class="math inline">\(\pmb a^t \pmb x_0 &gt; m\)</span> 을 만족하므로 트렉터를 소유하지 않을 그룹 (<code>NO</code>) 에 속한다고 판별한다.</p>
 <p>트랙터를 소유한 집단과 소유하지 않은 집단에서 소득과 집크기에 대하여 이변량 정규분포를 가정하고 각 집단의 평균벡터와 공통 공분산을 구하여 이변량 정규분포의 확률밀도함수를 이차원 평면에 표시해보았다. 또한 앞에서 구한 선형 판별함수의 경계선 <span class="math inline">\(\pmb a^t \pmb x = m\)</span> 을 표시하였다</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 등고선을 위한 격자점 생성</span></span>
@@ -789,14 +789,14 @@ lotsize -0.7851847</code></pre>
 <span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(</span>
 <span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> grid,</span>
 <span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> income, <span class="at">y =</span> lotsize, <span class="at">z =</span> dx1),</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>, <span class="at">bins =</span> <span class="dv">6</span>,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>, <span class="at">bins =</span> <span class="dv">6</span>,</span>
 <span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
 <span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 등고선 2</span></span>
 <span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(</span>
 <span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> grid,</span>
 <span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> income, <span class="at">y =</span> lotsize, <span class="at">z =</span> dx2),</span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>, <span class="at">bins =</span> <span class="dv">6</span>,</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>, <span class="at">bins =</span> <span class="dv">6</span>,</span>
 <span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
 <span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 판별 경계선</span></span>
