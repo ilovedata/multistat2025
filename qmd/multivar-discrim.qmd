@@ -591,14 +591,14 @@ df %>% ggplot(aes(x=income,y=lotsize, shape=class, color=class)) +
   geom_contour(
     data = grid,
     aes(x = income, y = lotsize, z = dx1),
-    color = "blue", linewidth = 0.2, bins = 6,
+    color = "red", linewidth = 0.2, bins = 6,
     inherit.aes = FALSE
   ) +
   # 등고선 2
   geom_contour(
     data = grid,
     aes(x = income, y = lotsize, z = dx2),
-    color = "red", linewidth = 0.2, bins = 6,
+    color = "blue", linewidth = 0.2, bins = 6,
     inherit.aes = FALSE
   ) +
   # 판별 경계선
