@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>부록 B — 가능도비 검정 – 다변량통계학-2025년 2학기</title>
+<title>부록 C — 가능도비 검정 – 다변량통계학-2025년 2학기</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../qmd/math_mat_basic.html" rel="prev">
+<link href="../qmd/math_eigen_value.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html">Appendices</a></li><li class="breadcrumb-item"><a href="../qmd/app-likelihood-ratio.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">가능도비 검정</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html">Appendices</a></li><li class="breadcrumb-item"><a href="../qmd/app-likelihood-ratio.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">가능도비 검정</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
@@ -222,8 +222,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/math_eigen_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">고유값과 고유벡터</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../qmd/app-likelihood-ratio.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">가능도비 검정</span></span></a>
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">가능도비 검정</span></span></a>
   </div>
 </li>
       </ul>
@@ -238,13 +244,13 @@ window.Quarto = {
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#가능도비-검정의-기초" id="toc-가능도비-검정의-기초" class="nav-link active" data-scroll-target="#가능도비-검정의-기초"><span class="header-section-number">B.1</span> 가능도비 검정의 기초</a></li>
-  <li><a href="#다변량-정규분포의-가능도비-검정" id="toc-다변량-정규분포의-가능도비-검정" class="nav-link" data-scroll-target="#다변량-정규분포의-가능도비-검정"><span class="header-section-number">B.2</span> 다변량 정규분포의 가능도비 검정</a>
+  <li><a href="#가능도비-검정의-기초" id="toc-가능도비-검정의-기초" class="nav-link active" data-scroll-target="#가능도비-검정의-기초"><span class="header-section-number">C.1</span> 가능도비 검정의 기초</a></li>
+  <li><a href="#다변량-정규분포의-가능도비-검정" id="toc-다변량-정규분포의-가능도비-검정" class="nav-link" data-scroll-target="#다변량-정규분포의-가능도비-검정"><span class="header-section-number">C.2</span> 다변량 정규분포의 가능도비 검정</a>
   <ul class="collapse">
-  <li><a href="#두-평균벡터의-비교" id="toc-두-평균벡터의-비교" class="nav-link" data-scroll-target="#두-평균벡터의-비교"><span class="header-section-number">B.2.1</span> 두 평균벡터의 비교</a></li>
-  <li><a href="#재곱합의-분해" id="toc-재곱합의-분해" class="nav-link" data-scroll-target="#재곱합의-분해"><span class="header-section-number">B.2.2</span> 재곱합의 분해</a></li>
-  <li><a href="#로그-가능도-함수의-재표현" id="toc-로그-가능도-함수의-재표현" class="nav-link" data-scroll-target="#로그-가능도-함수의-재표현"><span class="header-section-number">B.2.3</span> 로그 가능도 함수의 재표현</a></li>
-  <li><a href="#가능도비-검정-통계량" id="toc-가능도비-검정-통계량" class="nav-link" data-scroll-target="#가능도비-검정-통계량"><span class="header-section-number">B.2.4</span> 가능도비 검정 통계량</a></li>
+  <li><a href="#두-평균벡터의-비교" id="toc-두-평균벡터의-비교" class="nav-link" data-scroll-target="#두-평균벡터의-비교"><span class="header-section-number">C.2.1</span> 두 평균벡터의 비교</a></li>
+  <li><a href="#재곱합의-분해" id="toc-재곱합의-분해" class="nav-link" data-scroll-target="#재곱합의-분해"><span class="header-section-number">C.2.2</span> 재곱합의 분해</a></li>
+  <li><a href="#로그-가능도-함수의-재표현" id="toc-로그-가능도-함수의-재표현" class="nav-link" data-scroll-target="#로그-가능도-함수의-재표현"><span class="header-section-number">C.2.3</span> 로그 가능도 함수의 재표현</a></li>
+  <li><a href="#가능도비-검정-통계량" id="toc-가능도비-검정-통계량" class="nav-link" data-scroll-target="#가능도비-검정-통계량"><span class="header-section-number">C.2.4</span> 가능도비 검정 통계량</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -252,9 +258,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html">Appendices</a></li><li class="breadcrumb-item"><a href="../qmd/app-likelihood-ratio.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">가능도비 검정</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/math_mat_basic.html">Appendices</a></li><li class="breadcrumb-item"><a href="../qmd/app-likelihood-ratio.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">가능도비 검정</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">부록 B — 가능도비 검정</h1>
+<h1 class="title">부록 C — 가능도비 검정</h1>
 </div>
 
 
@@ -271,13 +277,13 @@ window.Quarto = {
 </header>
 
 
-<section id="가능도비-검정의-기초" class="level2" data-number="B.1">
-<h2 data-number="B.1" class="anchored" data-anchor-id="가능도비-검정의-기초"><span class="header-section-number">B.1</span> 가능도비 검정의 기초</h2>
+<section id="가능도비-검정의-기초" class="level2" data-number="C.1">
+<h2 data-number="C.1" class="anchored" data-anchor-id="가능도비-검정의-기초"><span class="header-section-number">C.1</span> 가능도비 검정의 기초</h2>
 <p>가능도비 검정(likelihood ratio test) 은 <strong>제약 있는 모형</strong>과 <strong>제약 없는 모형</strong>의 최대가능도 함수(maximum likelihood function)의 비율를 이용하여 두 모형을 비교하는 검정이며 통계적 가설 검정에 널리 사용되고 있다.</p>
 <p>먼저 확률 변수 또는 확률 벡터 <span class="math inline">\(\pmb X\)</span> 가 확률 밀도 함수 <span class="math inline">\(f(\pmb X | \pmb \theta)\)</span> 를 따른다고 가정하자. 또한 다음과 같은 귀무 가설 검정을 고려하자. 또한 모수벡터 <span class="math inline">\(\pmb \theta\)</span> 는 전체 모수 공간 <span class="math inline">\(\pmb \Theta\)</span> 에 속한다고 가정한다.</p>
 <p><span id="eq-app-lr-hypo"><span class="math display">\[
 H_0: \pmb \theta \in {\pmb \Theta}_0 \quad \text{ vs } \quad H_a: \pmb \theta \in {\pmb \Theta} \setminus {\pmb \Theta}_0
-\tag{B.1}\]</span></span></p>
+\tag{C.1}\]</span></span></p>
 <p>위의 가설에서 귀무 가설 <span class="math inline">\(H_0\)</span> 는 모수 공간 <span class="math inline">\(\pmb \Theta\)</span> 의 부분 집합 <span class="math inline">\(\pmb \Theta_0\)</span> 에 모수가 속한다는 것 (모수에 대한 제약조건)을 의미한다.</p>
 <p>이러한 가설 검정을 위하여 표본 벡터 <span class="math inline">\(\pmb X_1, \ldots, \pmb  X_n\)</span> 에 대한 가능도 함수 <span class="math inline">\(L(\pmb \theta)\)</span> 와 로그 가능도 함수 <span class="math inline">\(\ell(\pmb \theta)\)</span>는 다음과 같이 정의된다. 참고로 가능도 함수는 주어진 표본의 값에 대하여 모수 <span class="math inline">\(\pmb \theta\)</span> 의 함수로 생각할 수 있다.</p>
 <p><span class="math display">\[
@@ -312,7 +318,7 @@ L(\pmb \theta) &amp; = \prod_{i=1}^n f(\pmb X_i| \pmb \theta) \\
 <p>가능도비 <span class="math inline">\(\Lambda\)</span> 는 귀무 가설이 참일 때 1에 가까운 값을 가지며, 실제 모수가 귀무 가설의 제약조건에서 멀어지면 0에 가까운 값을 가진다. 따라서 귀무 가설을 기각하기 위한 기각역은 <span class="math inline">\(\Lambda\)</span> 가 작은 값이 되는 영역으로 설정한다. 또한 가설 검정의 편의성을 위하여 가능도비에 로그를 취하고 <span class="math inline">\(-2\)</span> 를 취한 값을 검정에 이용한다.</p>
 <p><span id="eq-app-lr-lambda"><span class="math display">\[
 \lambda = -2 \log \Lambda = -2 \left\{ \ell(\hat{\pmb \theta}_0) - \ell(\hat{\pmb \theta}) \right\} \in [0, \infty)
-\tag{B.2}\]</span></span></p>
+\tag{C.2}\]</span></span></p>
 <p>이제 위의 식에서 정의된 <span class="math inline">\(\lambda\)</span> 는 값이 크면 클수록 귀무가설에 반대되는 증거이다. 따라서 <span class="math inline">\(\lambda\)</span>의 값이 주어진 기각역 <span class="math inline">\(c\)</span> 보다 크면 귀무 가설을 기각한다.</p>
 <p><span class="math display">\[
 \text{reject } H_0 \quad \text{ if } \lambda &gt; c
@@ -325,10 +331,10 @@ L(\pmb \theta) &amp; = \prod_{i=1}^n f(\pmb X_i| \pmb \theta) \\
 \nu = \dim(\pmb \Theta)-\dim( \pmb \Theta_0)
 \]</span></p>
 </section>
-<section id="다변량-정규분포의-가능도비-검정" class="level2" data-number="B.2">
-<h2 data-number="B.2" class="anchored" data-anchor-id="다변량-정규분포의-가능도비-검정"><span class="header-section-number">B.2</span> 다변량 정규분포의 가능도비 검정</h2>
-<section id="두-평균벡터의-비교" class="level3" data-number="B.2.1">
-<h3 data-number="B.2.1" class="anchored" data-anchor-id="두-평균벡터의-비교"><span class="header-section-number">B.2.1</span> 두 평균벡터의 비교</h3>
+<section id="다변량-정규분포의-가능도비-검정" class="level2" data-number="C.2">
+<h2 data-number="C.2" class="anchored" data-anchor-id="다변량-정규분포의-가능도비-검정"><span class="header-section-number">C.2</span> 다변량 정규분포의 가능도비 검정</h2>
+<section id="두-평균벡터의-비교" class="level3" data-number="C.2.1">
+<h3 data-number="C.2.1" class="anchored" data-anchor-id="두-평균벡터의-비교"><span class="header-section-number">C.2.1</span> 두 평균벡터의 비교</h3>
 <p>확률 벡터 <span class="math inline">\(\pmb X\)</span> 과 <span class="math inline">\(\pmb Y\)</span> 가 평균이 각각 <span class="math inline">\(\pmb \mu_1\)</span>, <span class="math inline">\(\pmb \mu_2\)</span> 이고 공분산이 <span class="math inline">\(\pmb \Sigma\)</span> 인 p-차원 다변량 정규 분포를 따른다고 가정하자.</p>
 <p><span class="math display">\[ \pmb X \sim N_p(\pmb \mu_1, \pmb \Sigma), \quad \pmb Y \sim N_p(\pmb \mu_2, \pmb \Sigma) \]</span> 다변량 정규 분포의 확률밀도함수는 다음과 같이 주어진다.</p>
 <p><span class="math display">\[
@@ -353,7 +359,7 @@ H_0 : \pmb \mu_1 = \pmb \mu_2 \text{ vs } H_a: \pmb \mu_1 \neq \pmb \mu_2
 &amp; = -\frac{n_1 + n_2 }{2}\log|2\pi \pmb \Sigma| \\
 &amp; ~~ -\frac{1}{2} \Bigg [ \sum_{i=1}^{n_1} (\pmb X_i - \pmb \mu_1)^t \pmb \Sigma^{-1} (\pmb X_i - \pmb \mu_1) + \sum_{i=1}^{n_2} (\pmb Y_i - \pmb \mu_2)^t \pmb \Sigma^{-1} (\pmb Y_i - \pmb \mu_2) \Bigg ]
 \end{aligned}
-\tag{B.3}\]</span></span></p>
+\tag{C.3}\]</span></span></p>
 <p>만약 귀무 가설이 참이라면 <span class="math inline">\(\pmb \mu_1 = \pmb \mu_2 = \pmb \mu\)</span> 이므로 로그 가능도 함수는 다음과 같이 주어진다.</p>
 <p><span id="eq-app-lr-loglik-1pop"><span class="math display">\[
 \begin{aligned}
@@ -364,10 +370,10 @@ H_0 : \pmb \mu_1 = \pmb \mu_2 \text{ vs } H_a: \pmb \mu_1 \neq \pmb \mu_2
 &amp; = -\frac{n_1 + n_2 }{2}\log|2\pi \pmb \Sigma| \\
 &amp; ~~ -\frac{1}{2} \Bigg [ \sum_{i=1}^{n_1} (\pmb X_i - \pmb \mu)^t \pmb \Sigma^{-1} (\pmb X_i - \pmb \mu) + \sum_{i=1}^{n_2} (\pmb Y_i - \pmb \mu)^t \pmb \Sigma^{-1} (\pmb Y_i - \pmb \mu) \Bigg ]
 \end{aligned}
-\tag{B.4}\]</span></span></p>
+\tag{C.4}\]</span></span></p>
 </section>
-<section id="재곱합의-분해" class="level3" data-number="B.2.2">
-<h3 data-number="B.2.2" class="anchored" data-anchor-id="재곱합의-분해"><span class="header-section-number">B.2.2</span> 재곱합의 분해</h3>
+<section id="재곱합의-분해" class="level3" data-number="C.2.2">
+<h3 data-number="C.2.2" class="anchored" data-anchor-id="재곱합의-분해"><span class="header-section-number">C.2.2</span> 재곱합의 분해</h3>
 <p>이제 이차형식의 다음과 같은 대각합(trace) 표현을 이용하면</p>
 <p><span class="math display">\[
 {\pmb x}^t \pmb A {\pmb x} =tr({\pmb x}^t \pmb A {\pmb x}) = tr(\pmb A {\pmb x} {\pmb x}^t )
@@ -385,7 +391,7 @@ H_0 : \pmb \mu_1 = \pmb \mu_2 \text{ vs } H_a: \pmb \mu_1 \neq \pmb \mu_2
   &amp;=
 \operatorname{tr} \Bigg [ \pmb \Sigma^{-1}  \sum_{i=1}^{n_1}  (\pmb X_i - \pmb \mu_1) (\pmb X_i - \pmb \mu_1)^t  \Bigg  ]
 \end{aligned}
-\tag{B.5}\]</span></span></p>
+\tag{C.5}\]</span></span></p>
 <p>또한 위의 식에서 <span class="math inline">\(\pmb X_i - \pmb \mu_1\)</span> 를 <span class="math inline">\((\pmb X_i - \bar{\pmb X}_1) + (\bar{\pmb X}_1 - \pmb \mu_1)\)</span> 로 전개하면 평균 분해를 이용하여 다음과 같이 쓸 수 있다.</p>
 <p><span id="eq-app-lr-sum-decomp2"><span class="math display">\[
 \begin{aligned}
@@ -397,12 +403,12 @@ H_0 : \pmb \mu_1 = \pmb \mu_2 \text{ vs } H_a: \pmb \mu_1 \neq \pmb \mu_2
   &amp;=
   n_1 S_x + n_1 (\bar{\pmb X} - \pmb \mu_1) (\bar{\pmb X} - \pmb \mu_1)^t
 \end{aligned}
-  \tag{B.6}\]</span></span></p>
+  \tag{C.6}\]</span></span></p>
 <p>위의 식에서 <span class="math inline">\(S_x\)</span> 는 확률 표본 <span class="math inline">\(\pmb X_1, \pmb X_2, \dots, \pmb X_{n_1}\)</span> 으로 만들어진 표본 공분산 행렬이다 (아래 식에서 공분산행렬의 추정에서 분포를 최대가능도 추정량으로 하여 <span class="math inline">\(n_1-1\)</span> 대신 <span class="math inline">\(n_1\)</span> 을 적용하였다)</p>
 <p><span class="math display">\[
 S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \bar{\pmb X}_1)^t
 \]</span></p>
-<p>이제 <a href="#eq-app-lr-sum-decomp2" class="quarto-xref">식&nbsp;<span>B.6</span></a> 을 <a href="#eq-app-lr-sum-decomp1" class="quarto-xref">식&nbsp;<span>B.5</span></a> 에 적용하면 다음과 같이 쓸 수 있다.</p>
+<p>이제 <a href="#eq-app-lr-sum-decomp2" class="quarto-xref">식&nbsp;<span>C.6</span></a> 을 <a href="#eq-app-lr-sum-decomp1" class="quarto-xref">식&nbsp;<span>C.5</span></a> 에 적용하면 다음과 같이 쓸 수 있다.</p>
 <p><span id="eq-app-lr-sum-decomp3"><span class="math display">\[
 \begin{aligned}
 \sum_{i=1}^{n_1} (\pmb X_i - \pmb \mu_1)^t \pmb \Sigma^{-1} (\pmb X_i - \pmb \mu_1)
@@ -414,11 +420,11 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
   n_1  \Bigg [ \operatorname{tr} ( \pmb \Sigma^{-1} S_x ) + \operatorname{tr} ( \pmb \Sigma^{-1}  (\bar{\pmb X} - \pmb \mu_1) (\bar{\pmb X} - \pmb \mu_1)^t ) \Bigg ]  \\
    &amp;= n_1   \operatorname{tr} ( \pmb \Sigma^{-1} S_x ) + n_1  (\bar{\pmb X} - \pmb \mu_1)^t \pmb   \Sigma^{-1}  (\bar{\pmb X} - \pmb \mu_1)
 \end{aligned}
-\tag{B.7}\]</span></span></p>
+\tag{C.7}\]</span></span></p>
 </section>
-<section id="로그-가능도-함수의-재표현" class="level3" data-number="B.2.3">
-<h3 data-number="B.2.3" class="anchored" data-anchor-id="로그-가능도-함수의-재표현"><span class="header-section-number">B.2.3</span> 로그 가능도 함수의 재표현</h3>
-<p>이제 분해식 <a href="#eq-app-lr-sum-decomp3" class="quarto-xref">식&nbsp;<span>B.7</span></a> 를 <a href="#eq-app-lr-loglik-2pop" class="quarto-xref">식&nbsp;<span>B.3</span></a> 에 적용하여 제약조건이 없는 경우의 로그 가능도 함수를 다음과 같이 표현할 수 있다.</p>
+<section id="로그-가능도-함수의-재표현" class="level3" data-number="C.2.3">
+<h3 data-number="C.2.3" class="anchored" data-anchor-id="로그-가능도-함수의-재표현"><span class="header-section-number">C.2.3</span> 로그 가능도 함수의 재표현</h3>
+<p>이제 분해식 <a href="#eq-app-lr-sum-decomp3" class="quarto-xref">식&nbsp;<span>C.7</span></a> 를 <a href="#eq-app-lr-loglik-2pop" class="quarto-xref">식&nbsp;<span>C.3</span></a> 에 적용하여 제약조건이 없는 경우의 로그 가능도 함수를 다음과 같이 표현할 수 있다.</p>
 <p><span id="eq-app-lr-loglik-2pop-decomp"><span class="math display">\[
 \begin{aligned}
 \ell({\pmb \mu_1},{\pmb \mu_2},{\pmb \Sigma})
@@ -436,7 +442,7 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
 -\frac{n_1 + n_2 }{2}\log|2\pi {\pmb \Sigma} | -\frac{1}{2} \operatorname{tr} (  {\pmb \Sigma}^{-1} \pmb W ) \\
 &amp; \quad -\frac{1}{2}  \left [ n_1  (\bar{\pmb X} - {\pmb \mu_1})^t    {\pmb \Sigma}^{-1}  (\bar{\pmb X} - {\pmb \mu_1})  + n_2  (\bar{\pmb Y} - { \pmb \mu_2} )^t   {\pmb \Sigma}^{-1}  (\bar{\pmb Y} - { \pmb \mu_2} )  \right ]
 \end{aligned}
-\tag{B.8}\]</span></span></p>
+\tag{C.8}\]</span></span></p>
 <p>위의 식에서 <span class="math inline">\(\pmb W\)</span> 는 그룹내의 변동을 표시하는 제곱합 행렬이다. 참고로 <a href="multivar-test.html#eq-test-pooled-cov" class="quarto-xref">식&nbsp;<span>3.4</span></a> 에서 정의된 풀링된 공분산 행렬 <span class="math inline">\(\pmb S_p\)</span> 와 다음과 같은 관계가 있다.</p>
 <p><span id="eq-app-lr-wss"><span class="math display">\[
 \begin{aligned}
@@ -444,12 +450,12 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
 &amp; = \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \bar{\pmb X}_1)^t + \sum_{i=1}^{n_2}  (\pmb Y_i - \bar{\pmb Y}_2) (\pmb Y_i - \bar{\pmb Y}_2)^t \\
 &amp; = (n_1+n_2 -2) \pmb S_{p}
 \end{aligned}
-\tag{B.9}\]</span></span></p>
-<p>제약조건이 없는 가능도 함수 <a href="#eq-app-lr-loglik-2pop-decomp" class="quarto-xref">식&nbsp;<span>B.8</span></a> 에 대해서 최대 가능도 추정을 적용하면 다음과 같은 평균에 대한 최대가능도 추정량은 각각 그룹의 표본 평균이 된다.</p>
+\tag{C.9}\]</span></span></p>
+<p>제약조건이 없는 가능도 함수 <a href="#eq-app-lr-loglik-2pop-decomp" class="quarto-xref">식&nbsp;<span>C.8</span></a> 에 대해서 최대 가능도 추정을 적용하면 다음과 같은 평균에 대한 최대가능도 추정량은 각각 그룹의 표본 평균이 된다.</p>
 <p><span class="math display">\[
 \hat{\pmb \mu}_1 = \bar{\pmb X}_1, \quad \hat{\pmb \mu}_2 = \bar{\pmb Y}_1
 \]</span></p>
-<p>이제 위의 평균에 대한 최대가능도 추정량을 제약 조건이 없는 가능도 함수 <a href="#eq-app-lr-loglik-2pop-decomp" class="quarto-xref">식&nbsp;<span>B.8</span></a> 에 대입하면 다음과 같은 식을 얻게 된다.</p>
+<p>이제 위의 평균에 대한 최대가능도 추정량을 제약 조건이 없는 가능도 함수 <a href="#eq-app-lr-loglik-2pop-decomp" class="quarto-xref">식&nbsp;<span>C.8</span></a> 에 대입하면 다음과 같은 식을 얻게 된다.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \ell(\hat {\pmb \mu_1},\hat {\pmb \mu_2},{\pmb \Sigma})
@@ -473,8 +479,8 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
 &amp; = -\frac{n_1 + n_2 }{2}\log|2\pi \hat {\pmb \Sigma} | -\frac{1}{2} \operatorname{tr} (  (n_1 + n_2) \pmb W^{-1} \pmb W ) \\
 &amp; = -\frac{n_1 + n_2 }{2}\log|2\pi \hat {\pmb \Sigma} | -\frac{p(n_1 + n_2)}{2}
 \end{aligned}
-\tag{B.10}\]</span></span></p>
-<p>이제 제약조건 <span class="math inline">\(\pmb \mu_1 = \pmb \mu_2 = \pmb \mu\)</span> 가 있는 경우의 로그 가능도 함수를 고려하자. <a href="#eq-app-lr-loglik-2pop-decomp" class="quarto-xref">식&nbsp;<span>B.8</span></a> 의 마지막 항을 이용하면 다음과 같이 제약 조건이 있는 가능도 함수 <a href="#eq-app-lr-loglik-1pop" class="quarto-xref">식&nbsp;<span>B.4</span></a> 를 다음과 같이 표현할 수 있다.</p>
+\tag{C.10}\]</span></span></p>
+<p>이제 제약조건 <span class="math inline">\(\pmb \mu_1 = \pmb \mu_2 = \pmb \mu\)</span> 가 있는 경우의 로그 가능도 함수를 고려하자. <a href="#eq-app-lr-loglik-2pop-decomp" class="quarto-xref">식&nbsp;<span>C.8</span></a> 의 마지막 항을 이용하면 다음과 같이 제약 조건이 있는 가능도 함수 <a href="#eq-app-lr-loglik-1pop" class="quarto-xref">식&nbsp;<span>C.4</span></a> 를 다음과 같이 표현할 수 있다.</p>
 <p><span id="eq-app-lr-loglik-1pop-decomp"><span class="math display">\[
 \begin{aligned}
 \ell({\pmb \mu},{\pmb \Sigma})
@@ -482,14 +488,14 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
 -\frac{n_1 + n_2 }{2}\log|2\pi {\pmb \Sigma} | -\frac{1}{2} \operatorname{tr} (  {\pmb \Sigma}^{-1} \pmb W ) \\
 &amp; \quad -\frac{1}{2}  \left [ n_1  (\bar{\pmb X} - {\pmb \mu})^t    {\pmb \Sigma}^{-1}  (\bar{\pmb X} - {\pmb \mu})  + n_2  (\bar{\pmb Y} - { \pmb \mu} )^t   {\pmb \Sigma}^{-1}  (\bar{\pmb Y} - { \pmb \mu} )  \right ]
 \end{aligned}
-\tag{B.11}\]</span></span></p>
+\tag{C.11}\]</span></span></p>
 <p>위의 제약조건이 있는 로그 가능도 함수에 대하여 평균 벡터 <span class="math inline">\(\pmb \mu\)</span> 에 최대 가능도 추정량을 구하면 다음과 같다.</p>
 <p><span class="math display">\[ \hat{\pmb \mu} = \frac{n_1 \bar{\pmb X} + n_2 \bar{\pmb Y}}{n_1 + n_2}  \]</span></p>
 <p>여기서 그룹 간의 변동을 나타내는 제곱합 행렬 <span class="math inline">\(\pmb B\)</span> 는 다음과 같이 정의한다.</p>
 <p><span id="eq-app-lr-bss"><span class="math display">\[
 \pmb B \equiv n_1 (\bar{\pmb X} - \hat{\pmb \mu}) (\bar{\pmb X} - \hat{\pmb \mu})^t + n_2 (\bar{\pmb Y} - \hat{\pmb \mu}) (\bar{\pmb Y} - \hat{\pmb \mu})^t
-\tag{B.12}\]</span></span></p>
-<p>이제 평균 벡터의 추정량 <span class="math inline">\(\hat{\pmb \mu}\)</span> 를 <a href="#eq-app-lr-loglik-1pop-decomp" class="quarto-xref">식&nbsp;<span>B.11</span></a> 을 에 대입하면 다음과 같이 로그 가능도 함수가 나타나며</p>
+\tag{C.12}\]</span></span></p>
+<p>이제 평균 벡터의 추정량 <span class="math inline">\(\hat{\pmb \mu}\)</span> 를 <a href="#eq-app-lr-loglik-1pop-decomp" class="quarto-xref">식&nbsp;<span>C.11</span></a> 을 에 대입하면 다음과 같이 로그 가능도 함수가 나타나며</p>
 <p><span id="eq-app-lr-loglik-1pop-decomp2"><span class="math display">\[
 \begin{aligned}
 \ell( \hat {\pmb \mu},{\pmb \Sigma})
@@ -500,18 +506,18 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
 &amp; \quad -\frac{1}{2} \operatorname{tr}   \left [ {\pmb \Sigma}^{-1} \{ n_1 (\bar{\pmb X} - \hat{\pmb \mu}) (\bar{\pmb X} - \hat{\pmb \mu})^t + n_2 (\bar{\pmb Y} - \hat{\pmb \mu}) (\bar{\pmb Y} - \hat{\pmb \mu})^t \}  \right ] \\
 &amp; = -\frac{n_1 + n_2 }{2}\log|2\pi {\pmb \Sigma} | -\frac{1}{2} \operatorname{tr} (  {\pmb \Sigma}^{-1} (\pmb W + \pmb B) )
 \end{aligned}
-\tag{B.13}\]</span></span></p>
-<p>이제 오그 가능도 함수 <a href="#eq-app-lr-loglik-1pop-decomp2" class="quarto-xref">식&nbsp;<span>B.13</span></a> 에서 공분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span> 에 대한 최대 가능도 추정량을 구하면 다음과 같다.</p>
+\tag{C.13}\]</span></span></p>
+<p>이제 오그 가능도 함수 <a href="#eq-app-lr-loglik-1pop-decomp2" class="quarto-xref">식&nbsp;<span>C.13</span></a> 에서 공분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span> 에 대한 최대 가능도 추정량을 구하면 다음과 같다.</p>
 <p><span class="math display">\[ \hat {\pmb \Sigma}_0 = \frac{1}{n_1 + n_2} (\pmb W + \pmb B) \]</span></p>
-<p>위의 공분산 행렬에 대한 추정량을 <a href="#eq-app-lr-loglik-1pop-decomp2" class="quarto-xref">식&nbsp;<span>B.13</span></a> 에 대입하면 제약조건이 있는 경우 로그 가능도 함수의 최대값은 다음과 같이 얻어진다.</p>
+<p>위의 공분산 행렬에 대한 추정량을 <a href="#eq-app-lr-loglik-1pop-decomp2" class="quarto-xref">식&nbsp;<span>C.13</span></a> 에 대입하면 제약조건이 있는 경우 로그 가능도 함수의 최대값은 다음과 같이 얻어진다.</p>
 <p><span id="eq-app-lr-loglik-1pop-max"><span class="math display">\[
 \ell( \hat {\pmb \mu},\hat {\pmb \Sigma}_0)
 = -\frac{n_1 + n_2 }{2}\log|2\pi \hat {\pmb \Sigma}_0 | -\frac{p(n_1 + n_2)}{2}
-\tag{B.14}\]</span></span></p>
+\tag{C.14}\]</span></span></p>
 </section>
-<section id="가능도비-검정-통계량" class="level3" data-number="B.2.4">
-<h3 data-number="B.2.4" class="anchored" data-anchor-id="가능도비-검정-통계량"><span class="header-section-number">B.2.4</span> 가능도비 검정 통계량</h3>
-<p>이제 로그가능도비 통계량 <span class="math inline">\(\lambda\)</span> 를 <a href="#eq-app-lr-lambda" class="quarto-xref">식&nbsp;<span>B.2</span></a> 에 정의된 식을 이용하여 다음과 같이 쓸 수 있다.</p>
+<section id="가능도비-검정-통계량" class="level3" data-number="C.2.4">
+<h3 data-number="C.2.4" class="anchored" data-anchor-id="가능도비-검정-통계량"><span class="header-section-number">C.2.4</span> 가능도비 검정 통계량</h3>
+<p>이제 로그가능도비 통계량 <span class="math inline">\(\lambda\)</span> 를 <a href="#eq-app-lr-lambda" class="quarto-xref">식&nbsp;<span>C.2</span></a> 에 정의된 식을 이용하여 다음과 같이 쓸 수 있다.</p>
 <p><span id="eq-app-lr-lambda-final"><span class="math display">\[
 \begin{aligned}
 \lambda
@@ -527,13 +533,13 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
       \frac{ \left|\boldsymbol{W}+\boldsymbol{B}\right| }{ \left|\boldsymbol{W}\right| }
     \right),
 \end{aligned}
-\tag{B.15}\]</span></span></p>
+\tag{C.15}\]</span></span></p>
 <p>위의 식에서 <span class="math inline">\(N = n_1 + n_2\)</span> 이다.</p>
 <p>마지막으로 두 집단에서는 다음과 같은 행렬식 공식를 이용하자 (부록의 <a href="math_mat_basic.html#sec-mat-determ" class="quarto-xref"><span>섹션 A.9</span></a> 참조)</p>
 <p><span id="eq-app-lr-bss-rank1-lemma"><span class="math display">\[
 |{\pmb A}+{\pmb u} {\pmb v}^t |=| {\pmb A}| \big ( {\pmb 1} +{\pmb v}^t {\pmb A}^{-1} {\pmb u} \big )
-\tag{B.16}\]</span></span></p>
-<p>위의 정리를 이용하기 위하여 <a href="#eq-app-lr-bss" class="quarto-xref">식&nbsp;<span>B.12</span></a> 정의된 그룹간 제곱합 행렬 <span class="math inline">\(\pmb B\)</span> 를 다음과 같이 표현해 보자</p>
+\tag{C.16}\]</span></span></p>
+<p>위의 정리를 이용하기 위하여 <a href="#eq-app-lr-bss" class="quarto-xref">식&nbsp;<span>C.12</span></a> 정의된 그룹간 제곱합 행렬 <span class="math inline">\(\pmb B\)</span> 를 다음과 같이 표현해 보자</p>
 <p><span id="eq-app-lr-bss-rank1"><span class="math display">\[
 \begin{aligned}
 \pmb B &amp; =  n_1 (\bar{\pmb X} - \hat{\pmb \mu}) (\bar{\pmb X} - \hat{\pmb \mu})^t + n_2 (\bar{\pmb Y} - \hat{\pmb \mu}) (\bar{\pmb Y} - \hat{\pmb \mu})^t \\
@@ -541,18 +547,18 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
 &amp; = \frac{n_1 n_2}{N} (\bar{\pmb X} - \bar{\pmb Y}) (\bar{\pmb X} - \bar{\pmb Y})^t \\
 &amp; = \alpha {\pmb d} {\pmb d}^t,
 \end{aligned}
-\tag{B.17}\]</span></span></p>
+\tag{C.17}\]</span></span></p>
 <p>위의 식에서</p>
 <p><span class="math display">\[
 \alpha = \frac{n_1 n_2}{N}, \quad d = \bar{\pmb X} - \bar{\pmb Y}
 \]</span></p>
-<p>따라서 <a href="#eq-app-lr-bss-rank1-lemma" class="quarto-xref">식&nbsp;<span>B.16</span></a> 에서 <span class="math inline">\(\pmb u = \pmb v = \sqrt{\alpha} \pmb d\)</span> 로 놓으면</p>
+<p>따라서 <a href="#eq-app-lr-bss-rank1-lemma" class="quarto-xref">식&nbsp;<span>C.16</span></a> 에서 <span class="math inline">\(\pmb u = \pmb v = \sqrt{\alpha} \pmb d\)</span> 로 놓으면</p>
 <p><span class="math display">\[
 \begin{aligned}
 | {\pmb W} + {\pmb B} | &amp; = | {\pmb W} + \alpha {\pmb d} {\pmb d}^t | \\
 &amp;= |{\pmb W}|  \left( {\pmb 1} + \alpha {\pmb d}^t {\pmb W}^{-1} {\pmb d} \right)
 \end{aligned}
-\]</span> 이제 위의 식을 <a href="#eq-app-lr-lambda-final" class="quarto-xref">식&nbsp;<span>B.15</span></a> 에 넣고 정리하면 다음과 같은 결과를 얻는다.</p>
+\]</span> 이제 위의 식을 <a href="#eq-app-lr-lambda-final" class="quarto-xref">식&nbsp;<span>C.15</span></a> 에 넣고 정리하면 다음과 같은 결과를 얻는다.</p>
 <p><span id="eq-app-lr-lambda-final2"><span class="math display">\[
 \begin{aligned}
 \lambda
@@ -566,7 +572,7 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
 &amp;= N \log\Big(1+\alpha\ d^\top W^{-1} d\Big) \\
 &amp; = N \log \Big ( 1+ \frac{T^2}{N-2} \Big )
 \end{aligned}
-\tag{B.18}\]</span></span></p>
+\tag{C.18}\]</span></span></p>
 <p>위의 식에서 주어진 <span class="math inline">\(T^2\)</span> 는 <a href="multivar-test.html#eq-test-hotelling-t2" class="quarto-xref">식&nbsp;<span>3.5</span></a> 에서 장의한 Hotelling의 <span class="math inline">\(T^2\)</span> 통계량이다. 따라서 로그 가능도비 검정 통계량 <span class="math inline">\(\lambda\)</span> 와 Hotelling의 <span class="math inline">\(T^2\)</span> 통계량은 단조 증가 함수 관계에 있음을 알 수 있다. 이러한 결과로서 Hotelling의 <span class="math inline">\(T^2\)</span> 을 이용한 검정은 가능도비 검정이다.</p>
 
 
@@ -975,8 +981,8 @@ S_X = \frac{1}{n_1} \sum_{i=1}^{n_1}  (\pmb X_i - \bar{\pmb X}_1) (\pmb X_i - \b
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../qmd/math_mat_basic.html" class="pagination-link" aria-label="행렬의 기초">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">행렬의 기초</span></span>
+      <a href="../qmd/math_eigen_value.html" class="pagination-link" aria-label="고유값과 고유벡터">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">고유값과 고유벡터</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
