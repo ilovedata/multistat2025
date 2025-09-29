@@ -16,6 +16,7 @@ book:
     - qmd/multivar-test.qmd
     - qmd/multivar-cov.qmd
     - qmd/multivar-discrim.qmd
+    - qmd/multivar-pca.qmd
     - references.qmd
   appendices:
     - qmd/math_mat_basic.qmd
