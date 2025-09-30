@@ -14,6 +14,9 @@ library(tidyverse)
 library(here)
 library(knitr)
 library(mvtnorm)
+library(ggfortify)
+library(HSAUR2)
+library(pheatmap)
 
 #아래 3 문장은 한글을 포함한 ggplot 그림이 포함된 HTML, PDF로 만드는 경우 사용
 library(showtext)
@@ -484,7 +487,7 @@ abline(v=0);abline(h=0)
 
 
 
-## 주성분분석의 기초이론
+## 주성분 분석의 기초이론
 
 주성분분석은 서로 상관된 $p$ 개의 변수들 $\pmb X=(X_1,X_2,\dots,X_p)^t$의 총 변동을 각 변수들의 선형결합으로 만든 서로 상관되지 않은 새로운 변수들인 $\pmb Z^t=(Z_1,Z_2,\dots,Z_p)$에 의해 설명하는 것이다. 
 
@@ -497,7 +500,7 @@ $$
 
 새로운 변수인 $Z_i$들을 주성분(principal component, PC)이라고 부르며 $X_i$들의 모든 선형결합중에서 서로 상관되지 않고  원래 자료의 변동을 가능한 한 많이 설명한다는 의미에서 중요성이 감소하는 순서되로 유도된다. 
 
-즉 첫번째 주성분인 $Z_1$은 다른 주성분보다 분산이 가장 크다. 다음으로 두번째 주성분  $Z_2$는 $Z_1$과 상관관계가 없으며 남아있는 변동을  가능한 한 많이 설명하게 만든다. 이러한 작업을 계속 적용하여 $q$개의 주성분을 만들 수 있다. 
+즉 첫번째 주성분인 $Z_1$은 다른 주성분보다 분산이 가장 크다. 다음으로 두번째 주성분  $Z_2$는 $Z_1$과 상관관계가 없으며 남아있는 변동을  가능한 한 많이 설명하게 만든다. 이러한 작업을 계속 적용하여 $p$개의 주성분을 만들 수 있다. 
 
 $$ 
 V(Z_1) \ge V(Z_2) \ge \dots \ge V(Z_p) \quad \text{ and } \quad Cov(Z_i, Z_j)=0,~~ i\ne j 
@@ -610,7 +613,7 @@ $$
 고유값인 대각행렬이며 고유값은 다음과 같이 내림차순으로 정렬되어 있다고 하자. 
 
 $$ 
-\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_q 
+\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_p 
 $$
 
 행렬 $\pmb P$는  $p \times p$  직교행렬(orthonomal matrix)로서  $k$번째 열벡터 $\pmb a_k$는
@@ -645,7 +648,14 @@ $$
 
 2차형식(quadratic form) $\pmb x^t \pmb \Sigma \pmb x$은 다음과 같은 스펙트럼분해가 가능하다.
 $$
-\pmb x^t \pmb \Sigma \pmb x= \pmb x^t \pmb P \pmb \Lambda \pmb P^t x = \pmb x^t [ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb  a_p ] diag(\lambda_1,\lambda_2,\dots,\lambda_q) [ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb a_p ]^t \pmb x 
+\pmb x^t \pmb \Sigma \pmb x= \pmb x^t \pmb P \pmb \Lambda \pmb P^t x = \pmb x^t [ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb  a_p ] 
+\begin{bmatrix}
+\lambda_1 & 0 & \dots & 0 \\
+0 & \lambda_2 & \dots & 0 \\
+\dots & \dots & \dots & \dots \\
+0 & 0 & \dots & \lambda_p \\
+\end{bmatrix}
+ [ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb a_p ]^t \pmb x 
 $$
 
 새로운 변수 $\pmb z= \pmb P^t \pmb x$를 정의하면  2차형식은 다음과 같이 표시된다.
@@ -656,7 +666,7 @@ $$
 고유값은 다음과 같은 관계를 가지므로 
 
 $$ 
-\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_q 
+\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_p 
 $$
 다음과 같은 부등식을 얻을 수 있으며
 
@@ -678,7 +688,7 @@ $$
 
 ### 주성분의 계수
 
-$p$-차원의 벡터 $\pmb A$의 선형결합으로 새로운 변수 $Z_1= \pmb a^t \pmb X$를 고려할때 $Z_1$의 분산은 다음과 같다.
+$p$-차원의 벡터 $\pmb a$의 선형결합으로 새로운 변수 $Z_1= \pmb a^t \pmb X$를 고려할때 $Z_1$의 분산은 다음과 같다.
 
 $$ 
 Var(Z_1) = Var( \pmb a^t \pmb X) = \pmb a^t Var(\pmb X) \pmb a = \pmb a^t \pmb \Sigma \pmb a 
@@ -722,3 +732,425 @@ $$
 \sum_{i=1}^p V(X_i) = \sum_{i=1}^p V(Z_i) = trace( \pmb C) = p  
 $$
 
+## 주성분 분석 
+
+
+### 주성분 개수의 선택
+
+주성분은 변수들의 모든 선형결합중에서 서로 상관되지 않고 원래 자료의 변동을 가능한 한 많이 설명한다는 의미에서 성분의 중요성이 감소하는 순서되로 유도된다. 따라서 주성분 분석의 목적에 따라 원래의 변수 개수인 $p$보다 적은 개수의 주성분들을 선택하여 원래 변수가 가지고 있는 변동의 많은 부분을 설명하려고 한다.
+
+문제는 몇 개의 주성분을 선택해야 하는 문제이다. 
+
+각 주성분의 분산은 공분산 $\pmb  \Sigma$의 고유값이고 그 고유값들은 다음과 같은 순서로 정렬되어 있다
+
+$$ 
+\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_p 
+$$
+
+따라서 원래 변수 $X_1,X_2,\dots,X_p$들의 분산의 합은 모든 고유값의  합과 같다.
+
+$$ 
+\sum_{i=1}^p Var(X_i) =\sum_{i=1}^p \sigma_{ii} = \sum_{i=1}^p \lambda_i = \sum_{i=1}^p Var(Z_i)
+$$
+
+이는 다음과 같은 식에서 유도 된다.
+
+$$ 
+trace(\pmb  \Sigma) = trace(\pmb  P \pmb  \Lambda \pmb  P^t) =trace( \pmb  \Lambda \pmb  P^t \pmb  P)= trace( \pmb  \Lambda) 
+$$
+
+따라서 주성분 $Z_i$는 자료의 총변동 $\sum_{i=1}^p \lambda_i =trace(\pmb  \Sigma)$를 
+다음과 같은 비율만큼 설명한다.
+
+$$ 
+P_i = \frac{\lambda_i}{\sum_{j=1}^p \lambda_j} 
+$$ {#eq-multivar-pca-proportion}
+
+
+그리고 만약 $m<p$개의 주성분 $Z_1,Z_2,\dots,Z_m$ 을 선택했다면 자료의 총변동을 다음과 같은 비율만큼 설명한다.
+
+$$ 
+P_1+P_2+\dots+P_m = \frac{\lambda_1+\lambda_2+\dots + \lambda_m}{\sum_{j=1}^p \lambda_j} 
+$$ {#eq-multivar-pca-varratio}
+
+주성분의 개수를 선택하는 방법은 매우 다양하며 다음과 같은 몇 개의 절차가 일번적인 방법이다.
+
+- 총변동의 70\%에서 90\%를 설명할 수 있게 주성분의 개수를 선택
+
+$$ 0.7 \le P_1+P_2+\dots+P_m \le 0.9 $$
+
+- 평균고유값 $\sum_{i=1}^p \lambda_i /p$보다 작은 분산을 가지는 주성분을 제외한다.
+
+- 주성분이 상관행렬로부터 추출되는 경우 고유값이 1보다 작은 주성분을 제외한다.
+
+- Scree diagram을 이용:  Scree diagram은 고유값을 큰 순서대로 그림으로 그리고 선을 연결항 그래프이다. 고유값의 감소가 느리게 진행되는 때까지 큰 고유치를 선택하면 된다. 
+
+### 주성분의 척도변경
+
+원래의 변수벡터 $\pmb  X$와 주성분 $Z_j$의 공분산은 다음과 같다.
+
+$$ Cov(\pmb  X, Z_j) =Cov(\pmb  X, \pmb  a_j^t \pmb  X) = Cov(\pmb  X, \pmb  X^t )\pmb  a_j = \pmb  \Sigma \pmb  a_j $$
+
+고유벡터 $\pmb  a_j$의 성질은 $ \pmb  \Sigma \pmb  a_j =\lambda_j \pmb  a_j$이므로 다음과 같은 결과를 얻고 
+
+$$ 
+Cov(\pmb  X , Z_j) = \pmb  \Sigma \pmb  a_j =\lambda_j \pmb  a_j 
+$$
+
+따라서 원래의 변수 $X_i$와 주성분 $Z_j$의 공분산은 다음과 같다.
+
+$$ 
+Cov(X_i, Z_j) = \lambda_j  a_{ji} 
+$$
+더 나아가 원래의 변수 $X_i$와 주성분 $Z_j$의 상관계수는 다음과 같다.
+
+$$ Corr(X_i, Z_j) = \frac{Cov(X_i, Z_j)} {\sqrt{Var(X_i) Var(Z_j)}}
+=  \frac{\lambda_j a_{ji}} {\sqrt{\sigma_{ii} \lambda_j}}
+=\frac{\sqrt{\lambda_j} a_{ji}} {\sqrt{\sigma_{ii} }} 
+$$
+
+
+만약 주성분이 상관계수 행렬에서 얻어졌다면 $\sigma_{ii}=1$이므로 
+
+$$ 
+Corr(X_i, Z_j) = \sqrt{\lambda_j} a_{ji} 
+$$
+
+따라서 주성분을 만드는 경우 주성분의 표준 편차 $\sqrt{\lambda_j}$ 으로 나누어 주면 원래 자료와의 공분산이 주성분변환의 계수로 나오게 된다.
+
+$$ Cov \left ( X_i, \tfrac{Z_j}{\sqrt{\lambda_j}} \right ) =  a_{ji} $$
+
+
+### 주성분 점수
+
+자료의 변동을 설명하기 위하여 $m$개의 주성분이 필요하다면 각 표본의 개체에 대한 
+새로운 주성분의 값을 구할 수 있다. 이를 주성분 점수(Principal Component score)라고 한다.
+
+$p$개의 변수를 가지는 확률벡터를 독립적으로 $n$개 표본추출했다고 하자.
+$X_{ij}$는 $i$번째 표본의 $j$번째 변수이라고 하면 $i$번째 개체의  관측벡터는 $\pmb  X_i$는 다음과 같다.
+
+$$ \pmb  X_i=(X_{i1},X_{i2},\dots,X_{ip})^t $$
+$j$번째 변수의 표본 평균을  $\bar X_j = \sum_{i=1}^n X_{ij}/n$ 으로 정의하고 
+추출된 표본의 평균벡터를 $\bar {\pmb  X}$를 다음과 같다고 하자.
+
+$$ 
+\bar {\pmb  X}  = (\bar X_1,\bar X_2,\dots,\bar X_p)^t 
+$$
+
+이제 각 관측값을 해당하는 변수의 평균으로 빼준 벡터 $\pmb  Y_i$ 를 고려하자. 
+
+$$ 
+\pmb  Y_i = \pmb  X_i - \bar {\pmb  X} =(X_{i1}- \bar X_1 ,X_{i2}-\bar X_2,\dots,X_{ip}-\bar X_p)^t 
+$$
+
+이제 $i$번째 개체의 $j$ 번째 주성분 점수는 다음과 같이 정의된다.
+
+$$  
+Z_{ij} =  \pmb  a_j^t \pmb  Y_i = \sum_{k=1}^p a_{jk} Y_{ik} = \sum_{k=1}^p a_{jk} (X_{ik} - \bar X_k) 
+$$ {#eq-multivar-pca-pcscores}
+
+주성분 점수는 각각 관측된 개체가 원래 $p$개의 변수를 가지고 있다면  주성분분석을 통해서 더 적은 수, $m<p$개의 새로운 변수로서 관측 변수의 개수를 축소했다고 생각하면 된다. 
+
+$$ 
+\pmb  Z_i=(Z_{i1},Z_{i2},\dots,Z_{im})^t 
+$$
+
+
+## 예제: 올림픽 7종 경기 자료 
+
+올림픽 7종 경기 자료에  주성분분석을 적용해보자. 7종 경기의 종목은 100m 허들, 높이뛰기, 투포환, 200m 달리기, 멀리뛰기, 창던지기, 800m달리기이다. 순위는 혼성 경기 득점표에 따라 각 종목의 종합 득점으로 정한다.
+
+올림픽 7종 경기 자료는 다음과 같이 불러올 수 있다. 25명의 선수들에 대한 7개의 종목의 기록과 총점(`score`)으로 구성된 자료이다. 마지막 변수 `score` 는 올림픽 위원회가 7개의 종목의 기록을 결합해서 만든 점수로서 메달의 순위를 결정한다.   
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+library(HSAUR2)
+
+df_1 <- heptathlon
+dim(df_1)
+colnames(df_1)
+head(df_1)
+```
+
+
+
+먼저 7개의 자료의 값이 크기가 크면 좋은 기록이 나타내도록 변환을 한다. 따라서 육상경기 변수는 각 관측값을 그 변수의 최대값에서 빼준다. 또한 파푸아뉴기니아 선수가 너무 실력이 떨어져서 이상치로 분류하여 분석에서 제외한다.
+
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+df_1$hurdles <- with(df_1, max(hurdles)-hurdles)
+df_1$run200m <- with(df_1, max(run200m)-run200m)
+df_1$run800m <- with(df_1, max(run800m)-run800m)
+
+f_1 <- df_1 %>% 
+            filter(!str_detect(rownames(.), "PNG"))
+dim(df_1)
+head(df_1)
+```
+먼저 7개 변수의 상관관계를 보자
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+df_1_t <- df_1 %>% 
+          select(-score)
+
+cor(df_1_t)
+```
+
+
+
+주성분 분석은 함수  `princomp`  를 사용한다. 맨 마지막 8번째 변수 `score` 를 제외한 
+7개의 변수로 주성분분석을 실시하자. 함수 `princomp` 에서 선택문 `cor = TRUE` 는 상관계수행렬로 주성분분석을 실행하라는 선택이며 함수 `summary` 에서  `loadings = TRUE` 는 주성분의 계수를 보여주라는 것이다. 
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| 
+pca1 <- princomp(df_1_t, cor = TRUE)
+
+summary(pca1,loadings = TRUE)
+```
+
+
+주성분 분석의 결과를 다음과 같이 해석할 수 있다.  
+
+- 주성분 2개를 선택하면 총변동의 76 % 를 설명하고 3개를 선택하면 86 % 를 설명한다.
+  + `Proportion of Variance` 은 @eq-multivar-pca-proportion 에서 정의된 $P_i$의 값을 나타낸다.
+  + `Cumulative Proportion`  @eq-multivar-pca-varratio 의 $P_i$ 이 누적합을 나타낸다.
+
+- 먼저, 계수의 값이 없는 이유는 상대적으로 작은 값은 제시하지 않아서 이다
+
+- 첫번째 주성분(`Comp.1`)의 계수를 보면 각 종목 점수의 가중평균과 유사하다.
+
+- 두 번째 주성분(`Comp.2`)은 800달리기와 높이뛰기의 차이로 해석된다(각각의 계수가 다른 변수에 비해 절상대적으로 크고 부호가 반대이다). 
+
+- 3번째 주성분(`Comp.3`)은 창던지기(javelin)의 능력을 나타내는것으로 해석된다. 
+
+주성분 개수의 선택에 이용되는 scree plot은 다음과 같다. 막대의 높이는 주성분의 분산, 즉 고유치와 비례한다
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| fig.width: 5
+#| fig.height: 4
+
+plot(pca1, main = "scree plot")
+```
+
+25명의 선수에 대한 @eq-multivar-pca-pcscores 에 의한 주성분 점수를 구할 수 있고 첫번째와 두번째 주성분 점수를 산점도로 그려보았다.
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| fig.width: 7
+#| fig.height: 7
+#| 
+head(pca1$scores)
+
+df_pca <- as.data.frame(pca1$scores)
+
+df_pca <- df_pca %>% 
+  rownames_to_column("label") %>%
+  left_join(df_1 %>% rownames_to_column("label") %>% select(label, score), by="label") %>%
+  mutate(rank = as.integer(rank(-score))) %>%
+  mutate(label = paste0(label, "(", rank, ")"))
+
+
+head(df_pca)
+
+df_pca%>%
+  ggplot(aes(x=Comp.1, y=Comp.2 , label=label, size=score)) + 
+  geom_point(size= 2, alpha = 0.7) +
+  geom_text(size= 3 ,vjust = -0.7, color = "blue", alpha=0.9) +
+  geom_hline(yintercept=0) +
+  geom_vline(xintercept=0) +
+  theme_bw() + 
+  labs(x="PCA 1", y="PCA 2", title = "주성분 점수 산점도")
+```
+
+
+**Biplot** 은 25개의 개체에 대하여 2개의 주성분 점수와 그 방향을 이차원 공간에 표시한 그림으로 주성분의 구조를 이해하는데 큰 도움이 된다.  Biplot 은 패키지 `ggfortify` 의 `autoplot` 함수를 이용하면 다음과 같이 그릴 수 있다. 
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| fig.width: 7
+#| fig.height: 7
+
+autoplot(pca1, label = TRUE, loadings = TRUE, loadings.label = TRUE)
+```
+
+화살표로 표시된 각 변수에 대한 방향 벡터는 2개의 주성분 계수들 중 각 변수에 해당하는 두 계수(`Comp.1`, `Comp.2`) 벡터의 방향이다.
+위의 Biplot에서 다음과 같은 사실을 알 수 있다.
+
+
+- 각 변수에 대한 벡터의 방향은 두 주성분의 축에서 더 평행한 방향으로 주성분 점수에 기여도가 높다.  
+
+- 각 변수에 대한 벡터의 각도는 상관성을 나타내며 그 각이 작을수록  상관관계가 크다.
+ 
+- 첫번째 주성분은 `hurdle`, `longjump`, `200m`가 변동을 주로 설명한다.
+  + 선수 Joyner가 오른쪽 끝에 위치하는 것은 첫번째 주성분 점수가 가장 크고 `hurdle`, `longjump`, `200m` 에서 좋은 점수를 낸것을 알려준다. 
+
+- 두번째 주성분은 `800m`와 `highjump`가 변동을 주로 설명하며 두 변수의 상관관계가 상대적으로 작으므로 방향이 반대인 것을 알 수 있다.
+  + `800m`와 `highjump` 벡터 방향이 서로 반대이며 각 벡터 방향에 가까운 선수들이 해당 종목의 점수가 높음을 알 수 있다. 
+  + 예를 들어 선수 Yuping 은 `highjump` 점수가 높으므로 `highjump` 방향인 아래쪽에 위치하고 있다. 
+
+마지막으로 첫번째 주성분 점수와 올림픽 위원회가 구한 총점과의 관계를 보자. 두 값이 매우 강한 상관관계를 나타낸다. 
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+cor(df_1$score, df_pca$`Comp.1`)
+
+plot(df_1$score, df_pca$`Comp.1`, xlab="Olympic Score", ylab="PCA1")
+```
+
+
+
+
+
+## 예제: 포도주 자료 
+
+포도주 자료는 먼저 1978년에 이탈리아 피에몬테(Piedmont) 지역에서 재배된 세 가지 포도 품종(cultivar) 와인의 화학 성분을 측정한 자료이다. 전체 178 걔의 와인이 3개의 그룹으로 나누어저 있다. 변수 `Class` 는 포도의 품종을 나타내는 범주형 변수이다. 
+
+
+| `Class` | 포도 품종(지역)          |
+| ----- | ------------------ |
+| 1     | Barolo (바롤로)       |
+| 2     | Grignolino (그리뇰리노) |
+| 3     | Barbera (바르베라)     |
+
+
+포도주 자료는 사용와인의 화학 조성을 기반으로 주요 성분 간 상관관계를 분석할 수 있으며 포도 품종 간 차이 비교하는데 사용된다.   차원 축소(PCA) 및 군집 분석에 자주 사용되는 자료이다.   
+
+13개의 변수에 대한 설명은 다음과 같다.
+
+| 변수명                | 설명 |
+| :----------------------- | :------ |
+| `Class`                 | 포도 품종 (1, 2, 3 세 가지 품종 구분) |
+| `Alcohol`               | 알코올 함량 (%) |
+| `Malic_Acid`            | 사과산 함량 – 와인의 신맛을 결정하는 유기산 |
+| `Ash`                   | 회분 – 무기질 함량 지표 |
+| `Alcalinity_of_Ash`     | 회분의 알칼리도 – 산-알칼리 균형 지표 |
+| `Magnesium`             | 마그네슘 함량 (mg/L) |
+| `Total_Phenols`         | 총 페놀 성분 – 향, 맛, 항산화 효과에 기여 |
+| `Flavanoids`            | 플라보노이드 성분 – 떫은맛, 색, 향과 관련 |
+| `Nonflavanoid_Phenols`  | 비플라보노이드 페놀 성분 |
+| `Proanthocyanins`       | 프로안토시아닌 – 탄닌 전구체, 색과 떫은맛 영향 |
+| `Color_Intensity`       | 색 농도 – 와인의 색상이 얼마나 짙은지 |
+| `Hue`                   | 색조 – 적색 대비 황색 비율 |
+| `OD280_OD315`           | 280nm/315nm 흡광도 비율 – 페놀 함량 및 품질 지표 |
+| `Proline`               | 프롤린 함량 – 아미노산, 와인 향과 숙성에 중요한 역할 |
+
+### 자료 불러오기
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
+wine <- read.csv(url, header = FALSE)
+
+# Add column names from UCI description
+colnames(wine) <- c("Class","Alcohol","Malic_Acid","Ash","Alcalinity_Ash","Magnesium",
+                    "Total_Phenols","Flavanoids","Nonflav_Phenols","Proanthocyanins",
+                    "Color_Intensity","Hue","OD280_OD315","Proline")
+head(wine)
+```
+
+먼저 품종(`Class`)을 제외한 13개의 변수의 상관계수 행렬을 시각화 해보자.
+
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+## 품종 제외한 변수 선택
+df_2 <- wine %>% select(-Class)
+
+## 상관계수 행렬 계산
+cor_mat <- cor(df_2, use="pairwise.complete.obs") 
+
+# 히트맵 그리기
+pheatmap(cor_mat,  display_numbers = TRUE, number_format = "%.2f")
+```
+
+상관계수 행렬을 보먄 변수들이 3개의 그룹으로 나누어져 있다것을 알 수 있다.
+
+### 주성분 분석
+
+이제 `wine` 자료에 대하여 주성분 분석을 적용해 보자.
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+pca_wine <- princomp(df_2, cor = TRUE)
+summary(pca_wine, loadings = TRUE)
+```
+
+- 첫 번째 주성분의 계수를 보면  `Flavanoids` , `Total_Phenols`, `OD280_OD315`, `Proanthocyanins` 의 계수값이 양수로 다른 변수들에 비하여 상재적으로 크게 나타난 것을 알 수 있다. 또한 앞의 상관관계 분석에서도 4개 변수들의 상관관계가 높다는 것을 알 수 있다. 4개의 변수들은 맛의 풍부함 또는 맛의 강도와 관련된 변수들이다.
+
+- 두번째 주성분의 계수를 보면 `Color_Intensity` , `Alcohol`, `Ash`, `Hue` 의 계수값이 양수로서 다른 변수들에 비하여 상대적으로 크게 나타난 것을 알 수 있다. 이러한 변수들는 서로 상관관계가 높다는 것을 알 수 있다. 이 변수들 중 `Color_Intensity` 와 `Hue` 는 색상에 관련된  특성을 가지고 있다.
+
+
+자료의 변동을 설명하는 비율을 보기 위해서 scree plot 을 만들어 보자. 앞의 결과에서 보았듯이 두 개의 주성분이 55%의 변동을 설명한다
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+plot(pca_wine, main = "scree plot")
+```
+
+Biplot 은 178개의 포도주 샘플에 대하여 2개의 주성분 점수와 그 방향을 이차원 공간에 표시한 그림으로 주성분의 구조를 이해하는데 큰 도움이 된다.  아래 그림에서 보듯이 첫 번째 주성분과 두 번쨰 주성분을 구성하는 변수들의 역할을 시각화하여 볼 수 있다.
+
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+autoplot(pca_wine, label = FALSE, loadings = TRUE, loadings.label = TRUE)
+```
+
+
+이제 마지막으로 주성분 분석을 통해 얻은 2개의 주성분 점수를 이용하여 포도 품종 간의 차이를 비교해 보자. 14개의 변수가 아닌 2개의 주성분으로 차원을 축소했음에도 불구하고 3개의 품종이 잘 구분되는 것을 알 수 있다.
+
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+#- 주성분 점수 데이터프레임 생성
+df_pca <- as.data.frame(pca_wine$scores)
+
+#- 품종 정보를 데이터프레임에 추가
+df_pca$Class <- factor(wine$Class)
+
+#- 주성분 점수 산점도 그리기
+ggplot(df_pca, aes(Comp.1, Comp.2, color = Class)) +
+  geom_point(size = 2) +
+  labs(title = "PCA on Wine dataset")
+```
