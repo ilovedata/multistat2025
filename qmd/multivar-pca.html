@@ -287,13 +287,25 @@ window.Quarto = {
   <li><a href="#상관계수행렬을-통한-주성분분석" id="toc-상관계수행렬을-통한-주성분분석" class="nav-link" data-scroll-target="#상관계수행렬을-통한-주성분분석"><span class="header-section-number">6.1.3</span> 상관계수행렬을 통한 주성분분석</a></li>
   <li><a href="#표본자료를-이용한-주성분분석" id="toc-표본자료를-이용한-주성분분석" class="nav-link" data-scroll-target="#표본자료를-이용한-주성분분석"><span class="header-section-number">6.1.4</span> 표본자료를 이용한 주성분분석</a></li>
   </ul></li>
-  <li><a href="#주성분분석의-기초이론" id="toc-주성분분석의-기초이론" class="nav-link" data-scroll-target="#주성분분석의-기초이론"><span class="header-section-number">6.2</span> 주성분분석의 기초이론</a>
+  <li><a href="#주성분-분석의-기초이론" id="toc-주성분-분석의-기초이론" class="nav-link" data-scroll-target="#주성분-분석의-기초이론"><span class="header-section-number">6.2</span> 주성분 분석의 기초이론</a>
   <ul class="collapse">
   <li><a href="#주성분의-정의" id="toc-주성분의-정의" class="nav-link" data-scroll-target="#주성분의-정의"><span class="header-section-number">6.2.1</span> 주성분의 정의</a></li>
   <li><a href="#양정치-행렬의-스펙트럼분해" id="toc-양정치-행렬의-스펙트럼분해" class="nav-link" data-scroll-target="#양정치-행렬의-스펙트럼분해"><span class="header-section-number">6.2.2</span> 양정치 행렬의 스펙트럼분해</a></li>
   <li><a href="#이차형식의-최대값" id="toc-이차형식의-최대값" class="nav-link" data-scroll-target="#이차형식의-최대값"><span class="header-section-number">6.2.3</span> 이차형식의 최대값</a></li>
   <li><a href="#주성분의-계수" id="toc-주성분의-계수" class="nav-link" data-scroll-target="#주성분의-계수"><span class="header-section-number">6.2.4</span> 주성분의 계수</a></li>
   <li><a href="#공분산행렬과-상관계수행렬" id="toc-공분산행렬과-상관계수행렬" class="nav-link" data-scroll-target="#공분산행렬과-상관계수행렬"><span class="header-section-number">6.2.5</span> 공분산행렬과 상관계수행렬</a></li>
+  </ul></li>
+  <li><a href="#주성분-분석" id="toc-주성분-분석" class="nav-link" data-scroll-target="#주성분-분석"><span class="header-section-number">6.3</span> 주성분 분석</a>
+  <ul class="collapse">
+  <li><a href="#주성분-개수의-선택" id="toc-주성분-개수의-선택" class="nav-link" data-scroll-target="#주성분-개수의-선택"><span class="header-section-number">6.3.1</span> 주성분 개수의 선택</a></li>
+  <li><a href="#주성분의-척도변경" id="toc-주성분의-척도변경" class="nav-link" data-scroll-target="#주성분의-척도변경"><span class="header-section-number">6.3.2</span> 주성분의 척도변경</a></li>
+  <li><a href="#주성분-점수" id="toc-주성분-점수" class="nav-link" data-scroll-target="#주성분-점수"><span class="header-section-number">6.3.3</span> 주성분 점수</a></li>
+  </ul></li>
+  <li><a href="#예제-올림픽-7종-경기-자료" id="toc-예제-올림픽-7종-경기-자료" class="nav-link" data-scroll-target="#예제-올림픽-7종-경기-자료"><span class="header-section-number">6.4</span> 예제: 올림픽 7종 경기 자료</a></li>
+  <li><a href="#예제-포도주-자료" id="toc-예제-포도주-자료" class="nav-link" data-scroll-target="#예제-포도주-자료"><span class="header-section-number">6.5</span> 예제: 포도주 자료</a>
+  <ul class="collapse">
+  <li><a href="#자료-불러오기" id="toc-자료-불러오기" class="nav-link" data-scroll-target="#자료-불러오기"><span class="header-section-number">6.5.1</span> 자료 불러오기</a></li>
+  <li><a href="#주성분-분석-1" id="toc-주성분-분석-1" class="nav-link" data-scroll-target="#주성분-분석-1"><span class="header-section-number">6.5.2</span> 주성분 분석</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -325,12 +337,15 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#아래 3 문장은 한글을 포함한 ggplot 그림이 포함된 HTML, PDF로 만드는 경우 사용</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#font_add_google("Nanum Pen Script", "gl")</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">font_add_google</span>(<span class="at">name =</span> <span class="st">"Noto Sans KR"</span>, <span class="at">family =</span> <span class="st">"noto"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HSAUR2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#아래 3 문장은 한글을 포함한 ggplot 그림이 포함된 HTML, PDF로 만드는 경우 사용</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#font_add_google("Nanum Pen Script", "gl")</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">font_add_google</span>(<span class="at">name =</span> <span class="st">"Noto Sans KR"</span>, <span class="at">family =</span> <span class="st">"noto"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>다변량 데이터를 다룰 때 문제점 중 하나는 단순히 변수가 너무 많아 데이터에 대한 유익한 초기 평가를 성공적으로 수행하기 어렵다는 점이다. 변수들 사이의 복잡한 상관관계는 분석에 어려움을 더한다. 또한 변수가 너무 많으면 연구자가 데이터에 적용하고자 하는 다른 다변량 기법에도 문제를 일으킬 수 있다.빅데이터가 흔한 시데에 데이터는 넘쳐나지만, 그 속에서 진짜 중요한 정보를 찾아내는 일은 점점 더 어려워지고 있다.</p>
 <p>주성분 분석(PCA, Principal Component Analysis)은 단순히 하나의 통계 기법을 넘어, 데이터를 이해하는 새로운 방식을 제시한다. 주성분 분석은 다변량 자료의 변수들 속에 숨어 있는 공통된 구조를 발견하고, 이를 소수의 새로운 변수로 변환하는과정이다. 수십 개의 변수를 그대로 바라보면 혼란스러울 뿐이다. PCA는 이 변수들을 새로운 좌표계로 옮겨, 가장 큰 변동을 담아내는 방향으로 새로운 변수를 찾아낸다. 첫 번째 주성분이 데이터의 전체 흐름을 포착하고, 두 번째 주성분이 남은 변동을 설명한다. 이렇게 서로 직교하는 변수들이 순차적으로 만들어지면서, 데이터가 가지고 있는 변동을 2-3 개의 새로운 변수로 단순하게 많은 부분을 설명할 수 있다.</p>
@@ -741,15 +756,15 @@ Z_1 = - 0.707 X_1 + 0.707 X_2 \quad Z_2 = - 0.707 X_1 - 0.707 X_2
 </div>
 </section>
 </section>
-<section id="주성분분석의-기초이론" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="주성분분석의-기초이론"><span class="header-section-number">6.2</span> 주성분분석의 기초이론</h2>
+<section id="주성분-분석의-기초이론" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="주성분-분석의-기초이론"><span class="header-section-number">6.2</span> 주성분 분석의 기초이론</h2>
 <p>주성분분석은 서로 상관된 <span class="math inline">\(p\)</span> 개의 변수들 <span class="math inline">\(\pmb X=(X_1,X_2,\dots,X_p)^t\)</span>의 총 변동을 각 변수들의 선형결합으로 만든 서로 상관되지 않은 새로운 변수들인 <span class="math inline">\(\pmb Z^t=(Z_1,Z_2,\dots,Z_p)\)</span>에 의해 설명하는 것이다.</p>
 <p><span class="math display">\[
 Z_i = a_{i1} X_1 + a_{i2} X_2 + a_{i3} X_3 + \dots + a_{ip} X_p,\quad i=1,2,\dots,p
 \]</span></p>
 <p>주성분 분석의 목적은 원래의 관측변수들이 아닌 새로운 변수를 만들어서 원래 변수의 수보다 적은 수의 새로운 변수를 이용하여 원래 변수가 가지는 대부분의 변동을 설명하려는것이다. 즉, 차원의 축소(dimension reduction)가 그 목적이다.</p>
 <p>새로운 변수인 <span class="math inline">\(Z_i\)</span>들을 주성분(principal component, PC)이라고 부르며 <span class="math inline">\(X_i\)</span>들의 모든 선형결합중에서 서로 상관되지 않고 원래 자료의 변동을 가능한 한 많이 설명한다는 의미에서 중요성이 감소하는 순서되로 유도된다.</p>
-<p>즉 첫번째 주성분인 <span class="math inline">\(Z_1\)</span>은 다른 주성분보다 분산이 가장 크다. 다음으로 두번째 주성분 <span class="math inline">\(Z_2\)</span>는 <span class="math inline">\(Z_1\)</span>과 상관관계가 없으며 남아있는 변동을 가능한 한 많이 설명하게 만든다. 이러한 작업을 계속 적용하여 <span class="math inline">\(q\)</span>개의 주성분을 만들 수 있다.</p>
+<p>즉 첫번째 주성분인 <span class="math inline">\(Z_1\)</span>은 다른 주성분보다 분산이 가장 크다. 다음으로 두번째 주성분 <span class="math inline">\(Z_2\)</span>는 <span class="math inline">\(Z_1\)</span>과 상관관계가 없으며 남아있는 변동을 가능한 한 많이 설명하게 만든다. 이러한 작업을 계속 적용하여 <span class="math inline">\(p\)</span>개의 주성분을 만들 수 있다.</p>
 <p><span class="math display">\[
 V(Z_1) \ge V(Z_2) \ge \dots \ge V(Z_p) \quad \text{ and } \quad Cov(Z_i, Z_j)=0,~~ i\ne j
 \]</span></p>
@@ -837,7 +852,7 @@ Cov(Z_k,Z_i)= \pmb a_k^t \pmb \Sigma \pmb a_i=0 \quad \text{ for } \quad i=1,2,\
 \pmb \Sigma = \pmb P \pmb \Lambda \pmb P^t
 \]</span> 여기서 <span class="math inline">\(\pmb \Lambda=diag(\lambda_1,\lambda_2,\dots,\lambda_q)\)</span>는 대각원소가 공분산행렬의 고유값인 대각행렬이며 고유값은 다음과 같이 내림차순으로 정렬되어 있다고 하자.</p>
 <p><span class="math display">\[
-\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_q
+\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_p
 \]</span></p>
 <p>행렬 <span class="math inline">\(\pmb P\)</span>는 <span class="math inline">\(p \times p\)</span> 직교행렬(orthonomal matrix)로서 <span class="math inline">\(k\)</span>번째 열벡터 <span class="math inline">\(\pmb a_k\)</span>는 <span class="math inline">\(k\)</span> 번째 고유값에 해당하는 고유벡터이다.</p>
 <p><span class="math display">\[
@@ -861,14 +876,21 @@ Cov(Z_k,Z_i)= \pmb a_k^t \pmb \Sigma \pmb a_i=0 \quad \text{ for } \quad i=1,2,\
 \max_{\pmb x} \frac{\pmb x^t \pmb \Sigma \pmb x}{\pmb x^t \pmb x} = \max_{\pmb x; | \pmb x|=1} \pmb x^t \pmb \Sigma \pmb x
 \]</span> 위의 문제에서 2차형식 <span class="math inline">\(\pmb x^t \pmb \Sigma \pmb x\)</span>는 벡터 <span class="math inline">\(\pmb x\)</span>의 길이를 증가시키면 비례하여 증가하므로 이차형식을 벡터의 길이의 제곱 <span class="math inline">\(\pmb x^t \pmb x\)</span>로 나누어 표준화시킨 다음 그 양을 최대화하는 벡터를 찾는 문제로 생각하는 것이다.</p>
 <p>2차형식(quadratic form) <span class="math inline">\(\pmb x^t \pmb \Sigma \pmb x\)</span>은 다음과 같은 스펙트럼분해가 가능하다. <span class="math display">\[
-\pmb x^t \pmb \Sigma \pmb x= \pmb x^t \pmb P \pmb \Lambda \pmb P^t x = \pmb x^t [ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb  a_p ] diag(\lambda_1,\lambda_2,\dots,\lambda_q) [ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb a_p ]^t \pmb x
+\pmb x^t \pmb \Sigma \pmb x= \pmb x^t \pmb P \pmb \Lambda \pmb P^t x = \pmb x^t [ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb  a_p ]
+\begin{bmatrix}
+\lambda_1 &amp; 0 &amp; \dots &amp; 0 \\
+0 &amp; \lambda_2 &amp; \dots &amp; 0 \\
+\dots &amp; \dots &amp; \dots &amp; \dots \\
+0 &amp; 0 &amp; \dots &amp; \lambda_p \\
+\end{bmatrix}
+[ \pmb a_1~~ \pmb a_2~~ \dots ~~\pmb a_p ]^t \pmb x
 \]</span></p>
 <p>새로운 변수 <span class="math inline">\(\pmb z= \pmb P^t \pmb x\)</span>를 정의하면 2차형식은 다음과 같이 표시된다.</p>
 <p><span class="math display">\[
 \pmb x^t \pmb \Sigma \pmb x = \pmb z^t  \pmb \Lambda \pmb z = \lambda_1  z_1^2 + \lambda_2 z_2^2 + \dots \lambda_p z_p^2
 \]</span> 고유값은 다음과 같은 관계를 가지므로</p>
 <p><span class="math display">\[
-\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_q
+\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_p
 \]</span> 다음과 같은 부등식을 얻을 수 있으며</p>
 <p><span class="math display">\[  
 \lambda_p \sum_{i=1}^p z_i^2 \le  \sum_{i=1}^p  \lambda_i z_i^2 \le \lambda_1 \sum_{i=1}^p z_i^2
@@ -883,7 +905,7 @@ Cov(Z_k,Z_i)= \pmb a_k^t \pmb \Sigma \pmb a_i=0 \quad \text{ for } \quad i=1,2,\
 </section>
 <section id="주성분의-계수" class="level3" data-number="6.2.4">
 <h3 data-number="6.2.4" class="anchored" data-anchor-id="주성분의-계수"><span class="header-section-number">6.2.4</span> 주성분의 계수</h3>
-<p><span class="math inline">\(p\)</span>-차원의 벡터 <span class="math inline">\(\pmb A\)</span>의 선형결합으로 새로운 변수 <span class="math inline">\(Z_1= \pmb a^t \pmb X\)</span>를 고려할때 <span class="math inline">\(Z_1\)</span>의 분산은 다음과 같다.</p>
+<p><span class="math inline">\(p\)</span>-차원의 벡터 <span class="math inline">\(\pmb a\)</span>의 선형결합으로 새로운 변수 <span class="math inline">\(Z_1= \pmb a^t \pmb X\)</span>를 고려할때 <span class="math inline">\(Z_1\)</span>의 분산은 다음과 같다.</p>
 <p><span class="math display">\[
 Var(Z_1) = Var( \pmb a^t \pmb X) = \pmb a^t Var(\pmb X) \pmb a = \pmb a^t \pmb \Sigma \pmb a
 \]</span> 위에서 얻은 이차형식의 최대값을 구하는 과정을 보면 선형결합의 계수 <span class="math inline">\(\pmb a\)</span>를 공분산행렬에 대한 가장 큰 고유값 <span class="math inline">\(\lambda_1\)</span>에 해당하는 표준고유벡터 <span class="math inline">\(\pmb a_1\)</span> 를 사용하면 <span class="math inline">\(Z_1\)</span>의 분산을 최대화 할 수 있다.</p>
@@ -909,6 +931,582 @@ Z_i = \pmb a_i^t \pmb X ,\quad i=1,2,\dots,p
 <p><span class="math display">\[
 \sum_{i=1}^p V(X_i) = \sum_{i=1}^p V(Z_i) = trace( \pmb C) = p  
 \]</span></p>
+</section>
+</section>
+<section id="주성분-분석" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="주성분-분석"><span class="header-section-number">6.3</span> 주성분 분석</h2>
+<section id="주성분-개수의-선택" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="주성분-개수의-선택"><span class="header-section-number">6.3.1</span> 주성분 개수의 선택</h3>
+<p>주성분은 변수들의 모든 선형결합중에서 서로 상관되지 않고 원래 자료의 변동을 가능한 한 많이 설명한다는 의미에서 성분의 중요성이 감소하는 순서되로 유도된다. 따라서 주성분 분석의 목적에 따라 원래의 변수 개수인 <span class="math inline">\(p\)</span>보다 적은 개수의 주성분들을 선택하여 원래 변수가 가지고 있는 변동의 많은 부분을 설명하려고 한다.</p>
+<p>문제는 몇 개의 주성분을 선택해야 하는 문제이다.</p>
+<p>각 주성분의 분산은 공분산 <span class="math inline">\(\pmb  \Sigma\)</span>의 고유값이고 그 고유값들은 다음과 같은 순서로 정렬되어 있다</p>
+<p><span class="math display">\[
+\lambda_1 \ge\lambda_2 \ge \dots \ge \lambda_p
+\]</span></p>
+<p>따라서 원래 변수 <span class="math inline">\(X_1,X_2,\dots,X_p\)</span>들의 분산의 합은 모든 고유값의 합과 같다.</p>
+<p><span class="math display">\[
+\sum_{i=1}^p Var(X_i) =\sum_{i=1}^p \sigma_{ii} = \sum_{i=1}^p \lambda_i = \sum_{i=1}^p Var(Z_i)
+\]</span></p>
+<p>이는 다음과 같은 식에서 유도 된다.</p>
+<p><span class="math display">\[
+trace(\pmb  \Sigma) = trace(\pmb  P \pmb  \Lambda \pmb  P^t) =trace( \pmb  \Lambda \pmb  P^t \pmb  P)= trace( \pmb  \Lambda)
+\]</span></p>
+<p>따라서 주성분 <span class="math inline">\(Z_i\)</span>는 자료의 총변동 <span class="math inline">\(\sum_{i=1}^p \lambda_i =trace(\pmb  \Sigma)\)</span>를 다음과 같은 비율만큼 설명한다.</p>
+<p><span id="eq-multivar-pca-proportion"><span class="math display">\[
+P_i = \frac{\lambda_i}{\sum_{j=1}^p \lambda_j}
+\tag{6.9}\]</span></span></p>
+<p>그리고 만약 <span class="math inline">\(m&lt;p\)</span>개의 주성분 <span class="math inline">\(Z_1,Z_2,\dots,Z_m\)</span> 을 선택했다면 자료의 총변동을 다음과 같은 비율만큼 설명한다.</p>
+<p><span id="eq-multivar-pca-varratio"><span class="math display">\[
+P_1+P_2+\dots+P_m = \frac{\lambda_1+\lambda_2+\dots + \lambda_m}{\sum_{j=1}^p \lambda_j}
+\tag{6.10}\]</span></span></p>
+<p>주성분의 개수를 선택하는 방법은 매우 다양하며 다음과 같은 몇 개의 절차가 일번적인 방법이다.</p>
+<ul>
+<li>총변동의 70%에서 90%를 설명할 수 있게 주성분의 개수를 선택</li>
+</ul>
+<p><span class="math display">\[ 0.7 \le P_1+P_2+\dots+P_m \le 0.9 \]</span></p>
+<ul>
+<li><p>평균고유값 <span class="math inline">\(\sum_{i=1}^p \lambda_i /p\)</span>보다 작은 분산을 가지는 주성분을 제외한다.</p></li>
+<li><p>주성분이 상관행렬로부터 추출되는 경우 고유값이 1보다 작은 주성분을 제외한다.</p></li>
+<li><p>Scree diagram을 이용: Scree diagram은 고유값을 큰 순서대로 그림으로 그리고 선을 연결항 그래프이다. 고유값의 감소가 느리게 진행되는 때까지 큰 고유치를 선택하면 된다.</p></li>
+</ul>
+</section>
+<section id="주성분의-척도변경" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="주성분의-척도변경"><span class="header-section-number">6.3.2</span> 주성분의 척도변경</h3>
+<p>원래의 변수벡터 <span class="math inline">\(\pmb  X\)</span>와 주성분 <span class="math inline">\(Z_j\)</span>의 공분산은 다음과 같다.</p>
+<p><span class="math display">\[ Cov(\pmb  X, Z_j) =Cov(\pmb  X, \pmb  a_j^t \pmb  X) = Cov(\pmb  X, \pmb  X^t )\pmb  a_j = \pmb  \Sigma \pmb  a_j \]</span></p>
+<p>고유벡터 <span class="math inline">\(\pmb  a_j\)</span>의 성질은 $ a_j =_j a_j$이므로 다음과 같은 결과를 얻고</p>
+<p><span class="math display">\[
+Cov(\pmb  X , Z_j) = \pmb  \Sigma \pmb  a_j =\lambda_j \pmb  a_j
+\]</span></p>
+<p>따라서 원래의 변수 <span class="math inline">\(X_i\)</span>와 주성분 <span class="math inline">\(Z_j\)</span>의 공분산은 다음과 같다.</p>
+<p><span class="math display">\[
+Cov(X_i, Z_j) = \lambda_j  a_{ji}
+\]</span> 더 나아가 원래의 변수 <span class="math inline">\(X_i\)</span>와 주성분 <span class="math inline">\(Z_j\)</span>의 상관계수는 다음과 같다.</p>
+<p><span class="math display">\[ Corr(X_i, Z_j) = \frac{Cov(X_i, Z_j)} {\sqrt{Var(X_i) Var(Z_j)}}
+=  \frac{\lambda_j a_{ji}} {\sqrt{\sigma_{ii} \lambda_j}}
+=\frac{\sqrt{\lambda_j} a_{ji}} {\sqrt{\sigma_{ii} }}
+\]</span></p>
+<p>만약 주성분이 상관계수 행렬에서 얻어졌다면 <span class="math inline">\(\sigma_{ii}=1\)</span>이므로</p>
+<p><span class="math display">\[
+Corr(X_i, Z_j) = \sqrt{\lambda_j} a_{ji}
+\]</span></p>
+<p>따라서 주성분을 만드는 경우 주성분의 표준 편차 <span class="math inline">\(\sqrt{\lambda_j}\)</span> 으로 나누어 주면 원래 자료와의 공분산이 주성분변환의 계수로 나오게 된다.</p>
+<p><span class="math display">\[ Cov \left ( X_i, \tfrac{Z_j}{\sqrt{\lambda_j}} \right ) =  a_{ji} \]</span></p>
+</section>
+<section id="주성분-점수" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="주성분-점수"><span class="header-section-number">6.3.3</span> 주성분 점수</h3>
+<p>자료의 변동을 설명하기 위하여 <span class="math inline">\(m\)</span>개의 주성분이 필요하다면 각 표본의 개체에 대한 새로운 주성분의 값을 구할 수 있다. 이를 주성분 점수(Principal Component score)라고 한다.</p>
+<p><span class="math inline">\(p\)</span>개의 변수를 가지는 확률벡터를 독립적으로 <span class="math inline">\(n\)</span>개 표본추출했다고 하자. <span class="math inline">\(X_{ij}\)</span>는 <span class="math inline">\(i\)</span>번째 표본의 <span class="math inline">\(j\)</span>번째 변수이라고 하면 <span class="math inline">\(i\)</span>번째 개체의 관측벡터는 <span class="math inline">\(\pmb  X_i\)</span>는 다음과 같다.</p>
+<p><span class="math display">\[ \pmb  X_i=(X_{i1},X_{i2},\dots,X_{ip})^t \]</span> <span class="math inline">\(j\)</span>번째 변수의 표본 평균을 <span class="math inline">\(\bar X_j = \sum_{i=1}^n X_{ij}/n\)</span> 으로 정의하고 추출된 표본의 평균벡터를 <span class="math inline">\(\bar {\pmb  X}\)</span>를 다음과 같다고 하자.</p>
+<p><span class="math display">\[
+\bar {\pmb  X}  = (\bar X_1,\bar X_2,\dots,\bar X_p)^t
+\]</span></p>
+<p>이제 각 관측값을 해당하는 변수의 평균으로 빼준 벡터 <span class="math inline">\(\pmb  Y_i\)</span> 를 고려하자.</p>
+<p><span class="math display">\[
+\pmb  Y_i = \pmb  X_i - \bar {\pmb  X} =(X_{i1}- \bar X_1 ,X_{i2}-\bar X_2,\dots,X_{ip}-\bar X_p)^t
+\]</span></p>
+<p>이제 <span class="math inline">\(i\)</span>번째 개체의 <span class="math inline">\(j\)</span> 번째 주성분 점수는 다음과 같이 정의된다.</p>
+<p><span id="eq-multivar-pca-pcscores"><span class="math display">\[  
+Z_{ij} =  \pmb  a_j^t \pmb  Y_i = \sum_{k=1}^p a_{jk} Y_{ik} = \sum_{k=1}^p a_{jk} (X_{ik} - \bar X_k)
+\tag{6.11}\]</span></span></p>
+<p>주성분 점수는 각각 관측된 개체가 원래 <span class="math inline">\(p\)</span>개의 변수를 가지고 있다면 주성분분석을 통해서 더 적은 수, <span class="math inline">\(m&lt;p\)</span>개의 새로운 변수로서 관측 변수의 개수를 축소했다고 생각하면 된다.</p>
+<p><span class="math display">\[
+\pmb  Z_i=(Z_{i1},Z_{i2},\dots,Z_{im})^t
+\]</span></p>
+</section>
+</section>
+<section id="예제-올림픽-7종-경기-자료" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="예제-올림픽-7종-경기-자료"><span class="header-section-number">6.4</span> 예제: 올림픽 7종 경기 자료</h2>
+<p>올림픽 7종 경기 자료에 주성분분석을 적용해보자. 7종 경기의 종목은 100m 허들, 높이뛰기, 투포환, 200m 달리기, 멀리뛰기, 창던지기, 800m달리기이다. 순위는 혼성 경기 득점표에 따라 각 종목의 종합 득점으로 정한다.</p>
+<p>올림픽 7종 경기 자료는 다음과 같이 불러올 수 있다. 25명의 선수들에 대한 7개의 종목의 기록과 총점(<code>score</code>)으로 구성된 자료이다. 마지막 변수 <code>score</code> 는 올림픽 위원회가 7개의 종목의 기록을 결합해서 만든 점수로서 메달의 순위를 결정한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HSAUR2)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> heptathlon</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df_1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25  8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "hurdles"  "highjump" "shot"     "run200m"  "longjump" "javelin"  "run800m" 
+[8] "score"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    hurdles highjump  shot run200m longjump javelin run800m
+Joyner-Kersee (USA)   12.69     1.86 15.80   22.56     7.27   45.66  128.51
+John (GDR)            12.85     1.80 16.23   23.65     6.71   42.56  126.12
+Behmer (GDR)          13.20     1.83 14.20   23.10     6.68   44.54  124.20
+Sablovskaite (URS)    13.61     1.80 15.23   23.92     6.25   42.78  132.24
+Choubenkova (URS)     13.51     1.74 14.76   23.93     6.32   47.46  127.90
+Schulz (GDR)          13.75     1.83 13.50   24.65     6.33   42.82  125.79
+                    score
+Joyner-Kersee (USA)  7291
+John (GDR)           6897
+Behmer (GDR)         6858
+Sablovskaite (URS)   6540
+Choubenkova (URS)    6540
+Schulz (GDR)         6411</code></pre>
+</div>
+</div>
+<p>먼저 7개의 자료의 값이 크기가 크면 좋은 기록이 나타내도록 변환을 한다. 따라서 육상경기 변수는 각 관측값을 그 변수의 최대값에서 빼준다. 또한 파푸아뉴기니아 선수가 너무 실력이 떨어져서 이상치로 분류하여 분석에서 제외한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df_1<span class="sc">$</span>hurdles <span class="ot">&lt;-</span> <span class="fu">with</span>(df_1, <span class="fu">max</span>(hurdles)<span class="sc">-</span>hurdles)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df_1<span class="sc">$</span>run200m <span class="ot">&lt;-</span> <span class="fu">with</span>(df_1, <span class="fu">max</span>(run200m)<span class="sc">-</span>run200m)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>df_1<span class="sc">$</span>run800m <span class="ot">&lt;-</span> <span class="fu">with</span>(df_1, <span class="fu">max</span>(run800m)<span class="sc">-</span>run800m)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>f_1 <span class="ot">&lt;-</span> df_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(<span class="fu">rownames</span>(.), <span class="st">"PNG"</span>))</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df_1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25  8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    hurdles highjump  shot run200m longjump javelin run800m
+Joyner-Kersee (USA)    3.73     1.86 15.80    4.05     7.27   45.66   34.92
+John (GDR)             3.57     1.80 16.23    2.96     6.71   42.56   37.31
+Behmer (GDR)           3.22     1.83 14.20    3.51     6.68   44.54   39.23
+Sablovskaite (URS)     2.81     1.80 15.23    2.69     6.25   42.78   31.19
+Choubenkova (URS)      2.91     1.74 14.76    2.68     6.32   47.46   35.53
+Schulz (GDR)           2.67     1.83 13.50    1.96     6.33   42.82   37.64
+                    score
+Joyner-Kersee (USA)  7291
+John (GDR)           6897
+Behmer (GDR)         6858
+Sablovskaite (URS)   6540
+Choubenkova (URS)    6540
+Schulz (GDR)         6411</code></pre>
+</div>
+</div>
+<p>먼저 7개 변수의 상관관계를 보자</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df_1_t <span class="ot">&lt;-</span> df_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">select</span>(<span class="sc">-</span>score)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_1_t)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             hurdles    highjump      shot   run200m   longjump      javelin
+hurdles  1.000000000 0.811402536 0.6513347 0.7737205 0.91213362  0.007762549
+highjump 0.811402536 1.000000000 0.4407861 0.4876637 0.78244227  0.002153016
+shot     0.651334688 0.440786140 1.0000000 0.6826704 0.74307300  0.268988837
+run200m  0.773720543 0.487663685 0.6826704 1.0000000 0.81720530  0.333042722
+longjump 0.912133617 0.782442273 0.7430730 0.8172053 1.00000000  0.067108409
+javelin  0.007762549 0.002153016 0.2689888 0.3330427 0.06710841  1.000000000
+run800m  0.779257110 0.591162823 0.4196196 0.6168101 0.69951116 -0.020049088
+             run800m
+hurdles   0.77925711
+highjump  0.59116282
+shot      0.41961957
+run200m   0.61681006
+longjump  0.69951116
+javelin  -0.02004909
+run800m   1.00000000</code></pre>
+</div>
+</div>
+<p>주성분 분석은 함수 <code>princomp</code> 를 사용한다. 맨 마지막 8번째 변수 <code>score</code> 를 제외한 7개의 변수로 주성분분석을 실시하자. 함수 <code>princomp</code> 에서 선택문 <code>cor = TRUE</code> 는 상관계수행렬로 주성분분석을 실행하라는 선택이며 함수 <code>summary</code> 에서 <code>loadings = TRUE</code> 는 주성분의 계수를 보여주라는 것이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pca1 <span class="ot">&lt;-</span> <span class="fu">princomp</span>(df_1_t, <span class="at">cor =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca1,<span class="at">loadings =</span> <span class="cn">TRUE</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          Comp.1    Comp.2     Comp.3     Comp.4     Comp.5
+Standard deviation     2.1119364 1.0928497 0.72181309 0.67614113 0.49524412
+Proportion of Variance 0.6371822 0.1706172 0.07443059 0.06530955 0.03503811
+Cumulative Proportion  0.6371822 0.8077994 0.88222998 0.94753952 0.98257763
+                           Comp.6      Comp.7
+Standard deviation     0.27010291 0.221361710
+Proportion of Variance 0.01042223 0.007000144
+Cumulative Proportion  0.99299986 1.000000000
+
+Loadings:
+         Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7
+hurdles   0.453  0.158                       0.783  0.380
+highjump  0.377  0.248  0.368  0.680               -0.434
+shot      0.363 -0.289 -0.676  0.124 -0.512        -0.218
+run200m   0.408 -0.260        -0.361  0.650        -0.453
+longjump  0.456        -0.139  0.111  0.184 -0.590  0.612
+javelin         -0.842  0.472  0.121 -0.135         0.173
+run800m   0.375  0.224  0.396 -0.603 -0.504 -0.156       </code></pre>
+</div>
+</div>
+<p>주성분 분석의 결과를 다음과 같이 해석할 수 있다.</p>
+<ul>
+<li><p>주성분 2개를 선택하면 총변동의 76 % 를 설명하고 3개를 선택하면 86 % 를 설명한다.</p>
+<ul>
+<li><code>Proportion of Variance</code> 은 <a href="#eq-multivar-pca-proportion" class="quarto-xref">식&nbsp;<span>6.9</span></a> 에서 정의된 <span class="math inline">\(P_i\)</span>의 값을 나타낸다.</li>
+<li><code>Cumulative Proportion</code> <a href="#eq-multivar-pca-varratio" class="quarto-xref">식&nbsp;<span>6.10</span></a> 의 <span class="math inline">\(P_i\)</span> 이 누적합을 나타낸다.</li>
+</ul></li>
+<li><p>먼저, 계수의 값이 없는 이유는 상대적으로 작은 값은 제시하지 않아서 이다</p></li>
+<li><p>첫번째 주성분(<code>Comp.1</code>)의 계수를 보면 각 종목 점수의 가중평균과 유사하다.</p></li>
+<li><p>두 번째 주성분(<code>Comp.2</code>)은 800달리기와 높이뛰기의 차이로 해석된다(각각의 계수가 다른 변수에 비해 절상대적으로 크고 부호가 반대이다).</p></li>
+<li><p>3번째 주성분(<code>Comp.3</code>)은 창던지기(javelin)의 능력을 나타내는것으로 해석된다.</p></li>
+</ul>
+<p>주성분 개수의 선택에 이용되는 scree plot은 다음과 같다. 막대의 높이는 주성분의 분산, 즉 고유치와 비례한다</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca1, <span class="at">main =</span> <span class="st">"scree plot"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>25명의 선수에 대한 <a href="#eq-multivar-pca-pcscores" class="quarto-xref">식&nbsp;<span>6.11</span></a> 에 의한 주성분 점수를 구할 수 있고 첫번째와 두번째 주성분 점수를 산점도로 그려보았다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pca1<span class="sc">$</span>scores)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      Comp.1      Comp.2     Comp.3      Comp.4     Comp.5
+Joyner-Kersee (USA) 4.206435 -1.26802363 -0.3775410  0.02347606  0.4347908
+John (GDR)          2.941619 -0.53452561 -0.9159201 -0.48525592 -0.7175636
+Behmer (GDR)        2.704271 -0.69275901  0.4686452 -0.69364304  0.1077012
+Sablovskaite (URS)  1.371052 -0.70655862 -0.6075454 -0.14357125 -0.4632885
+Choubenkova (URS)   1.387050 -1.78931718  0.1538088 -0.85318791 -0.7013653
+Schulz (GDR)        1.065372  0.08104469  0.6884398 -0.20981158 -0.7531502
+                         Comp.6     Comp.7
+Joyner-Kersee (USA) -0.34632644  0.3550957
+John (GDR)           0.24299683  0.1469855
+Behmer (GDR)        -0.24412299 -0.1323212
+Sablovskaite (URS)   0.09369874 -0.4966116
+Choubenkova (URS)    0.12890845  0.2444203
+Schulz (GDR)        -0.36312602 -0.1055468</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>df_pca <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca1<span class="sc">$</span>scores)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>df_pca <span class="ot">&lt;-</span> df_pca <span class="sc">%&gt;%</span> </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"label"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(df_1 <span class="sc">%&gt;%</span> <span class="fu">rownames_to_column</span>(<span class="st">"label"</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(label, score), <span class="at">by=</span><span class="st">"label"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">as.integer</span>(<span class="fu">rank</span>(<span class="sc">-</span>score))) <span class="sc">%&gt;%</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">paste0</span>(label, <span class="st">"("</span>, rank, <span class="st">")"</span>))</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_pca)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   label   Comp.1      Comp.2     Comp.3      Comp.4     Comp.5
+1 Joyner-Kersee (USA)(1) 4.206435 -1.26802363 -0.3775410  0.02347606  0.4347908
+2          John (GDR)(2) 2.941619 -0.53452561 -0.9159201 -0.48525592 -0.7175636
+3        Behmer (GDR)(3) 2.704271 -0.69275901  0.4686452 -0.69364304  0.1077012
+4  Sablovskaite (URS)(4) 1.371052 -0.70655862 -0.6075454 -0.14357125 -0.4632885
+5   Choubenkova (URS)(4) 1.387050 -1.78931718  0.1538088 -0.85318791 -0.7013653
+6        Schulz (GDR)(6) 1.065372  0.08104469  0.6884398 -0.20981158 -0.7531502
+       Comp.6     Comp.7 score rank
+1 -0.34632644  0.3550957  7291    1
+2  0.24299683  0.1469855  6897    2
+3 -0.24412299 -0.1323212  6858    3
+4  0.09369874 -0.4966116  6540    4
+5  0.12890845  0.2444203  6540    4
+6 -0.36312602 -0.1055468  6411    6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df_pca<span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Comp<span class="fl">.1</span>, <span class="at">y=</span>Comp<span class="fl">.2</span> , <span class="at">label=</span>label, <span class="at">size=</span>score)) <span class="sc">+</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size=</span> <span class="dv">3</span> ,<span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"PCA 1"</span>, <span class="at">y=</span><span class="st">"PCA 2"</span>, <span class="at">title =</span> <span class="st">"주성분 점수 산점도"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Biplot</strong> 은 25개의 개체에 대하여 2개의 주성분 점수와 그 방향을 이차원 공간에 표시한 그림으로 주성분의 구조를 이해하는데 큰 도움이 된다. Biplot 은 패키지 <code>ggfortify</code> 의 <code>autoplot</code> 함수를 이용하면 다음과 같이 그릴 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(pca1, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">loadings =</span> <span class="cn">TRUE</span>, <span class="at">loadings.label =</span> <span class="cn">TRUE</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>화살표로 표시된 각 변수에 대한 방향 벡터는 2개의 주성분 계수들 중 각 변수에 해당하는 두 계수(<code>Comp.1</code>, <code>Comp.2</code>) 벡터의 방향이다. 위의 Biplot에서 다음과 같은 사실을 알 수 있다.</p>
+<ul>
+<li><p>각 변수에 대한 벡터의 방향은 두 주성분의 축에서 더 평행한 방향으로 주성분 점수에 기여도가 높다.</p></li>
+<li><p>각 변수에 대한 벡터의 각도는 상관성을 나타내며 그 각이 작을수록 상관관계가 크다.</p></li>
+<li><p>첫번째 주성분은 <code>hurdle</code>, <code>longjump</code>, <code>200m</code>가 변동을 주로 설명한다.</p>
+<ul>
+<li>선수 Joyner가 오른쪽 끝에 위치하는 것은 첫번째 주성분 점수가 가장 크고 <code>hurdle</code>, <code>longjump</code>, <code>200m</code> 에서 좋은 점수를 낸것을 알려준다.</li>
+</ul></li>
+<li><p>두번째 주성분은 <code>800m</code>와 <code>highjump</code>가 변동을 주로 설명하며 두 변수의 상관관계가 상대적으로 작으므로 방향이 반대인 것을 알 수 있다.</p>
+<ul>
+<li><code>800m</code>와 <code>highjump</code> 벡터 방향이 서로 반대이며 각 벡터 방향에 가까운 선수들이 해당 종목의 점수가 높음을 알 수 있다.</li>
+<li>예를 들어 선수 Yuping 은 <code>highjump</code> 점수가 높으므로 <code>highjump</code> 방향인 아래쪽에 위치하고 있다.</li>
+</ul></li>
+</ul>
+<p>마지막으로 첫번째 주성분 점수와 올림픽 위원회가 구한 총점과의 관계를 보자. 두 값이 매우 강한 상관관계를 나타낸다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_1<span class="sc">$</span>score, df_pca<span class="sc">$</span><span class="st">`</span><span class="at">Comp.1</span><span class="st">`</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9910978</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_1<span class="sc">$</span>score, df_pca<span class="sc">$</span><span class="st">`</span><span class="at">Comp.1</span><span class="st">`</span>, <span class="at">xlab=</span><span class="st">"Olympic Score"</span>, <span class="at">ylab=</span><span class="st">"PCA1"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="예제-포도주-자료" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="예제-포도주-자료"><span class="header-section-number">6.5</span> 예제: 포도주 자료</h2>
+<p>포도주 자료는 먼저 1978년에 이탈리아 피에몬테(Piedmont) 지역에서 재배된 세 가지 포도 품종(cultivar) 와인의 화학 성분을 측정한 자료이다. 전체 178 걔의 와인이 3개의 그룹으로 나누어저 있다. 변수 <code>Class</code> 는 포도의 품종을 나타내는 범주형 변수이다.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><code>Class</code></th>
+<th>포도 품종(지역)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Barolo (바롤로)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Grignolino (그리뇰리노)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Barbera (바르베라)</td>
+</tr>
+</tbody>
+</table>
+<p>포도주 자료는 사용와인의 화학 조성을 기반으로 주요 성분 간 상관관계를 분석할 수 있으며 포도 품종 간 차이 비교하는데 사용된다. 차원 축소(PCA) 및 군집 분석에 자주 사용되는 자료이다.</p>
+<p>13개의 변수에 대한 설명은 다음과 같다.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 77%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">변수명</th>
+<th style="text-align: left;">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Class</code></td>
+<td style="text-align: left;">포도 품종 (1, 2, 3 세 가지 품종 구분)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Alcohol</code></td>
+<td style="text-align: left;">알코올 함량 (%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Malic_Acid</code></td>
+<td style="text-align: left;">사과산 함량 – 와인의 신맛을 결정하는 유기산</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Ash</code></td>
+<td style="text-align: left;">회분 – 무기질 함량 지표</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Alcalinity_of_Ash</code></td>
+<td style="text-align: left;">회분의 알칼리도 – 산-알칼리 균형 지표</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Magnesium</code></td>
+<td style="text-align: left;">마그네슘 함량 (mg/L)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Total_Phenols</code></td>
+<td style="text-align: left;">총 페놀 성분 – 향, 맛, 항산화 효과에 기여</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Flavanoids</code></td>
+<td style="text-align: left;">플라보노이드 성분 – 떫은맛, 색, 향과 관련</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Nonflavanoid_Phenols</code></td>
+<td style="text-align: left;">비플라보노이드 페놀 성분</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Proanthocyanins</code></td>
+<td style="text-align: left;">프로안토시아닌 – 탄닌 전구체, 색과 떫은맛 영향</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Color_Intensity</code></td>
+<td style="text-align: left;">색 농도 – 와인의 색상이 얼마나 짙은지</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Hue</code></td>
+<td style="text-align: left;">색조 – 적색 대비 황색 비율</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>OD280_OD315</code></td>
+<td style="text-align: left;">280nm/315nm 흡광도 비율 – 페놀 함량 및 품질 지표</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Proline</code></td>
+<td style="text-align: left;">프롤린 함량 – 아미노산, 와인 향과 숙성에 중요한 역할</td>
+</tr>
+</tbody>
+</table>
+<section id="자료-불러오기" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="자료-불러오기"><span class="header-section-number">6.5.1</span> 자료 불러오기</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>wine <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(url, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add column names from UCI description</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(wine) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Class"</span>,<span class="st">"Alcohol"</span>,<span class="st">"Malic_Acid"</span>,<span class="st">"Ash"</span>,<span class="st">"Alcalinity_Ash"</span>,<span class="st">"Magnesium"</span>,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Total_Phenols"</span>,<span class="st">"Flavanoids"</span>,<span class="st">"Nonflav_Phenols"</span>,<span class="st">"Proanthocyanins"</span>,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Color_Intensity"</span>,<span class="st">"Hue"</span>,<span class="st">"OD280_OD315"</span>,<span class="st">"Proline"</span>)</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wine)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Class Alcohol Malic_Acid  Ash Alcalinity_Ash Magnesium Total_Phenols
+1     1   14.23       1.71 2.43           15.6       127          2.80
+2     1   13.20       1.78 2.14           11.2       100          2.65
+3     1   13.16       2.36 2.67           18.6       101          2.80
+4     1   14.37       1.95 2.50           16.8       113          3.85
+5     1   13.24       2.59 2.87           21.0       118          2.80
+6     1   14.20       1.76 2.45           15.2       112          3.27
+  Flavanoids Nonflav_Phenols Proanthocyanins Color_Intensity  Hue OD280_OD315
+1       3.06            0.28            2.29            5.64 1.04        3.92
+2       2.76            0.26            1.28            4.38 1.05        3.40
+3       3.24            0.30            2.81            5.68 1.03        3.17
+4       3.49            0.24            2.18            7.80 0.86        3.45
+5       2.69            0.39            1.82            4.32 1.04        2.93
+6       3.39            0.34            1.97            6.75 1.05        2.85
+  Proline
+1    1065
+2    1050
+3    1185
+4    1480
+5     735
+6    1450</code></pre>
+</div>
+</div>
+<p>먼저 품종(<code>Class</code>)을 제외한 13개의 변수의 상관계수 행렬을 시각화 해보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="do">## 품종 제외한 변수 선택</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> wine <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>Class)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 상관계수 행렬 계산</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>cor_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(df_2, <span class="at">use=</span><span class="st">"pairwise.complete.obs"</span>) </span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 히트맵 그리기</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_mat,  <span class="at">display_numbers =</span> <span class="cn">TRUE</span>, <span class="at">number_format =</span> <span class="st">"%.2f"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>상관계수 행렬을 보먄 변수들이 3개의 그룹으로 나누어져 있다것을 알 수 있다.</p>
+</section>
+<section id="주성분-분석-1" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="주성분-분석-1"><span class="header-section-number">6.5.2</span> 주성분 분석</h3>
+<p>이제 <code>wine</code> 자료에 대하여 주성분 분석을 적용해 보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>pca_wine <span class="ot">&lt;-</span> <span class="fu">princomp</span>(df_2, <span class="at">cor =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca_wine, <span class="at">loadings =</span> <span class="cn">TRUE</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          Comp.1    Comp.2    Comp.3    Comp.4     Comp.5
+Standard deviation     2.1692972 1.5801816 1.2025273 0.9586313 0.92370351
+Proportion of Variance 0.3619885 0.1920749 0.1112363 0.0706903 0.06563294
+Cumulative Proportion  0.3619885 0.5540634 0.6652997 0.7359900 0.80162293
+                           Comp.6     Comp.7     Comp.8     Comp.9    Comp.10
+Standard deviation     0.80103498 0.74231281 0.59033665 0.53747553 0.50090167
+Proportion of Variance 0.04935823 0.04238679 0.02680749 0.02222153 0.01930019
+Cumulative Proportion  0.85098116 0.89336795 0.92017544 0.94239698 0.96169717
+                          Comp.11    Comp.12     Comp.13
+Standard deviation     0.47517222 0.41081655 0.321524394
+Proportion of Variance 0.01736836 0.01298233 0.007952149
+Cumulative Proportion  0.97906553 0.99204785 1.000000000
+
+Loadings:
+                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8 Comp.9
+Alcohol          0.144  0.484  0.207         0.266  0.214         0.396  0.509
+Malic_Acid      -0.245  0.225        -0.537         0.537 -0.421              
+Ash                     0.316 -0.626  0.214  0.143  0.154  0.149 -0.170 -0.308
+Alcalinity_Ash  -0.239        -0.612               -0.101  0.287  0.428  0.200
+Magnesium        0.142  0.300 -0.131  0.352 -0.727        -0.323 -0.156  0.271
+Total_Phenols    0.395        -0.146 -0.198  0.149               -0.406  0.286
+Flavanoids       0.423        -0.151 -0.152  0.109               -0.187       
+Nonflav_Phenols -0.299        -0.170  0.203  0.501 -0.259 -0.595 -0.233  0.196
+Proanthocyanins  0.313        -0.149 -0.399 -0.137 -0.534 -0.372  0.368 -0.209
+Color_Intensity         0.530  0.137               -0.419  0.228              
+Hue              0.297 -0.279         0.428  0.174  0.106 -0.232  0.437       
+OD280_OD315      0.376 -0.164 -0.166 -0.184  0.101  0.266                0.137
+Proline          0.287  0.365  0.127  0.232  0.158  0.120         0.120 -0.576
+                Comp.10 Comp.11 Comp.12 Comp.13
+Alcohol          0.212   0.226   0.266         
+Malic_Acid      -0.309          -0.122         
+Ash                      0.499          -0.141 
+Alcalinity_Ash          -0.479                 
+Magnesium                                      
+Total_Phenols   -0.320  -0.304   0.304  -0.464 
+Flavanoids      -0.163                   0.832 
+Nonflav_Phenols  0.216  -0.117           0.114 
+Proanthocyanins  0.134   0.237          -0.117 
+Color_Intensity -0.291          -0.604         
+Hue             -0.522          -0.259         
+OD280_OD315      0.524          -0.601  -0.157 
+Proline          0.162  -0.539                 </code></pre>
+</div>
+</div>
+<ul>
+<li><p>첫 번째 주성분의 계수를 보면 <code>Flavanoids</code> , <code>Total_Phenols</code>, <code>OD280_OD315</code>, <code>Proanthocyanins</code> 의 계수값이 양수로 다른 변수들에 비하여 상재적으로 크게 나타난 것을 알 수 있다. 또한 앞의 상관관계 분석에서도 4개 변수들의 상관관계가 높다는 것을 알 수 있다. 4개의 변수들은 맛의 풍부함 또는 맛의 강도와 관련된 변수들이다.</p></li>
+<li><p>두번째 주성분의 계수를 보면 <code>Color_Intensity</code> , <code>Alcohol</code>, <code>Ash</code>, <code>Hue</code> 의 계수값이 양수로서 다른 변수들에 비하여 상대적으로 크게 나타난 것을 알 수 있다. 이러한 변수들는 서로 상관관계가 높다는 것을 알 수 있다. 이 변수들 중 <code>Color_Intensity</code> 와 <code>Hue</code> 는 색상에 관련된 특성을 가지고 있다.</p></li>
+</ul>
+<p>자료의 변동을 설명하는 비율을 보기 위해서 scree plot 을 만들어 보자. 앞의 결과에서 보았듯이 두 개의 주성분이 55%의 변동을 설명한다</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_wine, <span class="at">main =</span> <span class="st">"scree plot"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Biplot 은 178개의 포도주 샘플에 대하여 2개의 주성분 점수와 그 방향을 이차원 공간에 표시한 그림으로 주성분의 구조를 이해하는데 큰 도움이 된다. 아래 그림에서 보듯이 첫 번째 주성분과 두 번쨰 주성분을 구성하는 변수들의 역할을 시각화하여 볼 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(pca_wine, <span class="at">label =</span> <span class="cn">FALSE</span>, <span class="at">loadings =</span> <span class="cn">TRUE</span>, <span class="at">loadings.label =</span> <span class="cn">TRUE</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>이제 마지막으로 주성분 분석을 통해 얻은 2개의 주성분 점수를 이용하여 포도 품종 간의 차이를 비교해 보자. 14개의 변수가 아닌 2개의 주성분으로 차원을 축소했음에도 불구하고 3개의 품종이 잘 구분되는 것을 알 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#- 주성분 점수 데이터프레임 생성</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>df_pca <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_wine<span class="sc">$</span>scores)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co">#- 품종 정보를 데이터프레임에 추가</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>df_pca<span class="sc">$</span>Class <span class="ot">&lt;-</span> <span class="fu">factor</span>(wine<span class="sc">$</span>Class)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="co">#- 주성분 점수 산점도 그리기</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_pca, <span class="fu">aes</span>(Comp<span class="fl">.1</span>, Comp<span class="fl">.2</span>, <span class="at">color =</span> Class)) <span class="sc">+</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PCA on Wine dataset"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-pca_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
