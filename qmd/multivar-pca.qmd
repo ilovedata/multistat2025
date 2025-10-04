@@ -889,7 +889,7 @@ df_1$hurdles <- with(df_1, max(hurdles)-hurdles)
 df_1$run200m <- with(df_1, max(run200m)-run200m)
 df_1$run800m <- with(df_1, max(run800m)-run800m)
 
-f_1 <- df_1 %>% 
+df_1 <- df_1 %>% 
             filter(!str_detect(rownames(.), "PNG"))
 dim(df_1)
 head(df_1)
