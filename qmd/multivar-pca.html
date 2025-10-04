@@ -1056,11 +1056,11 @@ Schulz (GDR)         6411</code></pre>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df_1<span class="sc">$</span>run200m <span class="ot">&lt;-</span> <span class="fu">with</span>(df_1, <span class="fu">max</span>(run200m)<span class="sc">-</span>run200m)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>df_1<span class="sc">$</span>run800m <span class="ot">&lt;-</span> <span class="fu">with</span>(df_1, <span class="fu">max</span>(run800m)<span class="sc">-</span>run800m)</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>f_1 <span class="ot">&lt;-</span> df_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> df_1 <span class="sc">%&gt;%</span> </span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(<span class="fu">rownames</span>(.), <span class="st">"PNG"</span>))</span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df_1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 25  8</code></pre>
+<pre><code>[1] 24  8</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1087,22 +1087,14 @@ Schulz (GDR)         6411</code></pre>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_1_t)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             hurdles    highjump      shot   run200m   longjump      javelin
-hurdles  1.000000000 0.811402536 0.6513347 0.7737205 0.91213362  0.007762549
-highjump 0.811402536 1.000000000 0.4407861 0.4876637 0.78244227  0.002153016
-shot     0.651334688 0.440786140 1.0000000 0.6826704 0.74307300  0.268988837
-run200m  0.773720543 0.487663685 0.6826704 1.0000000 0.81720530  0.333042722
-longjump 0.912133617 0.782442273 0.7430730 0.8172053 1.00000000  0.067108409
-javelin  0.007762549 0.002153016 0.2689888 0.3330427 0.06710841  1.000000000
-run800m  0.779257110 0.591162823 0.4196196 0.6168101 0.69951116 -0.020049088
-             run800m
-hurdles   0.77925711
-highjump  0.59116282
-shot      0.41961957
-run200m   0.61681006
-longjump  0.69951116
-javelin  -0.02004909
-run800m   1.00000000</code></pre>
+<pre><code>           hurdles  highjump      shot   run200m  longjump   javelin   run800m
+hurdles  1.0000000 0.5817409 0.7666860 0.8300371 0.8893472 0.3324779 0.5587794
+highjump 0.5817409 1.0000000 0.4646854 0.3909024 0.6626910 0.3480793 0.1523350
+shot     0.7666860 0.4646854 1.0000000 0.6694330 0.7840380 0.3430333 0.4082925
+run200m  0.8300371 0.3909024 0.6694330 1.0000000 0.8106176 0.4707969 0.5731902
+longjump 0.8893472 0.6626910 0.7840380 0.8106176 1.0000000 0.2870826 0.5233809
+javelin  0.3324779 0.3480793 0.3430333 0.4707969 0.2870826 1.0000000 0.2559348
+run800m  0.5587794 0.1523350 0.4082925 0.5731902 0.5233809 0.2559348 1.0000000</code></pre>
 </div>
 </div>
 <p>주성분 분석은 함수 <code>princomp</code> 를 사용한다. 맨 마지막 8번째 변수 <code>score</code> 를 제외한 7개의 변수로 주성분분석을 실시하자. 함수 <code>princomp</code> 에서 선택문 <code>cor = TRUE</code> 는 상관계수행렬로 주성분분석을 실행하라는 선택이며 함수 <code>summary</code> 에서 <code>loadings = TRUE</code> 는 주성분의 계수를 보여주라는 것이다.</p>
@@ -1112,24 +1104,24 @@ run800m   1.00000000</code></pre>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca1,<span class="at">loadings =</span> <span class="cn">TRUE</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
-                          Comp.1    Comp.2     Comp.3     Comp.4     Comp.5
-Standard deviation     2.1119364 1.0928497 0.72181309 0.67614113 0.49524412
-Proportion of Variance 0.6371822 0.1706172 0.07443059 0.06530955 0.03503811
-Cumulative Proportion  0.6371822 0.8077994 0.88222998 0.94753952 0.98257763
+                          Comp.1    Comp.2    Comp.3     Comp.4     Comp.5
+Standard deviation     2.0793370 0.9481532 0.9109016 0.68319667 0.54618878
+Proportion of Variance 0.6176632 0.1284278 0.1185345 0.06667967 0.04261745
+Cumulative Proportion  0.6176632 0.7460909 0.8646255 0.93130515 0.97392260
                            Comp.6      Comp.7
-Standard deviation     0.27010291 0.221361710
-Proportion of Variance 0.01042223 0.007000144
-Cumulative Proportion  0.99299986 1.000000000
+Standard deviation     0.33745486 0.262042024
+Proportion of Variance 0.01626797 0.009809432
+Cumulative Proportion  0.99019057 1.000000000
 
 Loadings:
          Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7
-hurdles   0.453  0.158                       0.783  0.380
-highjump  0.377  0.248  0.368  0.680               -0.434
-shot      0.363 -0.289 -0.676  0.124 -0.512        -0.218
-run200m   0.408 -0.260        -0.361  0.650        -0.453
-longjump  0.456        -0.139  0.111  0.184 -0.590  0.612
-javelin         -0.842  0.472  0.121 -0.135         0.173
-run800m   0.375  0.224  0.396 -0.603 -0.504 -0.156       </code></pre>
+hurdles   0.450         0.174         0.199  0.847       
+highjump  0.315 -0.651  0.209 -0.557               -0.332
+shot      0.402         0.153  0.548 -0.672        -0.229
+run200m   0.427  0.185 -0.130  0.231  0.618 -0.333 -0.470
+longjump  0.451         0.270         0.122 -0.383  0.749
+javelin   0.242 -0.326 -0.881                       0.211
+run800m   0.303  0.657 -0.193 -0.574 -0.319              </code></pre>
 </div>
 </div>
 <p>주성분 분석의 결과를 다음과 같이 해석할 수 있다.</p>
@@ -1159,20 +1151,20 @@ run800m   0.375  0.224  0.396 -0.603 -0.504 -0.156       </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pca1<span class="sc">$</span>scores)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                      Comp.1      Comp.2     Comp.3      Comp.4     Comp.5
-Joyner-Kersee (USA) 4.206435 -1.26802363 -0.3775410  0.02347606  0.4347908
-John (GDR)          2.941619 -0.53452561 -0.9159201 -0.48525592 -0.7175636
-Behmer (GDR)        2.704271 -0.69275901  0.4686452 -0.69364304  0.1077012
-Sablovskaite (URS)  1.371052 -0.70655862 -0.6075454 -0.14357125 -0.4632885
-Choubenkova (URS)   1.387050 -1.78931718  0.1538088 -0.85318791 -0.7013653
-Schulz (GDR)        1.065372  0.08104469  0.6884398 -0.20981158 -0.7531502
-                         Comp.6     Comp.7
-Joyner-Kersee (USA) -0.34632644  0.3550957
-John (GDR)           0.24299683  0.1469855
-Behmer (GDR)        -0.24412299 -0.1323212
-Sablovskaite (URS)   0.09369874 -0.4966116
-Choubenkova (URS)    0.12890845  0.2444203
-Schulz (GDR)        -0.36312602 -0.1055468</code></pre>
+<pre><code>                       Comp.1     Comp.2       Comp.3     Comp.4     Comp.5
+Joyner-Kersee (USA) 4.8598544 -0.1428696  0.006170444  0.2997271  0.3696153
+John (GDR)          3.2156489  0.9689924  0.249166030  0.5609829 -0.7698539
+Behmer (GDR)        2.9891207  0.7102977 -0.635677626 -0.5666763  0.1944444
+Sablovskaite (URS)  1.3158405  0.1828572 -0.256022940  0.6508784 -0.6166041
+Choubenkova (URS)   1.5357870  0.9824589 -1.818885157  0.8008982 -0.6023826
+Schulz (GDR)        0.9790817  0.3587703 -0.421970960 -1.1374969 -0.7302135
+                         Comp.6      Comp.7
+Joyner-Kersee (USA) -0.27632076  0.48611032
+John (GDR)           0.38582368  0.05283965
+Behmer (GDR)        -0.26334765 -0.11292729
+Sablovskaite (URS)  -0.22039763 -0.54216684
+Choubenkova (URS)    0.08186703  0.30728837
+Schulz (GDR)        -0.25984050 -0.03921361</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>df_pca <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca1<span class="sc">$</span>scores)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1185,20 +1177,20 @@ Schulz (GDR)        -0.36312602 -0.1055468</code></pre>
 <span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_pca)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                   label   Comp.1      Comp.2     Comp.3      Comp.4     Comp.5
-1 Joyner-Kersee (USA)(1) 4.206435 -1.26802363 -0.3775410  0.02347606  0.4347908
-2          John (GDR)(2) 2.941619 -0.53452561 -0.9159201 -0.48525592 -0.7175636
-3        Behmer (GDR)(3) 2.704271 -0.69275901  0.4686452 -0.69364304  0.1077012
-4  Sablovskaite (URS)(4) 1.371052 -0.70655862 -0.6075454 -0.14357125 -0.4632885
-5   Choubenkova (URS)(4) 1.387050 -1.78931718  0.1538088 -0.85318791 -0.7013653
-6        Schulz (GDR)(6) 1.065372  0.08104469  0.6884398 -0.20981158 -0.7531502
-       Comp.6     Comp.7 score rank
-1 -0.34632644  0.3550957  7291    1
-2  0.24299683  0.1469855  6897    2
-3 -0.24412299 -0.1323212  6858    3
-4  0.09369874 -0.4966116  6540    4
-5  0.12890845  0.2444203  6540    4
-6 -0.36312602 -0.1055468  6411    6</code></pre>
+<pre><code>                   label    Comp.1     Comp.2       Comp.3     Comp.4
+1 Joyner-Kersee (USA)(1) 4.8598544 -0.1428696  0.006170444  0.2997271
+2          John (GDR)(2) 3.2156489  0.9689924  0.249166030  0.5609829
+3        Behmer (GDR)(3) 2.9891207  0.7102977 -0.635677626 -0.5666763
+4  Sablovskaite (URS)(4) 1.3158405  0.1828572 -0.256022940  0.6508784
+5   Choubenkova (URS)(4) 1.5357870  0.9824589 -1.818885157  0.8008982
+6        Schulz (GDR)(6) 0.9790817  0.3587703 -0.421970960 -1.1374969
+      Comp.5      Comp.6      Comp.7 score rank
+1  0.3696153 -0.27632076  0.48611032  7291    1
+2 -0.7698539  0.38582368  0.05283965  6897    2
+3  0.1944444 -0.26334765 -0.11292729  6858    3
+4 -0.6166041 -0.22039763 -0.54216684  6540    4
+5 -0.6023826  0.08186703  0.30728837  6540    4
+6 -0.7302135 -0.25984050 -0.03921361  6411    6</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df_pca<span class="sc">%&gt;%</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Comp<span class="fl">.1</span>, <span class="at">y=</span>Comp<span class="fl">.2</span> , <span class="at">label=</span>label, <span class="at">size=</span>score)) <span class="sc">+</span> </span>
@@ -1245,7 +1237,7 @@ Schulz (GDR)        -0.36312602 -0.1055468</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_1<span class="sc">$</span>score, df_pca<span class="sc">$</span><span class="st">`</span><span class="at">Comp.1</span><span class="st">`</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9910978</code></pre>
+<pre><code>[1] 0.9931168</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_1<span class="sc">$</span>score, df_pca<span class="sc">$</span><span class="st">`</span><span class="at">Comp.1</span><span class="st">`</span>, <span class="at">xlab=</span><span class="st">"Olympic Score"</span>, <span class="at">ylab=</span><span class="st">"PCA1"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
