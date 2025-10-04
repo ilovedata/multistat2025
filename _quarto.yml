@@ -27,8 +27,10 @@ bibliography: references.bib
 
 format:
   html:
+    page-layout: full
     theme: cosmo
     toc: true
+    toc-location: left
     toc-depth: 3
     lang: ko
     language: custom.yml
