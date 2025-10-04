@@ -256,7 +256,8 @@ window.Quarto = {
   <li><a href="#sec-mat-determ" id="toc-sec-mat-determ" class="nav-link" data-scroll-target="#sec-mat-determ"><span class="header-section-number">A.9</span> 행렬식</a></li>
   <li><a href="#역행렬" id="toc-역행렬" class="nav-link" data-scroll-target="#역행렬"><span class="header-section-number">A.10</span> 역행렬</a></li>
   <li><a href="#직교행렬" id="toc-직교행렬" class="nav-link" data-scroll-target="#직교행렬"><span class="header-section-number">A.11</span> 직교행렬</a></li>
-  <li><a href="#우드베리-공식" id="toc-우드베리-공식" class="nav-link" data-scroll-target="#우드베리-공식"><span class="header-section-number">A.12</span> 우드베리 공식</a></li>
+  <li><a href="#벡터의-선형독립" id="toc-벡터의-선형독립" class="nav-link" data-scroll-target="#벡터의-선형독립"><span class="header-section-number">A.12</span> 벡터의 선형독립</a></li>
+  <li><a href="#우드베리-공식" id="toc-우드베리-공식" class="nav-link" data-scroll-target="#우드베리-공식"><span class="header-section-number">A.13</span> 우드베리 공식</a></li>
   </ul>
 </nav>
 </nav>
@@ -756,8 +757,134 @@ a_{21} &amp; a_{22}
 <li><p>임의의 정방행렬 <span class="math inline">\(\pmb A\)</span>에 대하여 다음이 성립한다. <span class="math display">\[ tr(\pmb P \pmb A \pmb P^t) = tr(\pmb A \pmb P^t \pmb P) = tr(\pmb A) \]</span></p></li>
 </ul>
 </section>
-<section id="우드베리-공식" class="level2" data-number="A.12">
-<h2 data-number="A.12" class="anchored" data-anchor-id="우드베리-공식"><span class="header-section-number">A.12</span> 우드베리 공식</h2>
+<section id="벡터의-선형독립" class="level2" data-number="A.12">
+<h2 data-number="A.12" class="anchored" data-anchor-id="벡터의-선형독립"><span class="header-section-number">A.12</span> 벡터의 선형독립</h2>
+<p>n 개의 벡터 <span class="math inline">\(\pmb v_1, ~~ \pmb v_2, ~~\dots ~~, \pmb v_n\)</span> 의 선형결합(또는 선형결합, linear combination)이란 각 벡터에 스칼라를 곱하여 더한 것들이다.</p>
+<p>만약 <span class="math inline">\(r_1,r_2,\dots, r_n\)</span> 가 임의의 실수일 때, 다음과 같은 형태의 선형식을 벡터 <span class="math inline">\(\pmb v_1, ~~ \pmb v_2, ~~\dots ~~, \pmb v_n\)</span>의 선형결합(linear combination)이라고 한다:</p>
+<p><span id="eq-lin-comb"><span class="math display">\[ r_1 \pmb v_1 + r_2 \pmb v_2 + \cdots + r_n \pmb v_n   \tag{A.3}\]</span></span></p>
+<div id="def-linear-indep" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 A.1 (벡터의 선형독립과 선형종속)</strong></span> n 개의 벡터 <span class="math inline">\(\pmb v_1, ~~ \pmb v_2, ~~\dots ~~, \pmb v_n\)</span> 가 있다고 하자. 만약 다음 식이 만약 모두 <span class="math inline">\(0\)</span>인 <span class="math inline">\(n\)</span>개의 스칼라 <span class="math inline">\(r_1,r_2,\dots,r_n\)</span>에 대해서만 성립하면 <span class="math inline">\(n\)</span>개 벡터 <span class="math inline">\(\pmb v_1, ~~ \pmb v_2, ~~\dots ~~, \pmb v_n\)</span> 들은 선형독립(linearly independent)라고 한다.</p>
+<p><span id="eq-linear-indep"><span class="math display">\[
+r_1 \pmb v_1 + r_2 \pmb v_2 + \dots + r_n \pmb v_n = \pmb 0 \quad \Longleftrightarrow
+r_1 = r_2 = \dots = r_n =0
+\tag{A.4}\]</span></span></p>
+<p>또한 벡터 <span class="math inline">\(\pmb v_1, ~~ \pmb v_2, ~~\dots ~~, \pmb v_n\)</span> 가 선형독립이 아니면 선형종속(linear dependent)라고 한다. 벡터 <span class="math inline">\(\pmb v_1, ~~ \pmb v_2, ~~\dots ~~, \pmb v_n\)</span> 가 선형종속이면 <strong>모두 0이 아닌</strong> <span class="math inline">\(r_1,r_2,\dots,r_n\)</span> 이 존재하여 다음이 성립한다는 것이다.</p>
+<p><span id="eq-linear-dep"><span class="math display">\[
+\exists~ r_1,r_2,\dots,r_n \in R \quad \text{ s.t. } (r_1,r_2,\dots,r_n) \ne \pmb 0, \\ r_1\pmb v_1 + r_2 \pmb v_2 + \dots + r_n \pmb v_n = \pmb 0
+\tag{A.5}\]</span></span></p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+<p>예를 들어 다음과 같이 주어진 3개의 3-차원 벡터들은 선형종속이다.</p>
+<p><span id="eq-vactors-lin-dep"><span class="math display">\[
+\pmb v_1 =
+\begin{bmatrix}
+1\\
+2\\
+3
+\end{bmatrix},
+\quad
+\pmb v_2 =
+\begin{bmatrix}
+1\\
+0\\
+1
+\end{bmatrix},
+\quad
+\pmb v_3 =
+\begin{bmatrix}
+3\\
+2\\
+5
+\end{bmatrix}
+\tag{A.6}\]</span></span></p>
+<p>왜냐하면 다음과 같이 모두 0이 아닌 스칼라에 의해서 다음 식이 성립하기 떄문이다. 즉 벡터 <span class="math inline">\(\pmb v_3\)</span>는 <span class="math inline">\(\pmb v_2\)</span> 에 2를 곱하여 <span class="math inline">\(\pmb v_1\)</span>에 더한 값과 같다.</p>
+<p><span class="math display">\[
+\pmb v_3 = \pmb v_1 + 2 \pmb v_2 \quad \Longleftrightarrow \quad    \pmb v_1 + 2 \pmb v_2 -\pmb v_3 = 0
+\]</span></p>
+<p>이제 다음과 같이 주어진 3개의 3-차원 벡터들은 선형독립이다. 즉 3개 벡터의 선형 조합이 0이 될 수 있도록 만드는 스칼라는 모두 0인 경우 밖에 없다.</p>
+<p><span id="eq-vactors-lin-indep"><span class="math display">\[
+\pmb v_1 =
+\begin{bmatrix}
+1\\
+2\\
+3
+\end{bmatrix},
+\quad
+\pmb v_2 =
+\begin{bmatrix}
+1\\
+0\\
+1
+\end{bmatrix},
+\quad
+\pmb v_3 =
+\begin{bmatrix}
+3\\
+2\\
+4
+\end{bmatrix}
+\tag{A.7}\]</span></span></p>
+<p>이제 다음과 같이 주어진 4개의 3-차원 벡터들은 선형종속이다.</p>
+<p><span id="eq-vactors-lin-dep-4"><span class="math display">\[
+\pmb v_1 =
+\begin{bmatrix}
+1\\
+2\\
+3
+\end{bmatrix},
+\quad
+\pmb v_2 =
+\begin{bmatrix}
+1\\
+0\\
+1
+\end{bmatrix},
+\quad
+\pmb v_3 =
+\begin{bmatrix}
+3\\
+2\\
+4
+\end{bmatrix}
+\quad
+\pmb v_4 =
+\begin{bmatrix}
+0\\
+0\\
+1
+\end{bmatrix}
+\tag{A.8}\]</span></span></p>
+<p><span class="math inline">\(\pmb v_3\)</span> 가 다음과 같이 다른 벡터의 선형결합으로 나타난는 것을 보여준다.</p>
+<p><span class="math display">\[ \pmb v_3 = \begin{bmatrix}
+3\\
+2\\
+4
+\end{bmatrix}
+= (1)\pmb v_1 +  (2)\pmb v_2 +  (-1)\pmb v_4
+= (1)
+\begin{bmatrix}
+1\\
+2\\
+3
+\end{bmatrix}
++
+(2)
+\begin{bmatrix}
+1\\
+0\\
+1
+\end{bmatrix}
++
+(-1)\begin{bmatrix}
+0\\
+0\\
+1
+\end{bmatrix}
+\]</span></p>
+<p><a href="#eq-vactors-lin-dep-4" class="quarto-xref">식&nbsp;<span>A.8</span></a> 와 같이 3차원 벡터가 4개인 경우 벡터의 값에 관계없이 선형종속으로 나타난다. <strong>n-차원 실수공간 <span class="math inline">\(R^n\)</span>에서 임의의 <span class="math inline">\(n+1\)</span> 개의 벡터는 항상 선형종속이다.</strong></p>
+</section>
+<section id="우드베리-공식" class="level2" data-number="A.13">
+<h2 data-number="A.13" class="anchored" data-anchor-id="우드베리-공식"><span class="header-section-number">A.13</span> 우드베리 공식</h2>
 <p>다음은 우드베리공식(Woodbury formula) 과 파생된 유용한 공식들이다.</p>
 <p><span class="math display">\[
 (\pmb A+\pmb U\pmb C\pmb V)^{-1} = \pmb A^{-1}-\pmb A^{-1} \pmb U (\pmb C^{-1} + \pmb V \pmb A^{-1}\pmb U)^{-1} \pmb V \pmb A^{-1}
@@ -765,7 +892,7 @@ a_{21} &amp; a_{22}
 <p><span class="math display">\[
 (\pmb I+\pmb U \pmb C\pmb V)^{-1} = \pmb I - \pmb U (\pmb C^{-1} + \pmb V \pmb U)^{-1} \pmb V
 \]</span></p>
-<p><span id="eq-woodbury"><span class="math display">\[ (\pmb A+\pmb u\pmb v^t)^{-1} = \pmb A^{-1} - \frac{ \pmb A^{-1} \pmb u\pmb v^t \pmb A^{-1}}{1+\pmb v^t \pmb A^{-1}\pmb u}  \tag{A.3}\]</span></span></p>
+<p><span id="eq-woodbury"><span class="math display">\[ (\pmb A+\pmb u\pmb v^t)^{-1} = \pmb A^{-1} - \frac{ \pmb A^{-1} \pmb u\pmb v^t \pmb A^{-1}}{1+\pmb v^t \pmb A^{-1}\pmb u}  \tag{A.9}\]</span></span></p>
 <p><span class="math display">\[
 (a \pmb I_n + b \pmb 1_n \pmb 1_n^t)^{-1} = \frac{1}{a} \left [ \pmb I_n - \frac{b}{a+nb} \pmb 1 \pmb 1^t \right ]
 \]</span></p>

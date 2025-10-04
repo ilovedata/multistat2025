@@ -381,11 +381,22 @@
     ]
   },
   {
+    "objectID": "qmd/math_mat_basic.html#벡터의-선형독립",
+    "href": "qmd/math_mat_basic.html#벡터의-선형독립",
+    "title": "부록 A — 행렬의 기초",
+    "section": "A.12 벡터의 선형독립",
+    "text": "A.12 벡터의 선형독립\nn 개의 벡터 \\(\\pmb v_1, ~~ \\pmb v_2, ~~\\dots ~~, \\pmb v_n\\) 의 선형결합(또는 선형결합, linear combination)이란 각 벡터에 스칼라를 곱하여 더한 것들이다.\n만약 \\(r_1,r_2,\\dots, r_n\\) 가 임의의 실수일 때, 다음과 같은 형태의 선형식을 벡터 \\(\\pmb v_1, ~~ \\pmb v_2, ~~\\dots ~~, \\pmb v_n\\)의 선형결합(linear combination)이라고 한다:\n\\[ r_1 \\pmb v_1 + r_2 \\pmb v_2 + \\cdots + r_n \\pmb v_n   \\tag{A.3}\\]\n\n정의 A.1 (벡터의 선형독립과 선형종속) n 개의 벡터 \\(\\pmb v_1, ~~ \\pmb v_2, ~~\\dots ~~, \\pmb v_n\\) 가 있다고 하자. 만약 다음 식이 만약 모두 \\(0\\)인 \\(n\\)개의 스칼라 \\(r_1,r_2,\\dots,r_n\\)에 대해서만 성립하면 \\(n\\)개 벡터 \\(\\pmb v_1, ~~ \\pmb v_2, ~~\\dots ~~, \\pmb v_n\\) 들은 선형독립(linearly independent)라고 한다.\n\\[\nr_1 \\pmb v_1 + r_2 \\pmb v_2 + \\dots + r_n \\pmb v_n = \\pmb 0 \\quad \\Longleftrightarrow\nr_1 = r_2 = \\dots = r_n =0\n\\tag{A.4}\\]\n또한 벡터 \\(\\pmb v_1, ~~ \\pmb v_2, ~~\\dots ~~, \\pmb v_n\\) 가 선형독립이 아니면 선형종속(linear dependent)라고 한다. 벡터 \\(\\pmb v_1, ~~ \\pmb v_2, ~~\\dots ~~, \\pmb v_n\\) 가 선형종속이면 모두 0이 아닌 \\(r_1,r_2,\\dots,r_n\\) 이 존재하여 다음이 성립한다는 것이다.\n\\[\n\\exists~ r_1,r_2,\\dots,r_n \\in R \\quad \\text{ s.t. } (r_1,r_2,\\dots,r_n) \\ne \\pmb 0, \\\\ r_1\\pmb v_1 + r_2 \\pmb v_2 + \\dots + r_n \\pmb v_n = \\pmb 0\n\\tag{A.5}\\]\n\\(\\blacksquare\\)\n\n예를 들어 다음과 같이 주어진 3개의 3-차원 벡터들은 선형종속이다.\n\\[\n\\pmb v_1 =\n\\begin{bmatrix}\n1\\\\\n2\\\\\n3\n\\end{bmatrix},\n\\quad\n\\pmb v_2 =\n\\begin{bmatrix}\n1\\\\\n0\\\\\n1\n\\end{bmatrix},\n\\quad\n\\pmb v_3 =\n\\begin{bmatrix}\n3\\\\\n2\\\\\n5\n\\end{bmatrix}\n\\tag{A.6}\\]\n왜냐하면 다음과 같이 모두 0이 아닌 스칼라에 의해서 다음 식이 성립하기 떄문이다. 즉 벡터 \\(\\pmb v_3\\)는 \\(\\pmb v_2\\) 에 2를 곱하여 \\(\\pmb v_1\\)에 더한 값과 같다.\n\\[\n\\pmb v_3 = \\pmb v_1 + 2 \\pmb v_2 \\quad \\Longleftrightarrow \\quad    \\pmb v_1 + 2 \\pmb v_2 -\\pmb v_3 = 0\n\\]\n이제 다음과 같이 주어진 3개의 3-차원 벡터들은 선형독립이다. 즉 3개 벡터의 선형 조합이 0이 될 수 있도록 만드는 스칼라는 모두 0인 경우 밖에 없다.\n\\[\n\\pmb v_1 =\n\\begin{bmatrix}\n1\\\\\n2\\\\\n3\n\\end{bmatrix},\n\\quad\n\\pmb v_2 =\n\\begin{bmatrix}\n1\\\\\n0\\\\\n1\n\\end{bmatrix},\n\\quad\n\\pmb v_3 =\n\\begin{bmatrix}\n3\\\\\n2\\\\\n4\n\\end{bmatrix}\n\\tag{A.7}\\]\n이제 다음과 같이 주어진 4개의 3-차원 벡터들은 선형종속이다.\n\\[\n\\pmb v_1 =\n\\begin{bmatrix}\n1\\\\\n2\\\\\n3\n\\end{bmatrix},\n\\quad\n\\pmb v_2 =\n\\begin{bmatrix}\n1\\\\\n0\\\\\n1\n\\end{bmatrix},\n\\quad\n\\pmb v_3 =\n\\begin{bmatrix}\n3\\\\\n2\\\\\n4\n\\end{bmatrix}\n\\quad\n\\pmb v_4 =\n\\begin{bmatrix}\n0\\\\\n0\\\\\n1\n\\end{bmatrix}\n\\tag{A.8}\\]\n\\(\\pmb v_3\\) 가 다음과 같이 다른 벡터의 선형결합으로 나타난는 것을 보여준다.\n\\[ \\pmb v_3 = \\begin{bmatrix}\n3\\\\\n2\\\\\n4\n\\end{bmatrix}\n= (1)\\pmb v_1 +  (2)\\pmb v_2 +  (-1)\\pmb v_4\n= (1)\n\\begin{bmatrix}\n1\\\\\n2\\\\\n3\n\\end{bmatrix}\n+\n(2)\n\\begin{bmatrix}\n1\\\\\n0\\\\\n1\n\\end{bmatrix}\n+\n(-1)\\begin{bmatrix}\n0\\\\\n0\\\\\n1\n\\end{bmatrix}\n\\]\n식 A.8 와 같이 3차원 벡터가 4개인 경우 벡터의 값에 관계없이 선형종속으로 나타난다. n-차원 실수공간 \\(R^n\\)에서 임의의 \\(n+1\\) 개의 벡터는 항상 선형종속이다.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>행렬의 기초</span>"
+    ]
+  },
+  {
     "objectID": "qmd/math_mat_basic.html#우드베리-공식",
     "href": "qmd/math_mat_basic.html#우드베리-공식",
     "title": "부록 A — 행렬의 기초",
-    "section": "A.12 우드베리 공식",
-    "text": "A.12 우드베리 공식\n다음은 우드베리공식(Woodbury formula) 과 파생된 유용한 공식들이다.\n\\[\n(\\pmb A+\\pmb U\\pmb C\\pmb V)^{-1} = \\pmb A^{-1}-\\pmb A^{-1} \\pmb U (\\pmb C^{-1} + \\pmb V \\pmb A^{-1}\\pmb U)^{-1} \\pmb V \\pmb A^{-1}\n\\]\n\\[\n(\\pmb I+\\pmb U \\pmb C\\pmb V)^{-1} = \\pmb I - \\pmb U (\\pmb C^{-1} + \\pmb V \\pmb U)^{-1} \\pmb V\n\\]\n\\[ (\\pmb A+\\pmb u\\pmb v^t)^{-1} = \\pmb A^{-1} - \\frac{ \\pmb A^{-1} \\pmb u\\pmb v^t \\pmb A^{-1}}{1+\\pmb v^t \\pmb A^{-1}\\pmb u}  \\tag{A.3}\\]\n\\[\n(a \\pmb I_n + b \\pmb 1_n \\pmb 1_n^t)^{-1} = \\frac{1}{a} \\left [ \\pmb I_n - \\frac{b}{a+nb} \\pmb 1 \\pmb 1^t \\right ]\n\\]",
+    "section": "A.13 우드베리 공식",
+    "text": "A.13 우드베리 공식\n다음은 우드베리공식(Woodbury formula) 과 파생된 유용한 공식들이다.\n\\[\n(\\pmb A+\\pmb U\\pmb C\\pmb V)^{-1} = \\pmb A^{-1}-\\pmb A^{-1} \\pmb U (\\pmb C^{-1} + \\pmb V \\pmb A^{-1}\\pmb U)^{-1} \\pmb V \\pmb A^{-1}\n\\]\n\\[\n(\\pmb I+\\pmb U \\pmb C\\pmb V)^{-1} = \\pmb I - \\pmb U (\\pmb C^{-1} + \\pmb V \\pmb U)^{-1} \\pmb V\n\\]\n\\[ (\\pmb A+\\pmb u\\pmb v^t)^{-1} = \\pmb A^{-1} - \\frac{ \\pmb A^{-1} \\pmb u\\pmb v^t \\pmb A^{-1}}{1+\\pmb v^t \\pmb A^{-1}\\pmb u}  \\tag{A.9}\\]\n\\[\n(a \\pmb I_n + b \\pmb 1_n \\pmb 1_n^t)^{-1} = \\frac{1}{a} \\left [ \\pmb I_n - \\frac{b}{a+nb} \\pmb 1 \\pmb 1^t \\right ]\n\\]",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>행렬의 기초</span>"
