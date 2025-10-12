@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; 정준상관분석 – 다변량통계학-2025년 2학기</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../references.html" rel="next">
+<link href="../qmd/multivar-pca.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d3c9390091c69a50683db05bc45f20d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script>
+<script type="text/javascript">
+ window.MathJax = {
+  tex: {
+    macros: {
+    RR: '{\\mathbb R}',                    // a simple string replacement
+    hatmat:'{\\pmb X ({\\pmb X}^t {\\pmb X} )^{-1} {\\pmb X}^t}',
+    bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+    pardiff: ['\\frac{\\partial#2}{\\partial#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+    pardifftwo: ['\\frac{\\partial#1}{\\partial#2}', 2],
+    pardiffd: ['\\frac{\\partial#1}{\\partial#2^t \\partial#2}', 2],
+    pardiffdd: ['\\frac{\\partial#1}{\\partial#3 \\partial#2}', 3],
+    norm: ['\\lVert#1\\rVert',1]
+  },
+  environments: {
+  braced: ["\\left\\{", "\\right\\}"]
+  }
+ }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/multivar-cancor.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">정준상관분석</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">다변량통계학-2025년 2학기</a> 
+        <div class="sidebar-tools-main">
+    <a href="../다변량통계학-2025년-2학기.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="검색"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-dist.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">확률벡터와 다변량 정규분포</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-vis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">다변량 자료의 시각화</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">다변량 가설 검정</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-cov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">공분산 행렬의 추정</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-discrim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">판별분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">주성분 분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-cancor.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">정준상관분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/math_mat_basic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">행렬의 기초</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/math_eigen_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">고유값과 고유벡터</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/math_matrix_decomp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">행렬의 분해</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/app-likelihood-ratio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">가능도비 검정</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#상관계수" id="toc-상관계수" class="nav-link active" data-scroll-target="#상관계수"><span class="header-section-number">7.1</span> 상관계수</a></li>
+  <li><a href="#다중상관계수" id="toc-다중상관계수" class="nav-link" data-scroll-target="#다중상관계수"><span class="header-section-number">7.2</span> 다중상관계수</a></li>
+  <li><a href="#정준상관계수" id="toc-정준상관계수" class="nav-link" data-scroll-target="#정준상관계수"><span class="header-section-number">7.3</span> 정준상관계수</a>
+  <ul class="collapse">
+  <li><a href="#정준상관계수의-정의" id="toc-정준상관계수의-정의" class="nav-link" data-scroll-target="#정준상관계수의-정의"><span class="header-section-number">7.3.1</span> 정준상관계수의 정의</a></li>
+  <li><a href="#정준상관계수의-유도" id="toc-정준상관계수의-유도" class="nav-link" data-scroll-target="#정준상관계수의-유도"><span class="header-section-number">7.3.2</span> 정준상관계수의 유도</a></li>
+  <li><a href="#표본-정준상관계수" id="toc-표본-정준상관계수" class="nav-link" data-scroll-target="#표본-정준상관계수"><span class="header-section-number">7.3.3</span> 표본 정준상관계수</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">정준상관분석</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CCA)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#아래 3 문장은 한글을 포함한 ggplot 그림이 포함된 HTML, PDF로 만드는 경우 사용</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#font_add_google("Nanum Pen Script", "gl")</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">font_add_google</span>(<span class="at">name =</span> <span class="st">"Noto Sans KR"</span>, <span class="at">family =</span> <span class="st">"noto"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="상관계수" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="상관계수"><span class="header-section-number">7.1</span> 상관계수</h2>
+<p>두 개의 확률변수의 상관계수(Correlation Cefficient)는 두 변수의 선형 관계의 정도를 나타내는 측도이다. 두 개의 확률변수 <span class="math inline">\(X_1\)</span>과 <span class="math inline">\(X_2\)</span> 의 상관계수 <span class="math inline">\(\rho\)</span> 는 다음과 같이 정의된다.</p>
+<p><span id="eq-cancor-corcoef"><span class="math display">\[
+\rho =\rho(X_1, X_2) = cor(X_1, X_2)  =  \frac{ Cov(X_1,X_2)} { \sqrt{ Var(X_1) Var(X_2)}}
+\tag{7.1}\]</span></span></p>
+<p>상관계수 <span class="math inline">\(\rho\)</span>는 -1과 1 사이의 값을 가지며 상관계수가 0 이면 두 확률변수의 선형관계는 존재하지 않는다. 상관계수가 1 에 가까울수록 두 변수는 양의 선형관계가 강해지며 반대로 -1 에 가까울수록 두 변수는 음의 선형관계가 강해진다. 두 변수의 상관계수가 0이라고 해서 관계(relation)가 없다고 단정할 수 없다. 왜냐하면 상관계수는 두 변수의 선형관계(linear relationship)만을 나타내는 측도이고 비선형 관계 등 다른 특별한 관계를 반영하지는 못한다.</p>
+<p>두 개의 변수에 대한 <span class="math inline">\(n\)</span>개의 독립표본 <span class="math inline">\((X_{11},X_{12}),(X_{21},X_{22}), \dots, (X_{n1},X_{n2})\)</span>이 주어지면 표본으로 부터 모집단의 상관계수를 추정할 수 있는 표본 상관계수 <span class="math inline">\(\hat \rho\)</span> 을 다음과 같이 계산할 수 있다.</p>
+<p><span id="eq-cancor-samcorcoef"><span class="math display">\[
+\hat \rho = \frac{ \sum_{i=1}^n (X_{i1} -\bar X_1)(X_{i2}-\bar X_2)} { \sqrt{ \sum_{i=1}^n (X_{i1} - \bar X_1)^2 (X_{i2} - \bar X_2)^2}}
+\tag{7.2}\]</span></span></p>
+<p>여기서 <span class="math inline">\(\bar X_1\)</span>과 <span class="math inline">\(\bar X_2\)</span>는 각각 첫 번째 변수의 표본 <span class="math inline">\(X_{11},X_{21},\dots X_{n1}\)</span>과 두 번째 변수의 표본 <span class="math inline">\(X_{12},X_{22},\dots X_{n2}\)</span>의 평균이다.</p>
+<div id="exm-cancor-swiss1" class="theorem example">
+<p><span class="theorem-title"><strong>보기 7.1 (스위스의 47개 주 자료)</strong></span> <code>R</code> 패키지에 내장된 <code>swiss</code> 자료는 1988년 스위스의 47개 주에 대한 출산율과 사회경제변수를 모아놓은 자료이다(<span class="math inline">\(n=47\)</span>). 6개의 변수에 대한 설명과 자료의 일부는 다음과 같다.</p>
+<ul>
+<li><code>Fertility</code>: <span class="math inline">\(I_g\)</span>, common standardized fertility measure</li>
+<li><code>Agriculture</code>: % of males involved in agriculture as occupation</li>
+<li><code>Examination</code>: % draftees receiving highest mark on army examination</li>
+<li><code>Education</code>: % education beyond primary school for draftees.</li>
+<li><code>Catholic</code>: % catholic (as opposed to protestant).</li>
+<li><code>Infant.Mortality</code>: live births who live less than 1 year.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(swiss)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Fertility Agriculture Examination Education Catholic
+Courtelary        80.2        17.0          15        12     9.96
+Delemont          83.1        45.1           6         9    84.84
+Franches-Mnt      92.5        39.7           5         5    93.40
+Moutier           85.8        36.5          12         7    33.77
+Neuveville        76.9        43.5          17        15     5.16
+Porrentruy        76.1        35.3           9         7    90.57
+             Infant.Mortality
+Courtelary               22.2
+Delemont                 22.2
+Franches-Mnt             20.2
+Moutier                  20.3
+Neuveville               20.6
+Porrentruy               26.6</code></pre>
+</div>
+</div>
+<p>자료에서 두개의 변수에 대한 상관계수는 <code>cor</code> 함수로 다음과 같이 계산할 수 있고 더 나아가 데이터프레임 <code>swiss</code> 에 있는 모든 변수들에 대한 상관계수행렬도 동시에 계산할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(swiss)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  Fertility Agriculture Examination   Education   Catholic
+Fertility         1.0000000  0.35307918  -0.6458827 -0.66378886  0.4636847
+Agriculture       0.3530792  1.00000000  -0.6865422 -0.63952252  0.4010951
+Examination      -0.6458827 -0.68654221   1.0000000  0.69841530 -0.5727418
+Education        -0.6637889 -0.63952252   0.6984153  1.00000000 -0.1538589
+Catholic          0.4636847  0.40109505  -0.5727418 -0.15385892  1.0000000
+Infant.Mortality  0.4165560 -0.06085861  -0.1140216 -0.09932185  0.1754959
+                 Infant.Mortality
+Fertility              0.41655603
+Agriculture           -0.06085861
+Examination           -0.11402160
+Education             -0.09932185
+Catholic               0.17549591
+Infant.Mortality       1.00000000</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="다중상관계수" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="다중상관계수"><span class="header-section-number">7.2</span> 다중상관계수</h2>
+<p>상관계수는 두 개의 확률변수에 대한 선형관계를 나타내는 측도이다. 두 개의 변수에 대한 측도인 상관계수를 를 두 개의 확률벡터에 대한 관계를 나타내는 측도로 확장할 수 있다.</p>
+<p>이렇게 두 개의 확률벡터에 대한 상관관계를 나타내는 측도를 정준상관계수(Canonical Correlation Coeffcient)라고 한다. 이 절에서는 두 개의 확률벡터에 대한 관계를 측정하는 정준상관계수를 정의하기 전에 하나의 확률변수와 여러 개의 변수를 포함하는 확률벡터의 관계를 나타내는 다중상관계수(Multiple Correlation Coefficient)을 먼저 정의하고자 한다.</p>
+<p>확률벡터 <span class="math inline">\(\pmb X\)</span>를 <span class="math inline">\(p\)</span>개의 확률변수로 이루어졌다고 하고 하나의 확률변수 <span class="math inline">\(X_1\)</span> (편의상 첫 번째 확률변수를 선택하였다)와 나머지 <span class="math inline">\(p-1\)</span>개의 변수로 구성된 확률벡터를 <span class="math inline">\(\pmb X_*\)</span>라고 하자.</p>
+<p><span class="math display">\[
+\pmb X =
+\begin{bmatrix}
+X_1 \\
+X_2 \\
+X_3 \\
+\vdots \\
+X_p
+\end{bmatrix}
+=
+\begin{bmatrix}
+X_1 \\
+\pmb X_*
+\end{bmatrix},
+\quad
+Cov(\pmb X) =
+\begin{bmatrix}
+\sigma_{11} &amp; \pmb \sigma_{12}^t \\
+\pmb \sigma_{12} &amp; \pmb \Sigma_{22}
+\end{bmatrix}
+\]</span> 위의 식에서 <span class="math inline">\(\sigma_{11}\)</span>은 <span class="math inline">\(X_1\)</span>의 분산, <span class="math inline">\(\pmb \sigma_{12}\)</span>은 <span class="math inline">\(X_1\)</span>과 <span class="math inline">\(\pmb X_*\)</span>의 (<span class="math inline">\(p-1\)</span>)-차원 공분산 벡터, <span class="math inline">\(\pmb \Sigma_{22}\)</span>는 <span class="math inline">\(\pmb X_*\)</span>의 <span class="math inline">\((p-1)\times (p-1)\)</span>-차원 공분산행렬이다.</p>
+<p>하나의 확률변수와 여러 개의 확률변수로 구성된 확률벡터간의 선형관계는 <span class="math inline">\(X_1\)</span>과 <span class="math inline">\(\pmb X_*\)</span>에 포함된 각각의 확률변수에 대하여 각각 <span class="math inline">\(p-1\)</span>개의 상관계수를 구하여 따로 따로 파악할 수 있다.</p>
+<p><span class="math display">\[
+\rho_{12}=cor(X_1,X_2), ~ \rho_{13}=cor(X_1,X_3),  \dots, ~ \rho_{1p}=cor(X_1,X_p)
+\]</span></p>
+<p>하지만 이러한 관계는 각각 두 개의 변수들에 대한 관계로서 하나의 확률변수와 확률벡터의 관계를 하나의 측도로서 종합적으로 반영하는 것은 아니다. 이렇게 확률변수와 확률벡터의 관계를 하나의 측도로 나타내기 위하여 주성분분석이나 회귀분석과 유사하게 확률벡터 <span class="math inline">\(\pmb X_*\)</span>에 포함된 확률변수들의 선형조합을 생각하고 확률변수 <span class="math inline">\(X_1\)</span>과 선형조합으로 만들어진 새로운 확률변수 <span class="math inline">\(\pmb a^t \pmb X_*\)</span>의 상관관계를 생각해 보자.</p>
+<p><span class="math display">\[
+cor(X_1,  a_2 X_2 + a_3 X_3 +\dots + a_p X_p) = cor(X_1,\pmb a^t \pmb X_*)
+\]</span></p>
+<p>위의 식에서 선형조합으로 만들어진 새로운 확률변수와의 상관계수는 계수벡터 <span class="math inline">\(\pmb a\)</span>의 계수값에 따라 달라진다. 이렇게 무수히 많은 값이 가능한 경우 최대의 상관계수를 가지는 계수를 고려하는 것이 다중상관계수의 정의이다.</p>
+<p><span id="eq-cancor-multicor"><span class="math display">\[
+\rho(X_1, \pmb X_*) = \max_{\pmb a} cor(X_1, \pmb a^t \pmb X_*)
+\tag{7.3}\]</span></span></p>
+<p>최대의 상관계수를 가지는 계수를 구하기 위하여 먼저 임의의 벡터 <span class="math inline">\(\pmb a\)</span>에 대하여 <span class="math inline">\(X_1\)</span>과 <span class="math inline">\(\pmb a^t \pmb X_*\)</span>의 상관계수를 유도해보자. 먼저</p>
+<p><span class="math display">\[
+\begin{aligned}
+Cov(X_1,\pmb a^t \pmb X_*) &amp; =
+  E [(X_1 -E(X_1)][\pmb a^t \pmb X_*-E(\pmb a^t \pmb X_*) ] \\
+  &amp;= \pmb a^t E [(X_1 -E(X_1)] [ \pmb X_*-E(\pmb X_*) ] \\
+  &amp;= \pmb a^t \pmb \sigma_{12} \\
+  Var(\pmb a^t \pmb X_*) &amp;= \pmb a^t Var( \pmb X_*) \pmb a \\
+   &amp;= \pmb a^t \pmb \Sigma_{22} \pmb a
+\end{aligned}
+\]</span></p>
+<p>따라서</p>
+<p><span class="math display">\[
+cor(X_1,\pmb a^t \pmb X_*) =  \frac{ Cov(X_1,\pmb a^t \pmb X_*)} { \sqrt{ Var(X_1) Var(\pmb a^t \pmb X_*)}} = \frac{\pmb a^t \pmb \sigma_{12}  } { \sqrt{\sigma_{11} (\pmb a^t \pmb \Sigma_{22} \pmb a ) }}
+\]</span> 여기서 한 가지 유의해야할 점은 계수벡터 <span class="math inline">\(\pmb a\)</span>의 계수들의 부호만을 바꾸면 다중상관계수의 부호가 바뀐다는 점이다.</p>
+<p><span class="math display">\[
+cor(X_1,-\pmb a^t \pmb X_*) = \frac{-\pmb a^t \pmb \sigma_{12}  } { \sqrt{\sigma_{11} [(-\pmb a^t) \pmb \Sigma_{22} (-\pmb a )] }}  =  - cor(X_1,\pmb a^t \pmb X_*)
+\]</span> 따라서 다중상관계수를 구하는 경우에는 그 부호에 관계없이 절대값이 가장 큰 경우를 고려해야 한다. 이러한 점을 고려하여 다중상관계수를 다음과 같이 자신의 제곱값을 통하여 유도할 수 있다. 이제 다중상관계수의 계수벡터를 구하기 위한 다중상관계수의 제곱에 대한 최대값을 구해보자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+cor^2(X_1,\pmb a^t \pmb X_*) &amp;=
+\frac{ (\pmb a^t \pmb \sigma_{12})^2  } { \sigma_{11} (\pmb a^t \pmb \Sigma_{22} \pmb a ) } \\
+&amp;= \frac{(\pmb a^t \pmb \Sigma_{22}^{1/2} \pmb \Sigma_{22}^{-1/2} \pmb \sigma_{12})^2  } { \sigma_{11} (\pmb a^t \pmb \Sigma_{22} \pmb a ) }  \\
+&amp; \le \frac{ (\pmb a^t \pmb \Sigma_{22}^{1/2}\pmb \Sigma_{22}^{1/2} \pmb a)(\pmb \sigma_{12}^t \pmb \Sigma_{22}^{-1/2} \pmb \Sigma_{22}^{-1/2} \pmb \sigma_{12})  } { \sigma_{11} (\pmb a^t \pmb \Sigma_{22} \pmb a ) }  \\
+&amp;= \frac{ (\pmb a^t \pmb \Sigma_{22} \pmb a)(\pmb \sigma_{12}^t \pmb \Sigma_{22}^{-1}  \pmb \sigma_{12})  } { \sigma_{11} (\pmb a^t \pmb \Sigma_{22} \pmb a ) }  \\
+&amp;= \frac{ \pmb \sigma_{12}^t \pmb \Sigma_{22}^{-1}  \pmb \sigma_{12}  } { \sigma_{11}  }  \\
+\end{aligned}
+\]</span></p>
+<p>위의 유도식에서 공분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span> 의 제곱근 행렬 <span class="math inline">\({\pmb \Sigma}^{1/2}\)</span> 는 양정치 행렬의 성질 <a href="math_matrix_decomp.html#eq-multivar-app-eigen-pos-decomp2" class="quarto-xref">식&nbsp;<span>C.17</span></a> 을 이용하였다.</p>
+<p>또한 위의 유도식에서 사용한 부등식은 코쉬-쉬바르쯔(Cauchy-Schwarz) 부등식을 적용한 결과이다 (<a href="multivar-discrim.html#eq-discrim-cauchy-schwarz" class="quarto-xref">식&nbsp;<span>5.18</span></a> 참조)</p>
+<p><span class="math display">\[
+(\pmb \alpha^t \pmb \beta)^2  \le (\pmb \alpha^t \pmb \alpha)(\pmb \beta^t \pmb \beta)
+\]</span> 또한 위의 유도식에서 부등식의 등식이 성립하는 경우는 임의의 상수 <span class="math inline">\(\lambda\)</span>에 대하여 다음과 같은 관계가 성립하는 경우이다.</p>
+<p><span id="eq-cancor-mulcorcoef"><span class="math display">\[
+\Sigma_{22}^{1/2} \pmb a = \lambda \pmb \Sigma_{22}^{-1/2}  \pmb \sigma_{12} \quad \rightarrow \quad
+\pmb a = \lambda \pmb \Sigma_{22}^{-1}  \pmb \sigma_{12}
+\tag{7.4}\]</span></span></p>
+<p>이제 <span class="math inline">\(X_1\)</span>과 <span class="math inline">\(\pmb X_*\)</span> 의 다중상관계수는 다음과 같이 구해진다.</p>
+<p><span id="eq-cancor-mulcorval"><span class="math display">\[
+\rho(X_1, \pmb a^t \pmb X_*) = \frac{ (\pmb \sigma_{12}^t \pmb \Sigma_{22}^{-1}  \pmb \sigma_{12})^{1/2}  } { (\sigma_{11})^{1/2}  }
+\tag{7.5}\]</span></span></p>
+<p>여기서 <span class="math inline">\(\pmb a = \lambda \pmb \Sigma_{22}^{-1}  \pmb \sigma_{12}\)</span> , <span class="math inline">\(0 \le \rho(X_1, \pmb a^t \pmb X_*) \le 1\)</span></p>
+<p>다중상관계수의 계산은 다음과 같이 상관계수들로 구할 수 있다.</p>
+<p><span class="math display">\[
+\rho(X_1, \pmb a^t \pmb X_*) = (\pmb \rho_{12}^t \pmb R_{22}^{-1}  \pmb \rho_{12})^{1/2}
+\]</span> 여기서 <span class="math inline">\(\pmb \rho_{12}\)</span>는 <span class="math inline">\(X_1\)</span>과 <span class="math inline">\(\pmb X_*\)</span>의 상관계수 벡터이며 <span class="math inline">\(\pmb R_{22}\)</span>는 <span class="math inline">\(\pmb X_*\)</span>의 상관계수행렬이다. 이러한 계산식의 유도는 아래와 같은 공분산 행렬과 상관계수 행렬의 관계(2차원 확률벡터의 예)로부터 유도할 수 있다.</p>
+<p><span class="math display">\[  
+\pmb R =
+\begin{bmatrix}
+1 &amp; \rho_{12} \\
+\rho_{12} &amp; 1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+1/\sqrt{\sigma_{11}} &amp; 0 \\
+0 &amp; 1/\sqrt{\sigma_{22}} \\
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_{11} &amp; \sigma_{12} \\
+\sigma_{12} &amp; \sigma_{22} \\
+\end{bmatrix}
+\begin{bmatrix}
+1/\sqrt{\sigma_{11}} &amp; 0 \\
+0 &amp; 1/\sqrt{\sigma_{22}} \\
+\end{bmatrix}
+\]</span></p>
+<p>표본으로서 자료가 주어진 경우에는 <a href="#eq-cancor-mulcorval" class="quarto-xref">식&nbsp;<span>7.5</span></a> 에서 각각의 모수에 대하여 그 추정량을 구하면 표본 다중상관계수를 구할 수 있다.</p>
+<p><span class="math display">\[
+\hat \rho(X_1, \pmb a^t \pmb X_*) = \frac{ ( \hat {\pmb \sigma}_{12}^t \hat {\pmb \Sigma}_{22}^{-1}  \hat {\pmb \sigma}_{12})^{1/2}  } { (\hat \sigma_{11})^{1/2}  } = ( \hat {\pmb \rho}_{12}^t \hat {\pmb R}_{22}^{-1}  \hat {\pmb \rho}_{12} )^{1/2}
+\]</span></p>
+<p><code>swiss</code> 자료에서 출산율(<span class="math inline">\(X_1\)</span>)과 나머지 5개의 사회경제변수(<span class="math inline">\(\pmb X_*\)</span>)의 표본 다중상관계수는 다음과 같이 구할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="fu">dim</span>(swiss)[<span class="dv">1</span>] ; p <span class="ot">&lt;-</span> <span class="fu">dim</span>(swiss)[<span class="dv">2</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(swiss)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 47  6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">cor</span>(swiss)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>R12 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(R[<span class="dv">2</span><span class="sc">:</span>p,<span class="dv">1</span>],p<span class="dv">-1</span>,<span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>R12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]
+[1,]  0.3530792
+[2,] -0.6458827
+[3,] -0.6637889
+[4,]  0.4636847
+[5,]  0.4165560</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>R22 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(R[<span class="dv">2</span><span class="sc">:</span>p,<span class="dv">2</span><span class="sc">:</span>p],p<span class="dv">-1</span>,p<span class="dv">-1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>R22</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            [,1]       [,2]        [,3]       [,4]        [,5]
+[1,]  1.00000000 -0.6865422 -0.63952252  0.4010951 -0.06085861
+[2,] -0.68654221  1.0000000  0.69841530 -0.5727418 -0.11402160
+[3,] -0.63952252  0.6984153  1.00000000 -0.1538589 -0.09932185
+[4,]  0.40109505 -0.5727418 -0.15385892  1.0000000  0.17549591
+[5,] -0.06085861 -0.1140216 -0.09932185  0.1754959  1.00000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mulcor <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">t</span>(R12) <span class="sc">%*%</span> <span class="fu">solve</span>(R22) <span class="sc">%*%</span> R12)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mulcor</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]
+[1,] 0.8406753</code></pre>
+</div>
+</div>
+<p>참고로 표본 다중상관계수의 제곱값은 는 <span class="math inline">\(X_1\)</span>을 종속변수, <span class="math inline">\(\pmb X_*\)</span>을 독립변수로 선형회귀직선(linear regression)을 적합하였을 경우 결정계수(coefficient of determination) <span class="math inline">\(R^2\)</span> 와 같다.</p>
+<p><span class="math display">\[
+\hat \rho^2 (X_1, \pmb a^t \pmb X_*) = R^2
+\]</span> 아래 <code>R</code> 프로그램의 결과에서 확인할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lm</span>(Fertility<span class="sc">~</span> Agriculture <span class="sc">+</span> Examination <span class="sc">+</span> Education <span class="sc">+</span> Catholic <span class="sc">+</span> Infant.Mortality,<span class="at">data=</span>swiss)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Fertility ~ Agriculture + Examination + Education + 
+    Catholic + Infant.Mortality, data = swiss)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-15.2743  -5.2617   0.5032   4.1198  15.3213 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      66.91518   10.70604   6.250 1.91e-07 ***
+Agriculture      -0.17211    0.07030  -2.448  0.01873 *  
+Examination      -0.25801    0.25388  -1.016  0.31546    
+Education        -0.87094    0.18303  -4.758 2.43e-05 ***
+Catholic          0.10412    0.03526   2.953  0.00519 ** 
+Infant.Mortality  1.07705    0.38172   2.822  0.00734 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 7.165 on 41 degrees of freedom
+Multiple R-squared:  0.7067,    Adjusted R-squared:  0.671 
+F-statistic: 19.76 on 5 and 41 DF,  p-value: 5.594e-10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mulcor<span class="sc">^</span><span class="dv">2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         [,1]
+[1,] 0.706735</code></pre>
+</div>
+</div>
+</section>
+<section id="정준상관계수" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="정준상관계수"><span class="header-section-number">7.3</span> 정준상관계수</h2>
+<section id="정준상관계수의-정의" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="정준상관계수의-정의"><span class="header-section-number">7.3.1</span> 정준상관계수의 정의</h3>
+<p>이제 두 개의 확률벡터에 대한 상관관계를 나타내는 측도인 정준상관계수(Canonical Correlation Coeffcient)에 대하여 알아보자. 확률벡터 <span class="math inline">\(\pmb X\)</span>가 두 개의 확률벡터 <span class="math inline">\(\pmb X_1\)</span>과 <span class="math inline">\(\pmb X_2\)</span>로 나누어져 있다고 가정하자. 두 확률 벡터의 차원은 각각 <span class="math inline">\(p\)</span>와 <span class="math inline">\(q\)</span> 라고 하자 (편의상 <span class="math inline">\(p \le q\)</span>라고 가정한다.)</p>
+<p><span class="math display">\[
+\pmb X =
+\begin{bmatrix}
+\pmb X_1 \\
+\pmb X_2 \\
+\end{bmatrix}
+\quad
+Cov(\pmb X) =
+\begin{bmatrix}
+\pmb \Sigma_{11} &amp; \pmb \Sigma_{12} \\
+\pmb \Sigma_{12}^t &amp; \pmb \Sigma_{22}
+\end{bmatrix}
+\]</span></p>
+<p>앞 절에서와 유사한 방법으로 각 확률벡터의 선형조합으로 만들어진 두 개의 새로운 확률변수를 이용하여 정준상관계수를 다음과 같이 정의한다.</p>
+<p><span id="eq-cancor-cancor"><span class="math display">\[
+\rho(\pmb X_1, \pmb X_2) = \max_{\pmb a, \pmb b}~~ cor(\pmb a^t \pmb X_1, \pmb b^t \pmb X_2)
+\tag{7.6}\]</span></span></p>
+<p>앞절에서 공분산행렬을 구할 때 사용한 같은 방법을 적용하면</p>
+<p><span class="math display">\[
+\begin{aligned}
+Cov(\pmb a^t \pmb X_1,\pmb b^t \pmb X_2) &amp;=
+E [(\pmb a^t \pmb X_1 -E(\pmb a^t \pmb X_1)][\pmb b^t \pmb X_2-E(\pmb b^t \pmb X_2) ] \\
+  &amp;= \pmb a^t E [(\pmb X_1 -E(\pmb X_1)] [ \pmb X_2-E(\pmb X_2) ]^t \pmb b \\
+  &amp;= \pmb a^t \pmb \Sigma_{12} \pmb b \\
+\end{aligned}
+\]</span></p>
+<p>따라서</p>
+<p><span class="math display">\[
+cor(\pmb a^t \pmb X_1,\pmb b^t \pmb X_2) = \frac{\pmb a^t \pmb \Sigma_{12}  \pmb b } { \sqrt{(\pmb a^t \pmb \Sigma_{11} \pmb a ) (\pmb b^t \pmb \Sigma_{22} \pmb b ) }} = (\pmb a^t \pmb \Sigma_{11} \pmb a )^{-1/2} (\pmb a^t \pmb \Sigma_{12} \pmb b)(\pmb b^t \pmb \Sigma_{22} \pmb b )^{-1/2}
+\]</span></p>
+<p>이제 새로운 두 변수의 상관계수를 최대로 하는 벡터 <span class="math inline">\(\pmb a\)</span>와 <span class="math inline">\(\pmb b\)</span>를 찾으면 정준상관계수가 구해진다. 여기서 정준상관계수행렬(canonical correlation matrix) <span class="math inline">\(\pmb C\)</span>을 다음과 같이 정의하자.</p>
+<p><span id="eq-cancor-cancormat"><span class="math display">\[
+\pmb C = \pmb \Sigma_{11}^{-1/2} \pmb \Sigma_{12} \pmb \Sigma_{22}^{-1/2}
+\tag{7.7}\]</span></span></p>
+<p>또한 정준상관계수행렬 <span class="math inline">\(\pmb C\)</span> 의 Sigular Value Decomposition(SVD)를 다음과 같이 고려하자 (SVD 에 대한 자세한 내용은 <a href="math_matrix_decomp.html#sec-matdecomp-svd" class="quarto-xref"><span>섹션 C.4</span></a> 를 참조)</p>
+<p><span id="eq-cancor-svd"><span class="math display">\[
+\pmb C = \pmb U \pmb S \pmb V^t
+\tag{7.8}\]</span></span></p>
+<p>여기서 <span class="math inline">\(\pmb U\)</span>와 <span class="math inline">\(\pmb V\)</span> 는 각각 차원이 <span class="math inline">\(p \times  p\)</span>, <span class="math inline">\(q \times q\)</span>인 정규직교행렬(orthonormal matrix)이고 <span class="math inline">\(\pmb S\)</span>는 <span class="math inline">\(p \times q\)</span> 행렬로 대각원소는 <span class="math inline">\(\pmb C \pmb C^t\)</span>의 고유값 <span class="math inline">\(\lambda_i\)</span>의 제곱근을 대각원소로 하고 비대각원소는 0이다.</p>
+<p><span class="math display">\[
+\pmb U^t \pmb U = \pmb I_p ,\quad \pmb V^t \pmb V = \pmb I_q
+\]</span> 만약 <span class="math inline">\(\pmb u_1, \pmb u_2, \dots ,\pmb u_p\)</span>와 <span class="math inline">\(\pmb v_1, \pmb v_2, \dots ,\pmb v_q\)</span>를 각각 <span class="math inline">\(\pmb U\)</span>와 <span class="math inline">\(\pmb V\)</span>의 정규직교벡터라고 놓으면 다음과 같이 표시할 수 있다.</p>
+<p><span class="math display">\[
+\pmb C = \pmb U \pmb S \pmb V^t  = [ \pmb u_1~ \pmb u_2~ \dots ~\pmb u_p]
+\begin{bmatrix}
+\sqrt{\lambda_1}   &amp; 0 &amp; \dots &amp; 0 &amp; 0 &amp; \dots &amp; 0\\
+0 &amp; \sqrt{\lambda_2}  &amp; \dots &amp; 0 &amp; 0 &amp; \dots &amp; 0\\
+0 &amp; 0  &amp; \dots &amp; 0 &amp; 0 &amp; \dots &amp; 0\\
+0 &amp; 0  &amp; \dots &amp; \sqrt{\lambda_p} &amp; 0 &amp; \dots &amp; 0\\
+\end{bmatrix}
+\begin{bmatrix}
+\pmb v_1^t \\
+\pmb v_2^t \\
+\vdots \\
+\pmb v_q^t \\
+\end{bmatrix}
+\]</span></p>
+<p>여기서 참고로 <span class="math inline">\(\pmb u_1, \pmb u_2, \dots ,\pmb u_p\)</span>는 <span class="math inline">\(\pmb C \pmb C^t\)</span>의 고유벡터이고 <span class="math inline">\(\pmb v_1, \pmb v_2, \dots ,\pmb v_q\)</span>는 <span class="math inline">\(\pmb C^t \pmb C\)</span>의 고유벡터이다. 또한 두 행렬 <span class="math inline">\(\pmb C \pmb C^t\)</span>와 <span class="math inline">\(\pmb C^t \pmb C\)</span>는 0이 아닌 고유값이 <span class="math inline">\(\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_p\)</span>로 같다.</p>
+<p><span class="math display">\[
+\pmb C \pmb C^t =  \pmb \Sigma_{11}^{-1/2} \pmb \Sigma_{12} \pmb \Sigma_{22}^{-1} \pmb \Sigma_{12}^t \pmb \Sigma_{11}^{-1/2} \quad  
+\pmb C^t \pmb C =  \pmb \Sigma_{22}^{-1/2} \pmb \Sigma_{12}^t \pmb \Sigma_{11}^{-1} \pmb \Sigma_{12} \pmb \Sigma_{22}^{-1/2}
+\]</span> SVD 분해에 대한 자세한 내용은 <a href="math_matrix_decomp.html#sec-matdecomp-svd" class="quarto-xref"><span>섹션 C.4</span></a> 를 참조하자.</p>
+</section>
+<section id="정준상관계수의-유도" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="정준상관계수의-유도"><span class="header-section-number">7.3.2</span> 정준상관계수의 유도</h3>
+<p>다시 정준상관계수의 정의에 따른 벡터 <span class="math inline">\(\pmb a\)</span>와 <span class="math inline">\(\pmb b\)</span>를 찾는 문제로 돌아가서 두 벡터 <span class="math inline">\(\pmb X_1\)</span>과 <span class="math inline">\(\pmb X_2\)</span>을 표준화한 후에 선형조합을 고려한다.</p>
+<p><span class="math display">\[
+Z = \pmb a^t \pmb \Sigma_{11}^{-1/2} (\pmb X_1 - \pmb \mu_1), \quad
+W = \pmb b^t \pmb \Sigma_{22}^{-1/2}(\pmb X_2-\pmb \mu_2)
+\]</span></p>
+<p>여기서 상관계수는 상수를 더하거나 빼도 변함이 없으므로 평균벡터를 빼는것은 영향이 없다. 또한 두 벡터 <span class="math inline">\(\pmb a\)</span>와 <span class="math inline">\(\pmb b\)</span> 대신에 <span class="math inline">\(\pmb \Sigma_{11}^{-1/2} \pmb a\)</span>와 <span class="math inline">\(\pmb \Sigma_{22}^{-1/2} \pmb b\)</span>를 고려해도 어차피 두 개의 임의의 벡터이므로 정준상관계수의 정의에는 영향을 미치지 않는다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\rho(\pmb X_1, \pmb X_2) &amp;=
+\max_{\pmb a, \pmb b}~~ cor[\pmb a^t \pmb \Sigma_{11}^{-1/2} (\pmb X_1 - \pmb \mu_1),  \pmb b^t \pmb \Sigma_{22}^{-1/2}(\pmb X_2-\pmb \mu_2) ]\\
+&amp;= \max_{\pmb a_*, \pmb b_*}~~ cor(\pmb a_*^t \pmb X_1, \pmb b_*^t \pmb X_2)
+\end{aligned}
+\]</span></p>
+<p>두 확률변수 <span class="math inline">\(Z\)</span>와 <span class="math inline">\(W\)</span>의 공분산과 분산은 다음과 같이 주어지고</p>
+<p><span class="math display">\[
+\begin{aligned}
+Cov(Z,W) &amp;= Cov(\pmb a^t \pmb \Sigma_{11}^{-1/2} (\pmb X_1 - \pmb \mu_1),  \pmb b^t \pmb \Sigma_{22}^{-1/2}(\pmb X_2-\pmb \mu_2) ) \\
+  &amp;= \pmb a^t \pmb \Sigma_{11}^{-1/2} \pmb \Sigma_{12} \pmb \Sigma_{22}^{-1/2} \pmb b \\
+  &amp;=   \pmb a^t \pmb C \pmb b \\
+Var(Z) &amp;=   \pmb a^t \pmb a \\
+Var(W) &amp;=   \pmb b^t \pmb b
+\end{aligned}
+\]</span></p>
+<p>따라서</p>
+<p><span class="math display">\[
+cor(Z,W) = \frac{ \pmb a^t \pmb C \pmb b } { \sqrt{(\pmb a^t \pmb a)(\pmb b^t \pmb b)}}
+= \frac{\pmb a^t} {\sqrt{(\pmb a^t \pmb a)}} \pmb C  \frac{\pmb b} {\sqrt{(\pmb b^t \pmb b)}}
+\]</span></p>
+<p>위의 식에서 확률변수 <span class="math inline">\(Z\)</span>와 <span class="math inline">\(W\)</span>의 상관계수는 두 벡터 <span class="math inline">\(\pmb a/\sqrt{\pmb a^t \pmb a}\)</span>와 <span class="math inline">\(\pmb b/\sqrt{\pmb b^t \pmb b}\)</span>의 길이가 1이므로 두 벡터 <span class="math inline">\(\pmb a\)</span>와 <span class="math inline">\(\pmb b\)</span>의 길이를 1로 가정해도 무방하다 (<span class="math inline">\(\pmb a^t \pmb a=\pmb b^t \pmb b=1\)</span>). 따라서 다음과 같이 표시할 수 있다.</p>
+<p><span id="eq-cancor-cancor0"><span class="math display">\[
+cor(Z,W) =  \pmb a^t \pmb C \pmb b, \quad  \pmb a^t \pmb a=\pmb b^t \pmb b=1
+\tag{7.9}\]</span></span></p>
+<p>여기서 벡터공간의 알려진 사실을 이용한다. 두 벡터 <span class="math inline">\(\pmb a\)</span>와 <span class="math inline">\(\pmb b\)</span>는 각각 <span class="math inline">\(p\)</span>와 <span class="math inline">\(q\)</span>-차원 벡터이므로 다음과 같은 두 벡터 $$와 <span class="math inline">\(\pmb \beta\)</span>가 존재하고 다음과 같이 표시할 수 있다.</p>
+<p><span id="eq-cancor-linspace1"><span class="math display">\[
+\begin{aligned}
+\pmb a &amp;= \pmb U \pmb \alpha = \alpha_1 \pmb u_1 + \alpha_2 \pmb u_2 + \dots + \alpha_p \pmb u_p \\
+\pmb b &amp;= \pmb V \pmb \beta = \beta_1 \pmb v_1 + \beta_2 \pmb v_2 + \dots + \beta_q \pmb v_q  
+\end{aligned}
+\tag{7.10}\]</span></span></p>
+<p>여기서 <span class="math inline">\(\pmb \alpha^t \pmb \alpha = \pmb \beta^t \pmb \beta =1\)</span>.</p>
+<p>이제 <a href="#eq-cancor-cancor0" class="quarto-xref">식&nbsp;<span>7.9</span></a> 에 <a href="#eq-cancor-linspace1" class="quarto-xref">식&nbsp;<span>7.10</span></a> 를 대입하고 식 <a href="#eq-cancor-svd" class="quarto-xref">식&nbsp;<span>7.8</span></a> 의 SVD를 이용하면</p>
+<p><span class="math display">\[
+\begin{aligned}
+cor(Z,W)  &amp;= \pmb a^t \pmb C \pmb b \\
+   &amp;= \pmb \alpha^t \pmb U^t \pmb U \pmb S \pmb V^t \pmb V \pmb \beta \\
+   &amp;=  \pmb \alpha^t  \pmb S \pmb \beta \\
+   &amp;= \sum_{i=1}^ p \alpha_i \beta_i \sqrt{\lambda_i} \\
+   &amp;\le (\max_i \sqrt{\lambda_i} ) \sum_{i=1}^ p \alpha_i \beta_i \\
+   &amp; =  \sqrt{\lambda_1} \sum_{i=1}^ p \alpha_i \beta_i
+\end{aligned}
+\]</span></p>
+<p>위의 식에서 <span class="math inline">\(cor(Z,W)\)</span>가 상한값(upper bound)와 같아지려면 <span class="math inline">\(\pmb \alpha\)</span>와 <span class="math inline">\(\pmb \beta\)</span>의 계수는 다음과 같은 조건일 때이다.</p>
+<p><span class="math display">\[
+\alpha_1=1,~ \alpha_2=\dots=\alpha_p=0, \quad \beta_1=1,~ \beta_2=\dots=\beta_p=0
+\]</span></p>
+<p>따라서 표준화된 두 벡터의 정준상관계수는 <span class="math inline">\(\pmb C \pmb C^t\)</span>의 최대고유값의 제곱근이 되고 선형조합을 만드는 두 벡터 <span class="math inline">\(\pmb a\)</span> 와 <span class="math inline">\(\pmb b\)</span>는 각각 <span class="math inline">\(\pmb C \pmb C^t\)</span> 와 <span class="math inline">\(\pmb C^t \pmb C\)</span>의 첫번쨰 고유벡터가 된다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\rho(\pmb X_1,\pmb X_2) &amp;= Cov(Z,W) \\
+&amp;= \max_{\pmb a, \pmb b} ~~cor(\pmb a^t \pmb \Sigma_{11}^{-1/2} (\pmb X_1 - \pmb \mu_1)
+, \pmb b^t \pmb \Sigma_{22}^{-1/2}(\pmb X_2-\pmb \mu_2)) \\
+&amp;= cor(\pmb u_1^t \pmb \Sigma_{11}^{-1/2} (\pmb X_1 - \pmb \mu_1)
+, \pmb v_1^t \pmb \Sigma_{22}^{-1/2}(\pmb X_2-\pmb \mu_2)) \\
+&amp;= \sqrt{\lambda_1}
+\end{aligned}
+\]</span></p>
+<p>여기서 <span class="math inline">\(\pmb a =\pmb u_1, ~ \pmb b= \pmb v_1\)</span>이다.</p>
+<p>정준상관계수를 정의하고 유도하는 과정을 보면 주성분분석과 유사하게 서로 공분산이 0인 확률변수들를 만들고 대응하는 두 변수들간의 상관계수를 큰 순서대로 만들 수 있다. 예를 들어 <span class="math inline">\(Z_2= \pmb u_2^t \pmb \Sigma_{11}^{-1/2} (\pmb X_1 - \pmb \mu_1)\)</span>는 <span class="math inline">\(Z_1=\pmb u_1^t \pmb \Sigma_{11}^{-1/2} (\pmb X_1 - \pmb \mu_1)\)</span>과 공분산이 0이고 또한 <span class="math inline">\(W_2=\pmb v_2^t \pmb \Sigma_{22}^{-1/2} (\pmb X_2 - \pmb \mu_2)\)</span>는 <span class="math inline">\(W_1=\pmb v_1^t \pmb \Sigma_{22}^{-1/2} (\pmb X_2 - \pmb \mu_2)\)</span>과 공분산이 0 이다 (정규분포인경우 독립이다). 더 나아가 <span class="math inline">\(Z_2\)</span>와 <span class="math inline">\(W_2\)</span>의 상관계수는 각각 <span class="math inline">\(Z_1\)</span>과 <span class="math inline">\(W_1\)</span>의 공분산이 0인 변수들중에서 최대의 상관계수 <span class="math inline">\(\sqrt{\lambda_2}\)</span> 를 가지게 된다. 유사한 방법으로 <span class="math inline">\(Z_i\)</span>와 <span class="math inline">\(W_i\)</span>들을 정의할 수 있다.</p>
+</section>
+<section id="표본-정준상관계수" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="표본-정준상관계수"><span class="header-section-number">7.3.3</span> 표본 정준상관계수</h3>
+<p>이제 모집단이 아닌 표본이 주어졌을 경우 표본 정준상관계수를 구하는 방법은 다음과 같다. 이번에도 <span class="math inline">\(p \le q\)</span>를 가정하자.</p>
+<p>확률벡터 <span class="math inline">\(\pmb X\)</span>의 표본 상관계수행렬을 두 벡터 <span class="math inline">\(\pmb X_1\)</span>, <span class="math inline">\(\pmb X_2\)</span>의 차원에 맞게 다음과 같이 표시하고 구한다.</p>
+<p><span class="math display">\[
+\pmb R =
+\begin{bmatrix}
+\pmb R_{11} &amp; \pmb R_{12} \\
+\pmb R_{12}^t &amp; \pmb R_{22}
+\end{bmatrix}
+\]</span></p>
+<p>다음과 같은 두 행렬을 구한다.</p>
+<p><span class="math display">\[
+\pmb E_1 = \pmb R_{11}^{-1} \pmb R_{12}  \pmb R_{22}^{-1} \pmb R_{12}^t
+\]</span></p>
+<p><span class="math display">\[
+\pmb E_2 = \pmb R_{22}^{-1} \pmb R_{12}^t  \pmb R_{11}^{-1} \pmb R_{12}
+\]</span></p>
+<p>두 벡터 <span class="math inline">\(\pmb X_1\)</span>, <span class="math inline">\(\pmb X_2\)</span>의 표본 정준상관계수는 <span class="math inline">\(\pmb E_1\)</span> 또는 <span class="math inline">\(\pmb E_2\)</span>의 최대 고유치의 제곱근이다. 참고로 <span class="math inline">\(\pmb E_1\)</span> 와 <span class="math inline">\(\pmb E_2\)</span>은 이 아닌 고유값이 같다.</p>
+<p><code>swiss</code> 자료에서 출산율(Fertility)과 영아사망율(Infant.Mortality)을 하나의 벡터로 나머지 4개의 사회경제변수를 다른 벡터로 하여 표본 정준상관계수는 다음과 같이 구할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span><span class="fu">dim</span>(swiss)[<span class="dv">1</span>] </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>swiss0 <span class="ot">&lt;-</span> swiss[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)] <span class="co"># 순서를 바꾸는 작업</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">cor</span>(swiss0)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>R11 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(R[<span class="dv">1</span><span class="sc">:</span>p,<span class="dv">1</span><span class="sc">:</span>p],p,p)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>R22 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(R[(p<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(p<span class="sc">+</span>q),(p<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(p<span class="sc">+</span>q)],q,q)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>R12 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(R[<span class="dv">1</span><span class="sc">:</span>p,(p<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(p<span class="sc">+</span>q)],p,q)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>R11</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         [,1]     [,2]
+[1,] 1.000000 0.416556
+[2,] 0.416556 1.000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>R22</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]       [,2]       [,3]       [,4]
+[1,]  1.0000000 -0.6865422 -0.6395225  0.4010951
+[2,] -0.6865422  1.0000000  0.6984153 -0.5727418
+[3,] -0.6395225  0.6984153  1.0000000 -0.1538589
+[4,]  0.4010951 -0.5727418 -0.1538589  1.0000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>R12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            [,1]       [,2]        [,3]      [,4]
+[1,]  0.35307918 -0.6458827 -0.66378886 0.4636847
+[2,] -0.06085861 -0.1140216 -0.09932185 0.1754959</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>E1 <span class="ot">&lt;-</span>  <span class="fu">solve</span>(R11) <span class="sc">%*%</span> R12 <span class="sc">%*%</span> <span class="fu">solve</span>(R22) <span class="sc">%*%</span> <span class="fu">t</span>(R12)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>E2 <span class="ot">&lt;-</span>  <span class="fu">solve</span>(R22) <span class="sc">%*%</span> <span class="fu">t</span>(R12) <span class="sc">%*%</span> <span class="fu">solve</span>(R11) <span class="sc">%*%</span> R12</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>E1.eigen <span class="ot">&lt;-</span> <span class="fu">eigen</span>(E1)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>E2.eigen <span class="ot">&lt;-</span> <span class="fu">eigen</span>(E2)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(E1.eigen<span class="sc">$</span>value[<span class="dv">1</span>])</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>rho <span class="co"># sample CCA</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8142291</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(E2.eigen<span class="sc">$</span>value[<span class="dv">1</span>])</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8142291+0i</code></pre>
+</div>
+</div>
+<p><code>R</code> 패키지 <code>CCA</code>의 함수 <code>cc</code> 를 이용하면 표본 정준상관계수와 선형변환을 위한 벡터를 구할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CCA)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> swiss[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">6</span>)]</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">&lt;-</span> swiss[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">cc</span>(X1,X2)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>res1<span class="sc">$</span>cor <span class="co"># sample CCA</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8142291 0.2222637</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>res1<span class="sc">$</span>xcoef <span class="co"># vectors for linear transformation for X1</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        [,1]        [,2]
+Fertility        -0.08456464 -0.02455185
+Infant.Mortality  0.05534823  0.37357101</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>res1<span class="sc">$</span>ycoef <span class="co"># vectors for linear transformation for X2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   [,1]        [,2]
+Agriculture  0.01985292 -0.05136137
+Examination  0.02690124  0.02476760
+Education    0.09414900 -0.03527373
+Catholic    -0.01164052  0.01793981</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "복사완료!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "복사완료!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation column-page-right">
+  <div class="nav-page nav-page-previous">
+      <a href="../qmd/multivar-pca.html" class="pagination-link" aria-label="주성분 분석">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">주성분 분석</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
