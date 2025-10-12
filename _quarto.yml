@@ -17,11 +17,14 @@ book:
     - qmd/multivar-cov.qmd
     - qmd/multivar-discrim.qmd
     - qmd/multivar-pca.qmd
+    - qmd/multivar-cancor.qmd
     - references.qmd
   appendices:
     - qmd/math_mat_basic.qmd
     - qmd/math_eigen_value.qmd
+    - qmd/math_matrix_decomp.qmd
     - qmd/app-likelihood-ratio.qmd
+    
 
 bibliography: references.bib
 

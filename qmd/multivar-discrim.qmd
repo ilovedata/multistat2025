@@ -411,13 +411,14 @@ $$ {#eq-discrim-fisher-optimal}
 
 ::: {.callout-note}
 
-#### 코쉬-쉬바르쯔 부등식
+#### 코쉬-쉬바르쯔 부등식 
 
 두 벡터 $\pmb u$와 $\pmb v$에 대하여 다음 부등식(Cauchy–Schwarz Inequality)이 성립한다.
 
 $$
 |\pmb u^t \pmb v|^2 \le (\pmb u^t \pmb u)(\pmb v^t \pmb v)
-$$
+$$ {#eq-discrim-cauchy-schwarz}
+
 부등식의 등호는 $\pmb u$와 $\pmb v$가 선형종속일 때, 즉 $\pmb u = c \pmb v$ 인 경우  성립한다.
 
 @eq-discrim-fisher-bound 에서 다음과 같이 벡터 $\pmb u$ 와 $\pmb v$ 를 적용하면 원하는 결과를 얻는다.
