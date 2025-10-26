@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; 탐색적 인자 분석 – 다변량통계학-2025년 2학기</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../references.html" rel="next">
+<link href="../qmd/multivar-cancor.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-d3c9390091c69a50683db05bc45f20d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script>
+<script type="text/javascript">
+ window.MathJax = {
+  tex: {
+    macros: {
+    RR: '{\\mathbb R}',                    // a simple string replacement
+    hatmat:'{\\pmb X ({\\pmb X}^t {\\pmb X} )^{-1} {\\pmb X}^t}',
+    bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+    pardiff: ['\\frac{\\partial#2}{\\partial#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+    pardifftwo: ['\\frac{\\partial#1}{\\partial#2}', 2],
+    pardiffd: ['\\frac{\\partial#1}{\\partial#2^t \\partial#2}', 2],
+    pardiffdd: ['\\frac{\\partial#1}{\\partial#3 \\partial#2}', 3],
+    norm: ['\\lVert#1\\rVert',1]
+  },
+  environments: {
+  braced: ["\\left\\{", "\\right\\}"]
+  }
+ }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/multivar-factor.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">탐색적 인자 분석</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">다변량통계학-2025년 2학기</a> 
+        <div class="sidebar-tools-main">
+    <a href="../다변량통계학-2025년-2학기.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="검색"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-dist.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">확률벡터와 다변량 정규분포</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-vis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">다변량 자료의 시각화</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">다변량 가설 검정</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-cov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">공분산 행렬의 추정</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-discrim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">판별분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">주성분 분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-cancor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">정준상관분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-factor.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">탐색적 인자 분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/math_mat_basic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">행렬의 기초</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/math_eigen_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">고유값과 고유벡터</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/math_matrix_decomp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">행렬의 분해</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/app-likelihood-ratio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">가능도비 검정</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#인자-모형" id="toc-인자-모형" class="nav-link active" data-scroll-target="#인자-모형"><span class="header-section-number">8.1</span> 인자 모형</a>
+  <ul class="collapse">
+  <li><a href="#단순-인자-모형" id="toc-단순-인자-모형" class="nav-link" data-scroll-target="#단순-인자-모형"><span class="header-section-number">8.1.1</span> 단순 인자 모형</a></li>
+  <li><a href="#k-인자-모형" id="toc-k-인자-모형" class="nav-link" data-scroll-target="#k-인자-모형"><span class="header-section-number">8.1.2</span> k-인자 모형</a></li>
+  <li><a href="#척도-불변성" id="toc-척도-불변성" class="nav-link" data-scroll-target="#척도-불변성"><span class="header-section-number">8.1.3</span> 척도 불변성</a></li>
+  <li><a href="#인자의-비유일성" id="toc-인자의-비유일성" class="nav-link" data-scroll-target="#인자의-비유일성"><span class="header-section-number">8.1.4</span> 인자의 비유일성</a></li>
+  </ul></li>
+  <li><a href="#모형의-추정" id="toc-모형의-추정" class="nav-link" data-scroll-target="#모형의-추정"><span class="header-section-number">8.2</span> 모형의 추정</a>
+  <ul class="collapse">
+  <li><a href="#단순-인자모형" id="toc-단순-인자모형" class="nav-link" data-scroll-target="#단순-인자모형"><span class="header-section-number">8.2.1</span> 단순 인자모형</a></li>
+  <li><a href="#최대-가능도-추정법" id="toc-최대-가능도-추정법" class="nav-link" data-scroll-target="#최대-가능도-추정법"><span class="header-section-number">8.2.2</span> 최대 가능도 추정법</a></li>
+  <li><a href="#주성분-인자분석" id="toc-주성분-인자분석" class="nav-link" data-scroll-target="#주성분-인자분석"><span class="header-section-number">8.2.3</span> 주성분 인자분석</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">탐색적 인자 분석</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HSAUR2)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#아래 3 문장은 한글을 포함한 ggplot 그림이 포함된 HTML, PDF로 만드는 경우 사용</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#font_add_google("Nanum Pen Script", "gl")</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">font_add_google</span>(<span class="at">name =</span> <span class="st">"Noto Sans KR"</span>, <span class="at">family =</span> <span class="st">"noto"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>인자분석(factor analysis)은 관측된 여러 변수들 간의 상관관계를 설명하기 위해, 관측된 여러 개의 변수들이 소수의 잠재적 요인(latent factors)에 의해 영향을 받는다는 가정 하에 사용되는 통계적 모형이다.</p>
+<p>다변량 관측자료에 포함된 정보가 소수의 잠재 요인(latent factors)으로부터 생성된다고 가정하는 것은 매우 흥미로운 모형이다. 실제로 소수의 잠재적 요인이 다양한 정보들과 관련되어 있다면 현실에 나타나는 여러가지 다양한 현상들을 깊이 이해하고 잘 설명해 줄 수 있다. 인자분석은 복잡한 데이터 구조를 단순화하고 이해하는 데 도움을 준다.</p>
+<p>또한 심리학, 사화학, 경제학에서는 자연과학과 다르게 연구의 대상이 되는 개념을 직접 측정할 수 없는 경우가 흔하게 일어난다. 예를 들어 자연과학에서 온도(temperature)라는 개념은 과학적인 정의에 따라서 다양한 방법으로 쉽고 정확하게 측정할 수 있다. 하지만 지능(intelligence), 스트레스(stress), 고통(pain), 만족도와 같은 연구 대상들은 온도와 다르게 정의도 어렵고 측정은 더 어려운 것이 현실이다.</p>
+<p>예를 들어 학교에서 배우는 여러 과목의 시험점수들에 개인이 가지고 있는 지능(intelligence)라는 잠재변수가 공통적으로 영향을 미친다고 가정할 수 있다. 여기서 지능은 측정할 수 없으며 시험의 결과는 개인이 가진 지능에 영향을 받으며 점수로 측정값을 구할 수 있다.</p>
+<p>이렇게 정의와 측정이 어려운 개념을 직접 관찰할 수 없는 요인(<strong>latent factor; 인자</strong>)으로 보고 이러한 요인에 영향을 받아 그 값을 실제로 관측할 수 있는 다양한 파생적인 변수(<strong>manifest variables; 명시변수, 관측변수</strong>)들을 관측할 수 있다고 가정할 수 있다. 이렇게 소수의 인자로 다수의 관측 가능한 변수들의 관계를 선형 관계로 가정하고 해석하는 분석을 인자 분석(factor analysis)라고 한다. 인자분석은 심리학, 마케팅, 경제학, 정치학 등 매우 다양한 분야에서도 중요한 분석 방법으로 사용된다.</p>
+<p>인자 분석은 두 가지 유형으로 나뉜다. 첫 번쨰는 탐색적 요인분석(explanatory factor analysis)으로, 어떤 관측변수가 어떤 요인과 관련되는지에 대한 가정을 하지 않은 채 관측변수와 요인 간의 관계를 조사하는 데 사용된다. 확증적 요인 분석(confirmatory factor analysis)으로, 사전에 가정된 특정 요인 모델이 관측 변수들 간의 분산이나 상관관계에 적합한지 검증하는 데 사용된다. 이 장에서는 탐색적 요인분석만을 다루고 확증적 요인 분석은 다루지 않을 것이다.</p>
+<p>인자분석의 목적과 방법을 간단하게 요약하면 다음과 같이 말할 수 있다.</p>
+<ul>
+<li><p>가정된 인자(factor) 또는 잠재변수(latent variable)와 측정변수들의 관계를 찾는것이 탐색적 인자분석의 목적이다.</p></li>
+<li><p>인자는 측정할 수 없는 변수로서 각 측정변수에 영향을 미친다고 가정한다.</p></li>
+<li><p>여러 개의 관측변수에 영향을 미치는 공통의 잠재변수는 공통인자(common factor)라고 말한다.</p></li>
+</ul>
+<section id="인자-모형" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="인자-모형"><span class="header-section-number">8.1</span> 인자 모형</h2>
+<section id="단순-인자-모형" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="단순-인자-모형"><span class="header-section-number">8.1.1</span> 단순 인자 모형</h3>
+<p>이 장에서는 단순 인자 모형(one factor model)을 사용하여 인자분석의 기본 개념을 설명한다. 단순 인자 모형은 하나의 잠재 요인(factor)이 여러 관측 변수들에 영향을 미친다고 가정하는 모델이다.</p>
+<p>탐색적 인자 분석을 이용한 단순 인자 모형은 Spearman 이 1904년 학생들의 시험 성적과 지능에 대한 모형을 고려하면서 처음 제안되었다. 이제 Spearman 이 제안한 단순 인자 분석에 대한 통계적 가정과 모형을 살펴보자.</p>
+<p>Spearman 은 세 과목의 시험점수에 대한 자료를 얻어서 다음과 같은 상관행렬 <span class="math inline">\(\pmb R\)</span>을 얻었다.</p>
+<ul>
+<li><span class="math inline">\(X_1\)</span> : Classics</li>
+<li><span class="math inline">\(X_2\)</span> : French</li>
+<li><span class="math inline">\(X_3\)</span> : English</li>
+</ul>
+<p><span class="math display">\[
+\pmb R=
+\begin{bmatrix}
+1.00 &amp; &amp; \\
+0.83 &amp; 1.00 &amp; \\
+0.78 &amp; 0.67 &amp; 1.0
+\end{bmatrix}
+\]</span></p>
+<p>지능(intelligence)을 나타내는 잠재 변수인 <span class="math inline">\(f\)</span>가 3개의 시험 점수와 다음과 같은 관계를 가진다고 가정하는 것이 일인자 인자 모형(one factor model)이다. 모형은 다음과 같은 수식으로 표현된다.</p>
+<p><span id="eq-multivar-factor-one-factor"><span class="math display">\[
+\begin{aligned}
+X_1 &amp; = \lambda_1 f + u_1  \\
+X_2 &amp; = \lambda_2 f + u_2 \\
+X_3 &amp; = \lambda_3 f + u_3
+\end{aligned}
+\tag{8.1}\]</span></span></p>
+<p><a href="#eq-multivar-factor-one-factor" class="quarto-xref">식&nbsp;<span>8.1</span></a> 에서 제시된 일인자 모형에 대한 특성은 다음과 같다.</p>
+<ul>
+<li><p><span class="math inline">\(f\)</span> 는 공통 인자(common factor, latent variable)로 관측할 수 없는 확률 변수(random variable)이다.</p></li>
+<li><p><span class="math inline">\(\lambda_1, \lambda_2, \lambda_3\)</span>는 인자 적재값 (factor loading) 이라고 부르며 고정된 값을 가진 계수이다.</p></li>
+<li><p><span class="math inline">\(u_i\)</span> 는 임의 변동(random disturbance)으로 점수 <span class="math inline">\(X_i\)</span> 에 반영되는 양으로 개인의 특정한 능력(specific factor) 과 단순 오차(random error)의 합으로 구성된다.</p></li>
+</ul>
+<p><a href="#eq-multivar-factor-one-factor" class="quarto-xref">식&nbsp;<span>8.1</span></a> 에서 정의된 항들의 분포 가정과 관측 변수의 분산 구조는 다음과 같다.</p>
+<ul>
+<li><p><span class="math inline">\(X_i\)</span>’s 는 평균이 0 이고 분산이 1인 확률변수이다 (표준화)</p></li>
+<li><p><span class="math inline">\(f\)</span> 는 평균이 0 이고 분산이 1인 확률변수이다.</p></li>
+<li><p><span class="math inline">\(u_i\)</span>’s 평균이 0 이고 분산이 <span class="math inline">\(\psi_i\)</span> 인 확률변수이다</p></li>
+<li><p><span class="math inline">\(u_i\)</span> 들은 서로 독립이다.</p></li>
+<li><p><span class="math inline">\(f\)</span> 와 <span class="math inline">\(u_i\)</span> 들도 서로 독립이다.</p></li>
+</ul>
+<p>이제 관측 변수 <span class="math inline">\(X_i\)</span>’s 의 분산과 공분산을 계산하여 <a href="#eq-multivar-factor-one-factor" class="quarto-xref">식&nbsp;<span>8.1</span></a> 에서 제시된 모형이 상관행렬 <span class="math inline">\(\pmb R\)</span>를 어떻게 설명하는지 살펴보자.</p>
+<p>먼저 <span class="math inline">\(X_i\)</span>’s 의 분산을 계산하면 다음과 같다. <span class="math display">\[
+\begin{aligned}
+V(X_i) &amp; \equiv  1 \\
+    &amp;=  V(\lambda_i f +u_i)  \\
+   &amp;= \lambda_i^2 V(f) + V(u_i) \\
+   &amp;= \lambda_i^2 +\psi_i
+\end{aligned}
+\]</span></p>
+<p>다음으로 <span class="math inline">\(X_i\)</span>’s 의 공분산을 계산하면 다음과 같다. <span id="eq-multivar-factor-one-factor-cov"><span class="math display">\[
+\begin{aligned}
+Cov(X_i,X_j) &amp;= Cov(\lambda_i f +u_i, \lambda_j f + u_j) \\
+  &amp;= \lambda_i \lambda_j Cov(f,f) + \lambda_i Cov(f,u_j) + \lambda_j Cov(f, u_i) +Cov(u_i, u_j) \\
+  &amp;= \lambda_i \lambda_j V(f) +0 +0+0  \\
+  &amp;= \lambda_i \lambda_j \\
+  &amp;\equiv corr(X_i,X_j) \quad \text{since } V(X_i)=1
+\end{aligned}
+\tag{8.2}\]</span></span></p>
+</section>
+<section id="k-인자-모형" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="k-인자-모형"><span class="header-section-number">8.1.2</span> k-인자 모형</h3>
+<p>이제 <a href="#eq-multivar-factor-one-factor" class="quarto-xref">식&nbsp;<span>8.1</span></a> 에 나타난 일인자 모형을 확장하여 k 개의 인자를 가지는 k-인자 모형을 고려할 수 있다. 관측이 가능한 확률 변수의 개수는 <span class="math inline">\(q\)</span> 개라고 하자.</p>
+<p>여기서 인자 분석의 목적에 따라서 인자의 개수 <span class="math inline">\(k\)</span> 는 가능한 확률 변수의 개수는 <span class="math inline">\(q\)</span> 보다 작게 설정하는 것이 일반적이다 (<span class="math inline">\(k \le q\)</span>).</p>
+<p><span id="eq-multivar-factor-k-factor"><span class="math display">\[
+\begin{aligned}
+X_1   &amp;= \lambda_{11} f_1 + \lambda_{12} f_2 + \dots \lambda_{1k} f_k +u_1  \\
+X_2   &amp;= \lambda_{21} f_1 + \lambda_{22} f_2 + \dots \lambda_{2k} f_k +u_2  \\
+  &amp; \dots  \dots    \\
+X_q   &amp;= \lambda_{q1} f_1 + \lambda_{q2} f_2 + \dots \lambda_{qk} f_k +u_q  \\
+\end{aligned}
+\tag{8.3}\]</span></span></p>
+<p><a href="#eq-multivar-factor-k-factor" class="quarto-xref">식&nbsp;<span>8.3</span></a> 에서 정의된 항들의 분포 가정과 관측 변수의 분산 구조는 다음과 같다.</p>
+<ul>
+<li><p>확률 변수 <span class="math inline">\(X_i\)</span>’s 는 평균이 0 이고 분산이 1인 확률변수이다 (표준화)</p></li>
+<li><p>k-인자 벡터 <span class="math inline">\(\pmb f\)</span> 는 평균이 <span class="math inline">\(\pmb 0\)</span> 이고 분산이 <span class="math inline">\(\pmb I_k\)</span> 인 확률벡터이다.</p></li>
+</ul>
+<p><span class="math display">\[ E(\pmb f) =0, \quad Var(\pmb f) = \pmb I_k \]</span></p>
+<ul>
+<li><span class="math inline">\(\pmb u\)</span>’s 평균이 <span class="math inline">\(\pmb 0\)</span> 이고 각 분산이 <span class="math inline">\(\psi_i\)</span> 이며 서로 독립인 확률변수이다</li>
+</ul>
+<p><span class="math display">\[ E(\pmb u) =0, \quad Var(\pmb u) = \pmb \Psi
+= \begin{bmatrix}
+\psi_1 &amp; 0 &amp; \dots &amp; 0  \\
+0 &amp; \psi_2 &amp; \dots &amp; 0  \\
+  &amp;  &amp;  \dots &amp;  \\
+0 &amp; 0 &amp; \dots &amp; \psi_q  \\
+\end{bmatrix}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\pmb f\)</span> 와 <span class="math inline">\(\pmb u\)</span> 들도 서로 독립이다.</li>
+</ul>
+<p><a href="#eq-multivar-factor-k-factor" class="quarto-xref">식&nbsp;<span>8.3</span></a> 의 k-인자 모형을 행렬식으로 표현하면 다음과 같다.</p>
+<p><span id="eq-multivar-factor-k-factor-matrix"><span class="math display">\[
+\pmb X = \pmb \Lambda  \pmb f + \pmb u
+\tag{8.4}\]</span></span></p>
+<p>여기서 <span class="math inline">\(\pmb \Lambda\)</span>는 다음과 같은 <span class="math inline">\(q \times k\)</span> 행렬이다 <span class="math display">\[
+\Lambda =
+\begin{bmatrix}
+\lambda_{11} &amp; \lambda_{12} &amp; \dots &amp; \lambda_{1k}  \\
+\lambda_{21} &amp; \lambda_{22} &amp; \dots &amp; \lambda_{2k}  \\
+  &amp;  &amp;  \dots &amp;  \\
+\lambda_{q1} &amp; \lambda_{q2} &amp; \dots &amp; \lambda_{qk}  \\
+\end{bmatrix}
+\]</span></p>
+<p><a href="#eq-multivar-factor-k-factor" class="quarto-xref">식&nbsp;<span>8.3</span></a> 에서 제시된 k-인자 모형과 통계적 가정에 따라서 관측 변수들의 분산 구조는 다음과 같다.</p>
+<p><span id="eq-multivar-factor-k-factor-var1"><span class="math display">\[
+\begin{aligned}
+Var(X_i) &amp; = Var(\lambda_{i1} f_1 + \lambda_{i2} f_2 + \dots \lambda_{ik} f_k +u_i ) \\
+&amp; = \sum_{l=1}^q \lambda_{il}^2 + \psi_i  \\
+&amp; = h_i^2 + \psi_i  \\
+&amp; \equiv 1
+\end{aligned}
+\tag{8.5}\]</span></span></p>
+<p><a href="#eq-multivar-factor-k-factor-var1" class="quarto-xref">식&nbsp;<span>8.5</span></a> 에서 나타난 분산의 두 부분을 다음과 같이 부른다.</p>
+<ol type="1">
+<li><span class="math inline">\(h_i^2 = \sum_{l=1}^q \lambda_{il}^2\)</span>를 변수의 공통성(communality)라고 부른다.</li>
+</ol>
+<ul>
+<li>공통성(communality)의 의미는 관측변수들 모두가 공통으로 영향을 받는 k개의 인자들에 의해 설명되는 분산의 크기를 나타낸다. 공통성이 크다는 것은 해당 변수가 인자들에 의해 잘 설명된다는 것을 의미한다.</li>
+</ul>
+<ol start="2" type="1">
+<li><span class="math inline">\(\psi_i\)</span>는 임의변동(random disturbance) 또는 유일분산(unique variance)라 부른다.</li>
+</ol>
+<ul>
+<li>임의변동은 변수 <span class="math inline">\(X_i\)</span>의 분산 중에서 인자들에 의해 설명되지 않는 부분을 나타낸다. 임의변동이 크다는 것은 해당 변수가 공통 인자들이 아닌 특정한 요인에 의해 영향을 더 많이 받는다는 것을 의미한다.</li>
+</ul>
+<p>각 변수간의 상관 관계는 다음과 같다. 변수간의 상관관계는 특수분산과 관계없다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+cor(X_i, X_j) &amp; = cor( \sum_{l=1}^q \lambda_{il} f_l +u_i , \sum_{l=1}^q \lambda_{jl} f_l +u_j ) \\
+&amp; = \sum_{l=1}^q \lambda_{il} \lambda_{jl} Var(f_l) + 0 +0 +0 \\
+&amp; =  \sum_{l=1}^q \lambda_{il} \lambda_{jl}
+\end{aligned}
+\]</span></p>
+<p>위의 결과와 관측벡터에 대한 표준화 가정을 이용하면 관측벡터 <span class="math inline">\(\pmb X\)</span> 의 공분산은 다음과 같이 상관계수 행렬 <span class="math inline">\(\pmb R\)</span> 로 나타난다.</p>
+<p><span id="eq-multivar-factor-k-factor-cov"><span class="math display">\[
+\begin{aligned}
+\pmb \Sigma  &amp; = Cov( \pmb X) \\
+&amp; = Cov(\pmb \Lambda \pmb f + \pmb u) \\
+&amp; = \pmb \Lambda Cov(\pmb f) \pmb \Lambda^t + Cov(\pmb u) \\
+&amp; = \pmb \Lambda \pmb  \Lambda^t + \pmb \Psi \\
+  &amp; \equiv \pmb R
+\end{aligned}
+\tag{8.6}\]</span></span> 여기서 <span class="math inline">\(\pmb \Psi\)</span>는 특수분산 <span class="math inline">\(\psi_i\)</span>들을 대각원소로 가지는 대각행렬이다.</p>
+<p><span class="math display">\[
+\pmb \Psi =
+\begin{bmatrix}
+\psi_1 &amp; 0 &amp; \dots &amp; 0  \\
+0 &amp; \psi_2 &amp; \dots &amp; 0  \\
+  &amp;  &amp;  \dots &amp;  \\
+0 &amp; 0 &amp; \dots &amp; \psi_q  \\
+\end{bmatrix}
+\]</span></p>
+</section>
+<section id="척도-불변성" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="척도-불변성"><span class="header-section-number">8.1.3</span> 척도 불변성</h3>
+<p>지금까지 관측변수 <span class="math inline">\(X_i\)</span>가 평균은 0 이고(언제나 관측값에서 평균을 빼면 가능하다) 분산이 1 이라고 표준화 가정을 사용하였다. 이제 관측변수 <span class="math inline">\(X_i\)</span>가의 분산이 1이 아니라고 가정하고 <span class="math inline">\(X_i\)</span>에 대한 척도 변환(scale transformation)을 생각해보자. 즉, 새로운 확률변수 <span class="math inline">\(Y_i\)</span> 를 <span class="math inline">\(X_i\)</span>에 대한 척도 변환으로 다음과 같이 정의한다.</p>
+<p><span class="math display">\[
+Y_i =c_i X_i, \quad i=1,2,3\dots, q
+\]</span></p>
+<p>행렬 <span class="math inline">\(\pmb C\)</span>를 <span class="math inline">\(c_i\)</span> 들로 이루어진 대각 행렬이라고 한다면</p>
+<p><span class="math display">\[
+\pmb C =
+\begin{bmatrix}
+c_1 &amp; 0 &amp; \dots &amp; 0  \\
+0 &amp; c_2 &amp; \dots &amp; 0  \\
+  &amp;  &amp;  \dots &amp;  \\
+0 &amp; 0 &amp; \dots &amp; c_q  \\
+\end{bmatrix}
+\]</span></p>
+<p>새로운 관측값 확률벡터는 <span class="math inline">\(\pmb Y = \pmb C \pmb X\)</span>이고 변환된 <span class="math inline">\(\pmb Y\)</span>의 공분산은 <a href="#eq-multivar-factor-k-factor-cov" class="quarto-xref">식&nbsp;<span>8.6</span></a> 에 의하여 다음과 같이 쓸 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+Cov(\pmb Y) &amp; = Cov(\pmb C \pmb X) \\
+  &amp; = \pmb C Cov(\pmb X) \pmb C^t \\
+  &amp; = \pmb C \pmb \Lambda \pmb \Lambda^t \pmb C^t + \pmb C \pmb \Psi \pmb C^t \\
+\end{aligned}
+\]</span></p>
+<p>위의 식에서 <span class="math inline">\(\pmb {\Lambda}_y = \pmb C \pmb \Lambda\)</span>로 정의하고 <span class="math inline">\({\pmb u}_y=  \pmb C \pmb u\)</span> 로 놓으면 변환된 확률 벡터 <span class="math inline">\(\pmb Y\)</span>에 대한 인자모형은 다음과 같다.</p>
+<p><span id="eq-multivar-factor-k-factor-scale-cov"><span class="math display">\[
+\pmb Y = {\pmb \Lambda}_y \pmb f + {\pmb u}_y
+\tag{8.7}\]</span></span></p>
+<p><a href="#eq-multivar-factor-k-factor-scale-cov" class="quarto-xref">식&nbsp;<span>8.7</span></a> 을 척도 변환과 함께 풀어 쓰면 다음과 같다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_1   &amp;= c_1 \lambda_{11} f_1 + c_1 \lambda_{12} f_2 + \dots + c_1 \lambda_{1k} f_k +c_1 u_1  \\
+Y_2   &amp;= c_2 \lambda_{21} f_1 + c_2 \lambda_{22} f_2 + \dots + c_2\lambda_{2k} f_k +c_2u_2  \\
+  &amp;    \dots \\
+Y_q   &amp;= c_q \lambda_{q1} f_1 + c_q \lambda_{q2} f_2 + \dots + c_q \lambda_{qk} f_k +c_qu_q  \\
+\end{aligned}
+\]</span></p>
+<p>위의 식에서 볼 수 있듯이 척도변환을 하면 각 인자의 적재값과 임의변동의 값도 같은 척도로 변하는 것을 알 수 있다. 만약에 <span class="math inline">\(c_i\)</span>를 관측변수의 표준편차 <span class="math inline">\(s_i\)</span> 의 역수로 놓으면 <span class="math inline">\(c_i = 1/s_i\)</span> <span class="math inline">\(\pmb Y\)</span>의 공분산 행렬은 <span class="math inline">\(\pmb X\)</span>의 상관계수 행렬이 된다.</p>
+<p>따라서 인자분석을 하는 경우 <span class="math inline">\(\pmb X\)</span>의 공분산 행렬을 이용하는 것과 상관계수 행렬을 이용하는 것이 일치하는 결과를 준다. 일치하는 결과라는 것은 척도변환에 의하여 언제나 대응되는 계수를 구할 수 있다는 의미이다 (<strong>척도의 불변성, scale invariance</strong>)</p>
+<p>참고로 주성분 분석은 공분산 행렬을 이용하는 경우와 상관계수 행렬을 이용하는 경우 척도가 달라지기 떄문에 동일한 결과를 얻을 수 없다.</p>
+</section>
+<section id="인자의-비유일성" class="level3" data-number="8.1.4">
+<h3 data-number="8.1.4" class="anchored" data-anchor-id="인자의-비유일성"><span class="header-section-number">8.1.4</span> 인자의 비유일성</h3>
+<p>임의의 <span class="math inline">\(k \times k\)</span>의 직교행렬 <span class="math inline">\(\pmb P\)</span>을 생각하고 인자모형을 변환하여 보자</p>
+<p><span class="math display">\[
+\begin{aligned}
+\pmb X &amp; = \pmb \Lambda \pmb f + \pmb u \\
+  &amp; = \pmb \Lambda \pmb P  \pmb P^t \pmb f + \pmb u \\
+  &amp; = (\pmb \Lambda \pmb P) (\pmb P^t \pmb f) + \pmb u \\
+  &amp; = \pmb \Lambda_1 \pmb f_1 + \pmb u
+\end{aligned}
+\]</span> 여기서 <span class="math inline">\(\pmb \Lambda_1 = \pmb \Lambda \pmb P\)</span>이고 <span class="math inline">\(\pmb f_1 = \pmb P^t \pmb f\)</span>이다. 위의 새로운 인자 모형에서의 인자 <span class="math inline">\(\pmb f_1\)</span>의 분포와 관측변수 <span class="math inline">\(\pmb X\)</span>의 공분산은 윈래 인자 <span class="math inline">\(\pmb f\)</span>의 분포와 동일한다.</p>
+<p><span class="math display">\[
+E(\pmb f_1) =E( \pmb P^t \pmb f)=\pmb P^t E(\pmb f) =0, \quad
+Cov(\pmb f_1)=\pmb P^t Var(\pmb f) \pmb P=\pmb P^t \pmb P =\pmb I
+\]</span></p>
+<p>따라서 새로운 인자 모형에서 관측벡터 <span class="math inline">\(\pmb X\)</span>의 공분산은 다음과 같다.</p>
+<p><span class="math display">\[
+Cov( \pmb X) = Cov ({\pmb \Lambda}_1 {\pmb f}_1 + \pmb u) = Cov ({\pmb \Lambda} {\pmb f} + \pmb u) = \pmb \Lambda \pmb \Lambda^t + \pmb \Psi
+\]</span></p>
+<p>따라서 인자적재값은 같은 자료라도 유일하게 존재하지 않는다(non-uniquesness). 더나아가 인자의 적재행렬에 제한 조건을 주면 유일하게 존재할 수 있다(인자의 회전; factor rotation)</p>
+</section>
+</section>
+<section id="모형의-추정" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="모형의-추정"><span class="header-section-number">8.2</span> 모형의 추정</h2>
+<p>이제 인자 모형을 추정하는 방법에 대해서 알아보자.</p>
+<section id="단순-인자모형" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="단순-인자모형"><span class="header-section-number">8.2.1</span> 단순 인자모형</h3>
+<p>먼저 <a href="#eq-multivar-factor-one-factor" class="quarto-xref">식&nbsp;<span>8.1</span></a> 에 나타난 단순 인자 모형과 공분산에 대한 결과 <a href="#eq-multivar-factor-one-factor-cov" class="quarto-xref">식&nbsp;<span>8.2</span></a> 를 고려하면 다음과 같은 방정식을 유도할 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\pmb R &amp; = \pmb \Lambda \pmb \Lambda^t + \pmb \Psi \\
+&amp; =
+\begin{bmatrix}
+\lambda_1 \\
+\lambda_2 \\
+\lambda_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+\lambda_1 &amp; \lambda_2 &amp; \lambda_3 \\
+\end{bmatrix}
++
+\begin{bmatrix}
+\psi_1 &amp; 0 &amp; 0 \\
+0 &amp; \psi_2 &amp; 0 \\
+0 &amp; 0 &amp; \psi_3 \\
+\end{bmatrix} \\
+&amp; =
+\begin{bmatrix}
+\lambda_1^2 + \psi_1 &amp; \lambda_1 \lambda_2 &amp; \lambda_1 \lambda_3 \\
+\lambda_2 \lambda_1 &amp; \lambda_2^2 + \psi_2 &amp; \lambda_2 \lambda_3 \\
+\lambda_3 \lambda_1 &amp; \lambda_3 \lambda_2 &amp; \lambda_3^2 + \psi_3 \\
+\end{bmatrix}
+\end{aligned}
+\]</span> 실제 관측한 3개의 시험점수의 상관행렬 <span class="math inline">\(\pmb R\)</span>를 위의 식에 대입하면 다음과 같은 방정식을 얻는다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\lambda_1 \lambda_2 &amp; = 0.83 \\
+\lambda_1 \lambda_3 &amp; = 0.78 \\
+\lambda_2 \lambda_3 &amp; = 0.67 \\
+\lambda_1^2 + \psi_1 &amp; = 1 \\
+\lambda_2^2 + \psi_2 &amp; = 1 \\   
+\lambda_3^2 + \psi_3 &amp; = 1 \\
+\end{aligned}
+\]</span></p>
+<p>위의 비선형 방정식 시스템을 풀면 다음과 같은 해를 얻는다. 이러한 해로 <a href="#eq-multivar-factor-one-factor" class="quarto-xref">식&nbsp;<span>8.1</span></a> 에 나타난 단순 인자 모형의 인자와 분산성분을 추정할 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat \lambda_1 &amp; = 0.99, \quad \hat \psi_1 = 0.02 \\
+\hat \lambda_2 &amp; = 0.84, \quad \hat \psi_2 = 0.3 \\
+\hat \lambda_3 &amp; = 0.79, \quad \hat \psi_3 = 0.38 \\
+\end{aligned}
+\]</span></p>
+</section>
+<section id="최대-가능도-추정법" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="최대-가능도-추정법"><span class="header-section-number">8.2.2</span> 최대 가능도 추정법</h3>
+<p>탐색적 인자분석에서 인자 적재값과 특수분산을 추정하는 방법으로 최대 가능도 추정법(Maximum Likelihood Estimation; MLE)을 사용할 수 있다. 최대 가능도 추정법은 관측된 데이터가 주어진 모형에 의해 생성될 확률을 최대화하는 모수 값을 찾는 방법이다.</p>
+<p>다변량 정규분포 모형에서 분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span>가 인자 모형에 의해 <a href="#eq-multivar-factor-k-factor-cov" class="quarto-xref">식&nbsp;<span>8.6</span></a> 과 같이 나타난다고 가정하고 최대 가능도 추정법을 적용할 수 있다.</p>
+<p>이 장에서는 최대 가능도 추정법에 대한 자세한 설명은 생략하고 주성분 분석을 이용한 간단한 모형 추정법을 다음 절에 소개하려고 한다.</p>
+</section>
+<section id="주성분-인자분석" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="주성분-인자분석"><span class="header-section-number">8.2.3</span> 주성분 인자분석</h3>
+<p>탐색적 인자분석에서 요인의 초기 추정값을 얻는 방법으로 주성분분석을 사용할 수 있다. 주성분분석를 통해 얻은 상위 몇 개의 주성분이 데이터의 분산을 대부분 설명한다면, 이 주성분들을 잠재요인의 초기 근사치로 사용할 수 있다.</p>
+<p>이러한 접근 방법을 주성분 인자분석(Principal Component Factor Analysis) 이라고 부른다.</p>
+<p><span class="math inline">\(q\)</span>-차원의 임의 벡터 <span class="math inline">\(\pmb X^t=(X_1,X_2,\dots, X_q)\)</span> 가 평균이 0이고 공분산이 <span class="math inline">\(\pmb \Sigma\)</span>이라 가정하자.</p>
+<p>먼저 표본 공분산 행렬 <span class="math inline">\(\hat {\pmb \Sigma}\)</span>을 이용하여 주성분 분석을 실시한다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+Z_1   &amp;= a_{11} X_1 + a_{12} X_2 + \dots a_{1q} X_q   \\
+Z_2  &amp;= a_{21} X_1 + a_{22} X_2 + \dots a_{2q} X_q   \\
+  &amp;    \dots \\
+Z_q   &amp;= a_{q1} X_1 + a_{q2} X_2 + \dots a_{qq} X_q   \\
+\end{aligned}
+\]</span> 위의 주성분 분석의 결과를 행렬식으로 나타내면 다음과 같다.</p>
+<p><span class="math display">\[ \pmb Z = \pmb A \pmb X \]</span></p>
+<p>행렬 <span class="math inline">\(\pmb A\)</span>의 역행렬은 <a href="multivar-pca.html#sec-multivar-pca-coef" class="quarto-xref"><span>섹션 6.2.4</span></a> 에 의하여 표본 공분산 행렬에 대한 고유벡터 행렬이므로 직교행렬이다 (<span class="math inline">\(\pmb A \pmb A^t = \pmb I\)</span>). 따라서 다음과 같은 역변환을 고려한다.</p>
+<p><span class="math display">\[ \pmb X = \pmb A^t \pmb Z \]</span> 위의 식을 다시 쓰면 다음과 같다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+X_1   &amp;= a_{11} Z_1 + a_{21} Z_2 + \dots a_{q1} Z_q   \\
+X_2  &amp;= a_{12} Z_1 + a_{22} Z_2 + \dots a_{q2} Z_q   \\
+  &amp;    \dots \\
+X_q   &amp;= a_{1q} Z_1 + a_{2q} Z_2 + \dots a_{qq} Z_q   \\
+\end{aligned}
+\]</span> 이제 <span class="math inline">\(q\)</span> 개의 주성분들 중에서 <span class="math inline">\(k&lt;q\)</span>개의 주성분을 선택한다. 선택된 주성분을 인자로 생각할 수 있다. <span id="eq-multivar-factor-pca-factor"><span class="math display">\[
+\begin{aligned}
+X_1   &amp;= a_{11} Z_1 + a_{21} Z_2 + \dots a_{k1} Z_k +u_1   \\
+X_2  &amp;= a_{12} Z_1 + a_{22} Z_2 + \dots a_{k2} Z_k + u_2  \\
+  &amp;    \dots \\
+X_q   &amp;= a_{1q} Z_1 + a_{2q} Z_2 + \dots a_{kq} Z_k  + u_3 \\
+\end{aligned}
+\tag{8.8}\]</span></span></p>
+<p>여기서 유의할 점은 <span class="math inline">\(u_i\)</span> 는 나머지 주성분 <span class="math inline">\(Z_{k+1}, Z_{k+2},\dots ,Z_q\)</span>의 선형조합으로 사실 서로 독립은 아니다.</p>
+<p>마지막으로 인자의 분포 조건에 만추기 위하여 <span class="math inline">\(Z_i\)</span>들을 표준화한다. <span class="math inline">\(i\)</span> 번째 주상분의 분산은 표본 공분산 행렬의 <span class="math inline">\(i\)</span> 번째 고유값이므로 (<span class="math inline">\(Var(Z_i)=\lambda_i\)</span>) 각 <span class="math inline">\(Z_i\)</span>를 고유값의 제곱근으로 나누어 주고 각 계수에 곱해준다.</p>
+<p><span class="math display">\[
+f_i = Z_i /\sqrt{\lambda_i}, \quad \lambda_{ij} = \sqrt{\lambda_i} a_{ji}
+\]</span></p>
+<p>이렇게 표준화하면 다음과 같이 주성분을 이용한 인자모형을 구할 수 있다</p>
+<p><span class="math display">\[
+\begin{aligned}
+X_1   &amp;= \lambda_{11} f_1 + \lambda_{12} f_2 + \dots \lambda_{1k} f_k +u_1  \\
+X_2   &amp;= \lambda_{21} f_1 + \lambda_{22} f_2 + \dots \lambda_{2k} f_k +u_2  \\
+  &amp;    \dots \\
+X_q   &amp;= \lambda_{q1} f_1 + \lambda_{q2} f_2 + \dots \lambda_{qk} f_k +u_q  \\
+\end{aligned}
+\]</span></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "복사완료!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "복사완료!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation column-page-right">
+  <div class="nav-page nav-page-previous">
+      <a href="../qmd/multivar-cancor.html" class="pagination-link" aria-label="정준상관분석">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">정준상관분석</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -243,6 +243,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-factor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">탐색적 인자 분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -300,7 +306,7 @@ window.Quarto = {
   <li><a href="#주성분의-정의" id="toc-주성분의-정의" class="nav-link" data-scroll-target="#주성분의-정의"><span class="header-section-number">6.2.1</span> 주성분의 정의</a></li>
   <li><a href="#양정치-행렬의-스펙트럼분해" id="toc-양정치-행렬의-스펙트럼분해" class="nav-link" data-scroll-target="#양정치-행렬의-스펙트럼분해"><span class="header-section-number">6.2.2</span> 양정치 행렬의 스펙트럼분해</a></li>
   <li><a href="#이차형식의-최대값" id="toc-이차형식의-최대값" class="nav-link" data-scroll-target="#이차형식의-최대값"><span class="header-section-number">6.2.3</span> 이차형식의 최대값</a></li>
-  <li><a href="#주성분의-계수" id="toc-주성분의-계수" class="nav-link" data-scroll-target="#주성분의-계수"><span class="header-section-number">6.2.4</span> 주성분의 계수</a></li>
+  <li><a href="#sec-multivar-pca-coef" id="toc-sec-multivar-pca-coef" class="nav-link" data-scroll-target="#sec-multivar-pca-coef"><span class="header-section-number">6.2.4</span> 주성분의 계수</a></li>
   <li><a href="#공분산행렬과-상관계수행렬" id="toc-공분산행렬과-상관계수행렬" class="nav-link" data-scroll-target="#공분산행렬과-상관계수행렬"><span class="header-section-number">6.2.5</span> 공분산행렬과 상관계수행렬</a></li>
   </ul></li>
   <li><a href="#주성분-분석" id="toc-주성분-분석" class="nav-link" data-scroll-target="#주성분-분석"><span class="header-section-number">6.3</span> 주성분 분석</a>
@@ -915,8 +921,8 @@ Cov(Z_k,Z_i)= \pmb a_k^t \pmb \Sigma \pmb a_i=0 \quad \text{ for } \quad i=1,2,\
 \lambda_p  \le  \frac{\pmb x^t \pmb \Sigma \pmb x}{\pmb x^t \pmb x} \le \lambda_1
 \]</span> 이 부등식의 의미는 표준화된 2차형식의 최대값은 가장 큰 고유값이며 최소값은 가장 작은 고유값이다.</p>
 </section>
-<section id="주성분의-계수" class="level3" data-number="6.2.4">
-<h3 data-number="6.2.4" class="anchored" data-anchor-id="주성분의-계수"><span class="header-section-number">6.2.4</span> 주성분의 계수</h3>
+<section id="sec-multivar-pca-coef" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="sec-multivar-pca-coef"><span class="header-section-number">6.2.4</span> 주성분의 계수</h3>
 <p><span class="math inline">\(p\)</span>-차원의 벡터 <span class="math inline">\(\pmb a\)</span>의 선형결합으로 새로운 변수 <span class="math inline">\(Z_1= \pmb a^t \pmb X\)</span>를 고려할때 <span class="math inline">\(Z_1\)</span>의 분산은 다음과 같다.</p>
 <p><span class="math display">\[
 Var(Z_1) = Var( \pmb a^t \pmb X) = \pmb a^t Var(\pmb X) \pmb a = \pmb a^t \pmb \Sigma \pmb a
