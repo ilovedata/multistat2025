@@ -18,6 +18,7 @@ book:
     - qmd/multivar-discrim.qmd
     - qmd/multivar-pca.qmd
     - qmd/multivar-cancor.qmd
+    - qmd/multivar-factor.qmd
     - references.qmd
   appendices:
     - qmd/math_mat_basic.qmd
