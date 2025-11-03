@@ -19,6 +19,7 @@ book:
     - qmd/multivar-pca.qmd
     - qmd/multivar-cancor.qmd
     - qmd/multivar-factor.qmd
+    - qmd/multivar-cluster.qmd
     - references.qmd
   appendices:
     - qmd/math_mat_basic.qmd
