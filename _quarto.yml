@@ -20,6 +20,7 @@ book:
     - qmd/multivar-cancor.qmd
     - qmd/multivar-factor.qmd
     - qmd/multivar-cluster.qmd
+    - qmd/multivar-anova.qmd
     - references.qmd
   appendices:
     - qmd/math_mat_basic.qmd

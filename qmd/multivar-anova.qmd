@@ -1,0 +1,1086 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| 
+library(tidyverse)
+library(kableExtra)
+library(ggplot2)
+library(here)
+
+library(car)
+library(lme4)
+library(lmerTest)
+
+#아래 3 문장은 한글을 포함한 ggplot 그림이 포함된 HTML, PDF로 만드는 경우 사용
+library(showtext)
+#font_add_google("Nanum Pen Script", "gl")
+font_add_google(name = "Noto Sans KR", family = "noto")
+showtext_auto()
+```
+
+# 다변량 분산분석  {#sec-repeatmeasure}
+
+## 독립표본과 쌍표본 {#sec-repeatmeasure-paired}
+
+서로 다른 두 처리의 효과(treatment effect)를 비교하기 위하여 주로 사용되는 방법은 두 개의 독립표본(independent sample)을 비교하는 t-검정법이다. 서로 독립인 두개의 집단(구성원이 겹치지 않는 집단)에 서로 다른 처리를 적용한 뒤에 관측된 자료의 표본 평균을 비교하여 두 개의 처리 효과의 차이를 통계적으로 검정하는 방법이다. t-검정을 위한 분포 가정은 다음과 같다.
+
+
+$$
+x_1,x_2, \dots x_{n} \sim_{iid} N(\mu_1, \sigma^2) 
+\quad
+y_1,y_2, \dots y_{n} \sim_{iid} N(\mu_2, \sigma^2) 
+$$
+
+위의 가정을 다음과 같은 평균모형(mean model)로 표현할 수 있다.
+
+$$ 
+ x_i = \mu_1 + e_{i1}, \quad y_i = \mu_2 + e_{i2}  
+$$ {#eq-re-meanmodel}  
+
+여기서 $e_{i1}$와 $e_{i2}$들은 모두 독립이며 $N(0,\sigma^2)$을 따르는 오차들이다.
+
+여기서 확률변수 $x$와 $y$는 서로 독립이고 각 관측값 $x_1,x_2, \dots x_{n_1}$과 $y_1,y_2, \dots y_{n_2}$들도 각각 모두 독립이다. 분포가정에서 다른 것은 확률변수 $x$와 $y$의 평균이 다르다.
+
+이러한 가정 하에서 다음의 두개의 가설검정을 할 수 있는 방법이 t-검정법이며 
+
+$$ 
+H_0 : \mu_1 = \mu_2 \quad \text{vesus} \quad H_1 : \mu_1 \ne \mu_2  
+$$ {#eq-re-hypo}  
+
+검정통계량은 다음과 같이 주어진다.
+
+$$ 
+ t = \frac{ \bar x -\bar y} {s_p \sqrt{\tfrac{1}{n} + \tfrac{1}{n}}}  
+$$ {#eq-re-tvalue1}  
+
+여기서 $\bar x$와 $\bar y$는 각 집단의 표본 평균이고 $s_p^2$은 합동분산추정량(pooled variance estimator)이다.
+
+$$ s^2_p = \frac{\sum_{i=1}^n (x_i -\bar x)^2 + \sum_{i=1}^n (y_i -\bar y)^2 }{2n-2} $$
+
+이제 두 개의 처리를 비교하는 경우, 독립 표본이 아닌 경우를 고려해 보자. 
+
+독립 표본이 아닌 대표적인 경우가 쌍표본(또는 대응표본)에 대한 t-검정이다(paired t-test). 쌍표본 검정에서는 하나의 개체에 두 개의 처리를 모두 적용하여 각 처리에 대한 반응값을 쌍 $(x_i,y_i)$으로 얻는다. 예를 들어 최초로 허가 받은 약품과 복제약의 생물학적동등성(bioequivalence)을 입증하는 실험에서는  한 사람에게 최초허가약을 투여하여 약의 효과를 보고 일정 시간이 지난 뒤 복제약을 같은 사람에게 투여하여 그 효과를 측정한다. 다른 예로서 두 개의 눈병 치료제를 각각 누에 투여하여 효과를 비교하는 경우도 이러한 쌍표본에 속한다. 넓은 의미에서 일란성 쌍둥이에게 각각 다른 처리를 하여 비교하는 것도 대응비교라고 할 수 있다. 
+
+![생물학적동등성 실험에서 사용되는 교차실험(crossover design) - 개체 당 2개의 관측치 (각 처리에 대하여 한 개의 관측값)](../images/design22.jpg)
+
+
+가장 단순한 대응비교로서 각 개체애 대하여 두 개의 처리에 대한 쌍표본 $(x_i,y_i)$를 관측한다고 가정하자.
+이에 대한 분포 모형은 다음과 같다.
+
+$$
+d_i = x_i -y_i  \sim_{iid} N(\delta,\sigma^2) \text { where } \delta = \mu_1-\mu_2 = E(x)-E(y) 
+$$
+
+대응비교에서 사용되는 t-통계량은 다음과 같다.
+
+$$ 
+ t = \frac{ \bar d} {s_d / \sqrt{n}} =\frac{ \bar x -\bar y} {s_d / \sqrt{n}}  
+$$ {#eq-re-tvalue2}  
+
+여기서 $s^2_d$는 $d_1,d_2,\dots ,d_n$의 표본분산이다.
+
+$$ s^2_d = \frac{\sum_{i=1}^n (d_i -\bar d)^2}{n-1} $$
+
+위에서 알아본 독립표본에 의한 비교와 쌍표본에 의한 비교가 다른 점은 무었일까 생각해 보자. 
+표본의 비교가 다른 개체에서 추출된 독립인 관측치를 이용하는지 또는 같은 개체에서 추출된 대응하는(독립이 아닌) 
+관측치를 이용하는지에 따라서 서로 다른 t-통계량을 사용한다. 식 @eq-re-tvalue1 과 식 @eq-re-tvalue2 에 나타난 t-통계량을 비교하면 분자에 나타난 통계량은 효과의 차이를 나타내는 두 개의 평균의 차이로서 기본적으로 동일하다$(\bar d =\bar x -\bar y)$. 하지만 분모에서는 분자에 나타난 통계량의 표본오차(standard error)를 나타내는 양으로서 서로 다르다.
+독립표본에서는 표본의 평균이 서로 독립이므로 다음과 같이 평균의 차이에 대한 분산이 각각의 분산의 합과 같으므로
+이에 대한 추정량으로서 합동분산추정량을 이용하였다.
+
+$$ 
+ Var(\bar x - \bar y) = Var(\bar x) + Var(\bar y)  
+$$  {#eq-re-varsum}  
+쌍표본에서는 위의 식 @eq-re-varsum 을 적용할 수 없다. 왜냐하면 두개의 표본 평균이 서로 독립이 아닐 가능성이 매우 높기 때문이다. 같은 개체에서 나온 관측치는 어떠한 형태로든 서로 관계가 있을 가능성이 높기 때문에 독립을 함부로 가정할 수 없다. 예를 들어 생물학적동등성 실험에서는 약 효과의 차이보다 약이 몸에 흡수되는 개인적인 체질이 관측값에 더 큰 영향을 줄 수 있다.
+
+
+확률변수 $x$와 $y$가 독립이 아닌 경우 두 모형균의 차이를 비교하기 위하여 비교에 사용된 통계양은 두 확률변수의 차이다.
+$$ d_i = x_i - y_i $$
+여기서 두 개의 확률변수의 차이를 이용할 때 암시적인 가정은 두 개의 확률변수의 차이를 내면 두 변수에 공통적으로 포함된 개인의 특성이 서로 상쇄되어 처리의 차이만이 확률변수 $d_i$에 존재한다는 것이다. 지금 설명한 대응비교 모형의 합리적인 가정을 요약하면 다음과 같다.
+
+
+- 개인의 특성을 반영하는 공통 요인이 두 변수에 모두 영향을 미친다.
+- 따라서 두 관측값 $(x_i,y_i)$가 독립이 아니다 
+- 두 관측값의 차이를 내면 공통요인이 서로 상쇄되어 처리효과만 남는다.
+
+$$ E(d_i) = \mu_1 - \mu_2 $$
+
+
+위의 가정을 구현할 수 있는 대응비교 모형을 다음과 같은 가법모형(additive models)로  표현할 수 있다.
+
+$$  
+x_i = \mu_1 + a_i + e_{i1}, \quad y_i = \mu_2 + a_i + e_{i2} 
+$$ {#eq-re-paired}  
+
+여기서 $a_i$는 두 확률변수 $(x_i,y_i)$에 공통으로 포함된 개인적인 특성을 나타내는 요인이며 위의 식 @eq-re-paired 는 식 @eq-re-meanmodel  에 공통요인 $a_i$가  추가된 형태이다.     
+
+두 확률변수 $(x_i,y_i)$가 종속이기 위해서는 다음과 같은 가정을 이용할 수 있다. 
+
+$$ a_i \sim N(0, \sigma^2_a), \quad  e_{i1} \sim_{iid}  N(0, \sigma^2_e)  \quad e_{i2} \sim_{iid}  N(0, \sigma^2_e)   $$
+
+여기서 $a_i$가 평균이 0이고 분산이 $\sigma_a^2$ 인 확률변수이다. 이러한 요인을 임의효과(random effect)라고 하며 모수(parameter)인 평균 $\mu_i$은 고정효과(fixed effect)라고 부른다. $e_{i1}$와 $e_{i2}$들은 모두 독립이며 평균이 $0$ 이고 분산이 $\sigma^2_e$인  정규분포를 따르는 오차들이다. 또한 $a_i$와 ($e_{i1}$,$e_{i2}$)도 독립이다. 
+
+위와 같은 가정에서 두 변수의 차이를 내면 공통요인인 $a_i$가 제거되어 두 처리의 차이만이 
+남게되며 $x_i$와 $y_i$는 분포의 가정상 독립이 아니다.
+
+
+$$
+\begin{aligned}
+d_i & = x_i -y_i \\
+   & = \mu_1+ a_i + e_{i1} -(\mu_2+ a_i + e_{i2}) \\
+   & = \mu_1 -\mu_2 +(e_{i1}-e_{i2}) \\
+   & = \mu_1 -\mu_2 +e^*_i \\
+Cov(x_i,y_i) & = Cov(\mu_1+ a_i + e_{i1},\mu_2+ a_i + e_{i2}) \\
+    & =  Cov(a_i, a_i) \\ 
+    & =  Var(a_i) \\
+    & =  \sigma^2_a
+\end{aligned}    
+$$
+
+
+다음 절에서는 여기서 논의한 독립표본과 쌍표본의 개념 및 추정법을 일반적인 선형모형으로 확장하여 체계적인 비교를 해볼것이다.
+
+## 일원배치 모형 {#repeatmeasure-oneway}
+
+### 고정효과 모형 
+
+
+먼저 일원배치 요인계획(one-way factor design)이용한 실험을 생각해 보자. 고려하는 요인의 수준의 개수를
+$I$라고 하면 $I$개의 수준 중에 하나를 임의로 선택하여 실험대상에 적용하는 임의화 방법으로
+각 수준마다 $J$의 관측값을 얻어다고 하자. 다음과 같은 ANOVA모형을 고려하여 분석을 할 수 있다.
+
+$$ 
+y_{ij} = \mu + \alpha_i + e_{ij}, \quad i=1,2,\dots,I \text{ and } j=1,2,\dots, J 
+$$  {#eq-re-anova}  
+
+여기서 $e_{ij}$는 서로 독립이며 $N(0,\sigma_e^2)$를 따르는 오차항이다.
+
+ANOVA 모형 @eq-re-anova 에서 $\mu$와 $\alpha_i$는 고정효과(fixed effect)라고 부르며 추정해야 할 모수(parameter)이다.
+세심하게  설계된 실험에서는 수준에 대한 효과 $\alpha_i$의 값이 변하지 않게 통제할 수 있는 
+실험 환경이 가능하다고 생각할 수 있으므로 $\alpha_i$의 값을 변하지 않는 고정효과로 보는 것이 합리적이다.
+  
+  
+일원배치 요인계획을 이용한 실험에서는 주요 관심사가 수준간의 차이가 있는지에 대한 것이며 이는 제곱합을 이용한
+ANOVA table에서 F-test를 이용하여 검정할 수 있다.
+
+$$ H_0: \alpha_1 = \alpha_2 =\dots = \alpha_I $$
+
+\begin{table}[ht]
+
+\begin{center}
+\begin{tabular}{l l l l l}
+  Source & Sum of Square & DF & Mean Square & F \\ \hline
+  Treatment &  $SSA = \sum_{i=1}^I J(\bar y_i -\bar y)^2$            & $I-1$ & $MSA=SSreg/(I-1)$  & $F=MSA/MSE$ \\
+  Error     &  $SSE =  \sum_{i=1}^I \sum_{j=1}^J (y_{ij}-\bar y_i)^2$ &  $I(J-1)$   & $MSE=SSE/(I(J-1))$ &  \\ \hline
+  total & $SST = \sum_{i=1}^I \sum_{j=1}^J (y_{ij}-\bar y)^2$ & $IJ-1$ & & 
+\end{tabular}
+\end{center}
+\end{table}
+
+
+### 혼합효과 모형 
+
+이제 다음과 같은 자료의 추출을 생각해 보자. 서울시 A구에 초등학교가 20개있다고 하자. 
+20개의 학교중 6개의 학교를을 임의로 추출하고 추출된 학교에 속한 모든 6학년 학생들에게 과학시험을 보게하여
+ 점수를 얻었다. 이러한 자료에서 학생들의 성적은 모두 같지 않을 것이 당연하며 
+가장 점수가 낮은 학생부터 높은 학생까지 점수의 변동(variation)이 존재한다. 변동의 요인은 무었일까?
+학생의 개인의 차이(예:학생의 지능, 노력 정도, 학습 환경)도 변동의 요인이지만 또한 학교의 차이도 변동의 요인이 될 수 있다.
+
+
+여기서 학교에 대한 요인은 앞 절에서 본 실험 자료에서 나타나는 고정 효과에 의한 요인과는 성격이 틀리다. 20개의 학교라는 모집단에서 6개의 학교가 추출되었으며 이 때 학교의 차이는 설계된 실험에서는 수준에 대한 효과와는 다르게 표본 추출 때문에 생기는 변동이라고 할 수 있다. 또한 같은 학교에 다니는 학생들은 같은 지역과 교사 등 공통적인 요인에 의하여 영향을 받는다고 가정할 수 있다. 따라서  같은 학교에 다는 학생들의 성적이 독립이 아닐 수도 있다.  
+
+
+이러한 효과를 임의효과(random effect)라고 부르며 학생들의 과학점수에 대한 모형을
+다음과 같은 혼합효과모형(mixed effects model)으로 설명할 수 있다.   
+
+$$ 
+y_{ij} = \mu + a_i + e_{ij}, \quad i=1,2,\dots,I \text{ and } j=1,2,\dots, J  
+$$ {#eq-re-onewayrandom} 
+
+여기서 $a_i$는 학교의 효과를 나타내는 임의효과이며 서로 독립이고 $N(0,\sigma_a^2)$를 따른다.
+또한 개인에 대한 효과 또는 오차항 $e_{ij}$는 서로 독립이며 $N(0,\sigma_e^2)$를 따른다. 임의효과 $a_i$와
+오차항 $e_{ij}$는 서로 독립이다. 고정효과 $\mu$는 전체 평균을 나타내는 모수이다. 학교를 추출할 때 그 효과를
+분산이 $\sigma^2_a$를 가지는 정규모집단에서 추출한다고 가정하는 것이다. 학교를 하나의 군집(cluster)로 생각하고
+학교의 효과를 군집효과로 보고 총변동을 설명하고 나머지 변동은 오차의 변동으로 개인의 효과 등으로 설명한다. 
+
+$$ Var(y_{ij}) =Var(\mu + a_i + e_{ij}) = Var(a_i) + Var(e_{ij}) = \sigma^2_a + \sigma^2_e $$
+
+식 @eq-re-onewayrandom 로 표현된 임의효과를 포함한 혼합모형(일원배치 임의효과 모형; one-way random effect models)의 가장 큰 특징 중에 하나는 같은 군집에 속하는 관측치들은 
+서로 독립이 아니며 양의 상관관계가 있다. 위의 예제에서 두 학생 $j$와 $k$가 같은 학교 $i$에 속한다면
+
+$$ Cov(y_{ij},y_{ik}) = Cov(  \mu + a_i + e_{ij}, \mu + a_i + e_{ik}) =Cov (a_i, a_i)=\sigma^2_a $$
+따라서
+
+$$ corr(y_{ij},y_{ik})= \frac{ Cov(y_{ij},y_{ik})}{\sqrt{Var(y_{ij})Var(y_{ik})} } = \frac{\sigma^2_a }{\sigma^2_a + \sigma^2_e } $$
+
+위의 상관계수를 보면 학교간의 변동의 크기를 나타내는 $\sigma^2_a$각 개인간의 변동을 나타내는 $\sigma^2_e$보다
+상대적으로 클수록 상관계수가 1에 가까와진다. 보통 $\sigma^2_a$을 집단간 변동(between-group variance)라 하고
+$\sigma^2_e$를 집단내 변동(within-group variance)라고 한다. 따라서 $\sigma^2_a$와 $\sigma^2_e$의 상대적인 크기의 차이에 따라
+군집내 관측값의 상관관계가 달라진다.
+
+
+식 @eq-re-onewayrandom 의 임의효과 모형은 임의효과가 2개 이상인 모형으로 학장될 수 있다.
+예제에서 학교를 추출하고 학교내에서 학급을 추출하여 추출된 학급내의 학생들이 시험을 보면 다음과 같은 모형을
+적용할 수 있다.
+
+$$
+y_{ijk} = \mu + a_i + b_{ij} + e_{ijk}
+$$
+
+위의 모형에서 $a_i$는 $N(0,\sigma^2_a)$를 따르는 학교에 대한 임의효과, 
+$b_{ij}$는 $N(0,\sigma^2_b)$를 따르는 학급에 대한 임의효과, 
+$e_{ijk}$는 $N(0,\sigma^2_e)$를 따르는 학생에 대한 임의효과 또는 오차항으로 생각할 수 있다. 
+
+임의효과 모형에 고정효과가 같이 포함되어 있는 모형을 혼합모형(mixed model)이라고 부르며
+반응변수의 변동에 영향을 미치는 요인들 또는 예측변수 중에서 임의효과와 고정효과를 구별하여
+정하고 동시에 모형에 포함시킬수 있다. 예를 들어서 학교를 선택하여 과학시험을 볼 경우에 
+학기가 시작할 떄 과학교수법 두가지 중 하나를 임의화해서 각 학교에 배정하여 배정된 교수법으로
+학생을 가르친 후에 시험을 보았다면 교수법에 대한 효과는 고정효과로 볼 수 있다. 따라서
+다음과 같은 모형을 고려할 수 있다.
+
+$$ 
+y_{ij} = \mu + \tau_{k(i)} + a_i + e_{ij} 
+$$  {#eq-re-compmodel}  
+
+여기서 $\tau_{k(i)}$는 $i$번째 학교의 교수법에 대한 고정효과이다(교수법이 배정된 결과에 의하여 $k(i)=1$ 또는 $k(i)=2$이 된다). 이 교수법에 대한 고정효과에 대해서는 두 교수법이 차이가 있는 지에 대한 검정이 주요한 관심사일 것이다 ($H_0: \tau_1=\tau_2$)
+
+::: {.callout-caution title="고정효과와 임의효과의 표기"}
+고정효과는 보통 모형식에서 그릭 문자($\alpha$, $\beta$)로 표시하고 임의효과는 모형식에서 영어 알파벳 문자($a$, $b$)로 표시한다
+:::
+
+<!------
+
+## 반복측정자료
+
+
+반복측정자료(longitudinal data, repeated measurements)는 관측단위안에서 여러 개의 관측값을 측정한 자료의 형식을 말한다.
+ 예를 들어 환자가 병원을 여러 번 방문하고 방문시마다 혈압을 측정하였다면 한 명의 환자에서 반복 측정한 자료는 서로 독립이 아니다. 또한 가구조사(household survey)에서 가구원의 취업 여부, 건겅 상태등을 여러 해동안 매년 측정하는 경우 이러한 자료를 패널자료(panel data) 또는 longitudinal 자료라고 한다. 이렇게 하나의 관측단위 안에서 측정한 자료들은 서로 독립이 아닌 특징이 있고 자료를 분석하는 경우 이러한 자료들의 종속구조를 고려하는 모형을 사용하는 것이 적절하다. 이렇게 반복측정자료에서 반복자료들의 공분산구조를 설정하는 통계적 방법들은 다양하지만 대표적으로 쉽게 사용할 수 있는 방법이 임의효과를 포함한 혼합모형을 사용하는 방법이다.
+ 
+
+ 
+::: {#exm-sleep} 
+ 
+### 트럭운전사의 수면시간 
+
+  `lme4` 패키지에 자료인 `spleepstudy`는 화물트럭 운전사들에 대한 수면부족 현상에 대하여 연구한 자료이다.  18명의 운전자들이 매일 3시간의 수면(부족한 수면)을 하면서 
+ 매일 일정한 동작의 반응시간을 10일동안 반복적으로 측정한 자료가 있다. 한명의 운전사에게 10일 동안의 반응에 대한 측정자료 10개가 존재하므로 이는 반복측정 자료이며 이러한 10개의 자료는 독립이 아니다. 
+일단 자료의 구조를 살펴보자. 반응변수 ``Reaction`은 반응시간(ms)를 나타내며 설명변수로서 `Days`는 날짜($t=0,1,2,\dots,9$), `Subject` 는 운전자의 고유번호를 나타낸다.
+:::
+
+
+```{r ex14, echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+library(lme4)
+library(lmerTest)
+str(sleepstudy)
+head(sleepstudy, n = 20)
+```
+
+각 운전자에 대한 10일 간의 반응속도가 시간에 따라 어떻게 변하는 가를 알아보자. 전반적으로 시간이 지나면서 운전자들의 반응시간이 증가하고 있음을 알 수 있다. 또한 개인 별로 반응 시간의 변화와 패턴이 다르다는 것을 알 수 있다.  
+```{r ex15,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+library(ggplot2)
+ggplot(sleepstudy, aes(x = Days, y = Reaction)) +
+    geom_point(size = 0.5) +
+    geom_smooth(method = lm, se = FALSE, linewidth = 0.5) +
+    facet_wrap("Subject", labeller = label_both) +
+    theme_bw()
+```
+
+
+### 개체들의 선형 회귀모형
+
+
+각 운전자 $i$ 에 대하여 10일간 측정한 반응속도 $y_{ij}$를 시간에 대하여 선형모형으로 적합하면 개인별 회귀직선을 다음과 같이 표시할 수 있다.
+
+
+$$
+y_{ij} = \beta_{0i} + \beta_{1i} t_j + e_{ij},\quad i=1,2,\dots,18,\quad j=1,2,\dots,10
+$$ {#eq-re-lmlist1} 
+
+여기서 오차항 $e_{ij}$은 서로 독립이며 $N(0, \sigma^2_e)$를 따른다고 가정한다.
+
+행렬식으로는 다음과 같이 나타낼 수 있다.
+
+$$  
+\pmb y_i =\pmb X_i \pmb \beta_{i} +\pmb e_i 
+$$ 
+
+여기서 
+$$ 
+\pmb y_i=\begin{bmatrix}
+y_{i1} \\
+y_{i2} \\
+\vdots \\
+y_{i,10}
+\end{bmatrix},~ \pmb X_i =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+\vdots & \vdots  \\
+1 & 9 
+\end{bmatrix}, \pmb \beta_i=
+\begin{bmatrix}
+\beta_{0i} \\
+\beta_{1i} \\
+\end{bmatrix}, \pmb e_i= 
+\begin{bmatrix}
+e_{i1} \\
+e_{i2} \\
+\vdots \\
+e_{i,10}
+\end{bmatrix}
+$$ 
+
+위의 식에서 $\beta_{0i}$와 $\beta_{1i}$는 $i$번째 운전사의 반응속도를 설명내는 회귀직선의 절편과 기울기이다. 절편 $\beta_{0i}$는 실험 시작때 반응속도를 의미하고 기울기 $\beta_{1i}$는 실험이 진행되는 동안 반응속도가 어떻게 변하는 지 변화의 방향과 크기를 보여준다. 함수 \texttt{lmList}를 아래와 같이 이용하면 식 @eq-re-lmlist1  을 각 운전사마다 적합시켜 각각의 절편과 기울기를 구할 수 있다.
+
+```{r ex16, out.width='.8\\linewidth'}
+lmf1 <- lmList(Reaction ~ Days | Subject, sleepstudy)
+lmf1
+cor(coef(lmf1))
+plot(coef(lmf1), main = "intercepts and slopes on drivers: sleep study ")
+```
+
+18개의 절편과 기울기는 큰 상관관계는 없는것으로 보이지만 약한 음의 상관계수가 나타났다.  
+절편과 기울기에 대한 분포를 보기 위하여 상자그림을 그려보면 평균을 중심으로 대칭인 분포를 보이고 있다.  
+
+```{r box, out.width='9cm', out.height='9cm', fig.show='hold'}
+boxplot(coef(lmf1)[1])
+boxplot(coef(lmf1)[2])
+```
+
+
+이제 각 운전사에 대하여  회귀식을 따로 적합하지 않고 전체 운전사들의 자료를 모두 합쳐서 하나의 회귀식을 고려할 수 있다. 개체의 특성을 반영하는 모형이 아닌 전체 집단에 대한 평균적인 모형(population model)을 고려하는 것이다. 
+
+$$ 
+y_{ij} = \beta_0 + \beta_1 t_j + e_{ij} ,\quad i=1,2\dots,18,  j=1,2, \dots, 10 
+$$ {#eq-re-popmodel} 
+
+여기서 오차항은 서로 독립이며 $N(0, \sigma^2_e)$를 따른다고 가정한다.
+
+위와 같은 전체 운전사 집단의 관측값을 운전자의 특성을 고려하지 않고 세운 모형으로서 시간에 따른 반응시간에 대한  모집단의 전체적인 평균적 함수 관계를 파악하는 모형이라고 할 수 있다.
+
+```{r pmodel}
+lmpop <- lm(Reaction ~ Days, sleepstudy)
+summary(lmpop)
+with(sleepstudy, plot(Days, Reaction, main = "Population and individual regression lines"))
+abline(a = coef(lmpop)[1], b = coef(lmpop)[2], lwd = 3)
+for (i in 1:18) {
+    xx <- as.numeric(coef(lmf1)[i, ])
+    abline(a = xx[1], b = xx[2], lty = 2)
+}
+```
+
+이제 각 운전사에 대하여 개체별로 적합한 회귀식의 계수들$(\hat \beta_{0i}, \hat \beta_{1i})$ 와 전체집단에 적한한 회귀식의 계수 $(\hat \beta_{0}, \hat \beta_{1})$의 관계를 보면 개체별로 회귀 계수들의 평균이 전체에 적용한 모형의 계수와 매우 가까운 사실을 알 수 있다.
+
+```{r mean1}
+apply(coef(lmf1), 2, mean)
+coef(lmpop)
+```
+
+
+### 임의계수 모형 {#sec-randomcoef}
+
+앞 절의  모형과 분석에서 알 수 있듯이 한 개체에 대하여 여러 개의 관측값을 측정한 자료에 회귀방정식을 각각 적합시켜보고 또한 개체의 특성을 고려하지않은 전체 모형을 적합해보면   다음과 같은 두 가지 결과를 볼 수 있다.
+
+
+- 각 개체별 회귀식은 개인의 특성을 반영한다. 즉, 개체에 따라 시간에 따른 반응시간의 변화가 다르게 나타난다. 
+- 하지만 개인별로 볼 때도 전체적으로는 시간에 따라서 반응시간이 증가하는 경향이 있음을 알 수 있다.
+- 전체 자료에 적합한 모형을 보면 개인별로 적합한 모형의 공통적인 성격, 즉 시간에 따른 반응시간의 증가를 알 수 있다.
+- 이러한 결과를 보고 각 개인의 변화는 전체적인 변화를 따르면서 각 개인의 특성이 반영되었다고 가정할 수 있다.
+
+
+위에서 논의하였듯이 전체적인 경향과 개인의 특성을 동시에 고려할 수 있는 모형이 생각할 수 있고 이러한 모형이 다음과 같은 모형이다. 
+
+$$ 
+y_{ij} = (\beta_0 + b_{0i}) + (\beta_1 + b_{1i}) t_j + e_{ij} , \quad i=1,2,\dots,18,\quad j=1,2,\dots,10
+$$ {#eq-re-repeat} 
+
+모형 @eq-re-repeat  는 절편과 기울기가 두 개의 구성 요소로 더해져서 표현된다.기울기는 $\beta_1+b_{1i}$로서 나타내어지며 $\beta_1$은 모집단이 가지는 공통적인 경향을 반영하는 모수이고 $b_{1i}$는 $i$ 번째 개체의 특성을 반영한 확률변수이다. 절편도 유사한 형식으로 구성된다.
+
+각 개인에 대한 특성을 나타내는 변수 $(b_{0i}, b_{1i})$ 을 확률변수로 설정하고 이를 모수($\beta_0, \beta_1)$ (parameter or fixed effect)와 구별하여 임의효과(random effect)라고 한다.
+
+임의효과는 모집단을 구성하는 개인이 표본에 추출되었다고 생각하며 확률분포를 따른다고 가정한다.
+반복측정자료에서 인의효과를 공통으로 가지고 있는 관측치는 독립이 아니게 돼며 따라서 같은 개체에서 나온 관측값은 독립이 아니다.
+
+모형 @eq-re-repeat 처럼 각 개인의 임의 효과가 포함된 선형모형을  **임의계수모형(random coefficient model)** 이라고 한다. 이러한 모형은 반복측정자료에서 개인의 특성을 고려하여 모형을 설정하는데 유용하다.
+
+
+18명에 대한 회귀직선의 절편과 기울기를 보면 개인의 차이에 따른 변동을 볼 수 있으며 이러한 각 개인간의 변동을 임의효과 를  이용하여 다음과 같은 모형을 생각해보자.
+
+$$ 
+\pmb \beta_i=
+\begin{bmatrix}
+\beta_{0} \\
+\beta_{1} \\
+\end{bmatrix}
++\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix}
+, \quad
+\pmb b_i =
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix} \sim
+N \left (
+\begin{bmatrix}
+0 \\
+0 \\
+\end{bmatrix}
+,
+\begin{bmatrix}
+\sigma^2_{b1} & \rho \sigma_{b1} \sigma_{b2}\\
+\rho \sigma_{b1} \sigma_{b2} & \sigma^2_{b2} \\
+\end{bmatrix}
+\right )
+$$ 
+
+
+위의 모형은 각 개인의 회귀직선에서 각 절편과 기울기가 전체평균 $\beta_0$와 $\beta_1$를 따르며 각 개인의 차이는 전체평균에 임의효과인 $b_{0i}$와 $b_{1i}$가 더해져서 나타난다는 것을 의미한다. 이변량 임의효과 $b_{0i}$와 $b_{1i}$는 이변량 정규분포를 따르며 각각의 분산과 상관계수가 $\sigma^2_{b1}$, $\sigma^2_{b2}$, $\rho$이다.
+
+다른 개체에 대한 임의효과는 서로 독립이며 임의 효과와 오차항은 독립이다. 여기서 오차항은 서로 독립이며 $N(0, \sigma^2_e)$를 따른다고 가정한다.
+
+$$  
+Cov(\pmb b_{i}, \pmb b_{j}) =\pmb 0 \text{ when } i \ne j,\quad
+Cov(\pmb b_{i}, e_{jk}) =\pmb 0 \text{ for all } i,j,k 
+$$ 
+
+
+
+위 @eq-re-repeat 같은 혼합효과모형(mixed effects model)을 각 개인 $i$에 대하여 행렬식으로 표시하면 다음과 같다.
+아래 모형식은 일반적으로 독립군집 모형에서 하나의 군집에 대한 반복된 관측값들에 대한 모형이며  독립군집 모형의 일반적인 이론은
+@sec-lmmtheory 에서 더 논의할 것이다.
+
+$$  
+\pmb y_i = \pmb X_i \pmb \beta + \pmb Z_i \pmb b_i + \pmb e_i , \quad i=1,2,\dots,18
+$$ 
+
+여기서 
+
+
+$$  
+\pmb y_i=\begin{bmatrix}
+y_{i1} \\
+y_{i2} \\
+\vdots \\
+y_{i,10}
+\end{bmatrix},~\pmb X_i =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+\vdots & \vdots  \\
+1 & 9 
+\end{bmatrix}, \pmb  \beta=
+\begin{bmatrix}
+\beta_{0} \\
+\beta_{1} \\
+\end{bmatrix}, ~\pmb Z_i =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+\vdots & \vdots  \\
+1 & 9 
+\end{bmatrix},~ \pmb b_i =
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix},~
+\pmb  e_i= 
+\begin{bmatrix}
+e_{i1} \\
+e_{i2} \\
+\vdots \\
+e_{i,10}
+\end{bmatrix}
+$$ 
+
+위의 각 개인에 대한 모형을 모두 합쳐서 하나의 혼합효과모형으로 나타내면 다음과 같이 표현할 수 있다.
+
+$$
+\pmb  y = \pmb  X \pmb \beta + \pmb Z \pmb b + \pmb e 
+$$ {#eq-re-lme1} 
+
+여기서 반응변수벡터 $\pmb y$와 고정효과 $\pmb \beta$에 대한 계획행렬 $X$는 각 개인의 반응변수벡터 $\pmb y_i$와 $\pmb X_i$를 행으로 쌓아놓은 것으로 표현된다. 오차항에 대한 벡터 $\pmb e$도 동일한 형식의 벡터이다.
+
+$$  
+\pmb y=\begin{bmatrix}
+\pmb y_{1} \\
+\pmb y_{2} \\
+\vdots \\
+\pmb y_{18}
+\end{bmatrix},~\pmb X =
+\begin{bmatrix}
+\pmb X_1 \\
+\pmb X_2 \\
+\vdots \\
+\pmb  X_{18} 
+\end{bmatrix}
+~ \pmb e =
+\begin{bmatrix}
+\pmb e_1 \\
+\pmb e_2 \\
+\vdots  \\
+\pmb e_{18} 
+\end{bmatrix}
+$$ 
+
+임의효과 벡터 ${\pmb  b}$ 는 각 개인에 대한 임의효과벡터 $\pmb b_i$ 를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 $\pmb Z$ 는 각 개인의 계획행렬 $\pmb Z_i$ 를 대각원소로 구성하는 행렬이다.
+
+$$ 
+\pmb b=\begin{bmatrix}
+\pmb b_{1} \\
+\pmb b_{2} \\
+\vdots \\
+\pmb b_{18}
+\end{bmatrix},~\pmb Z =
+\begin{bmatrix}
+\pmb Z_1 & 0 & \dots & 0 \\
+0   & \pmb Z_2 & \dots & 0 \\
+\vdots & \vdots & \vdots & \vdots  \\
+0 & 0 & \dots & \pmb Z_{18}
+\end{bmatrix}
+$$ 
+
+혼합모형 @eq-re-lme1 를 `lmer()` 함수를 이용하여 적합시켜보자. 모형에서 `(1 + Days|Subject)`
+이 개체에 대하여 절편과 기울기에 대한 임의효과를 지정한다.
+
+
+```{r ex17,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+fm1 <- lmer(Reaction ~ 1 + Days + (1 + Days|Subject), sleepstudy)
+summary(fm1)
+```
+
+위의 혼합모형 적합결과를 살펴보자. 첫째로 고정효과에 대한 추정식은 다음과 같다
+
+```{r ex18,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+fixef(fm1)
+```
+또한  오차항에 대한 분산 및 임의효과의 분산성분과 상관계수는 다음과 같이 나타난다. 
+```{r ex19,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+VarCorr(fm1)
+```
+
+
+위의 고정효과와 임의효과의 분산성분에 대한 추정치를 이용하여 모형의 적합의 결과를 다음과 같이 나타낼 수 있다. 
+
+$$
+\text{Reaction Time} = N(251.405 + 10.467 \text{ Days}, 25.6^2)
+$$ 
+
+$$
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix} \sim
+N \left (
+\begin{bmatrix}
+0 \\
+0 \\
+\end{bmatrix}
+,
+\begin{bmatrix}
+24.74^2 & (0.07)(24.74)(5.92)\\
+(0.07)(24.74)(5.92)& 5.92^2 \\
+\end{bmatrix}
+\right )
+$$ 
+
+이제 임의효과 $\pmb b$에 대한 예측(prediction)을 생각해보자. 우리는 오직 관측벡터 $\pmb y$만을 관측하고 임의효과 $\pmb b$는 관측을 할 수 없는 확률변수이다. 하지만 주어진 관측벡터와 추정된 분산으로 임의효과의 값을 예측할 수있으며 그 결과는 다음과 같다.
+
+```{r ex21,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+re <- ranef(fm1)$Subject
+re
+plot(re, main ="prediction of random effects ")
+```
+
+
+예측된 각 개인의 절편과 기울기에 대한 임의효과 $b_{0i}$과 $b_{1i}$에 고정효과의 추정량 $\hat \beta$를 더해주면 각
+개인의 절편과 기울기에 대한 예측값을 구할 수 있다.
+
+```{r, echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+beta <- matrix(as.numeric(fixef(fm1)),18,2,byrow=T)
+beta + re 
+```
+
+위의 결과를 각 개체에 대해 별도의 회귀직선을 적합시켜서 얻은 18개의 절편과 기울기와 비교해보자.
+
+```{r ex23,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+coef(lmf1)
+```
+
+이렇게 혼합모형을 통해서 얻은 각 개인의 절편과 기울기에 대한 예측값과 각각의 개인에 대해서 회귀직선을 따로 적합하여 얻은
+절편과 기울기의 관계를 그림으로 그려보면 다음과 같다. 즉 혼합모형을 통해서 얻은 각 개인의 절편과 기울기는 절편과 기울기의 전체평균값 방향으로 축소되는 경향(shrinkage)을 볼수있다.
+
+
+```{r ex24,echo=F ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+library(lattice)
+fm9 <- lmer(Reaction ~ 1 + Days + (1+Days||Subject), sleepstudy, REML = 0)
+# 다음 명령어는 위의 명령어와 같은 모형을 적합한다.
+# fm9 <- lmer(Reaction ~ 1 + Days + (1|Subject) + (0+Days|Subject), sleepstudy, REML = 0)
+
+
+df <- coef(lmList(Reaction ~ Days | Subject, sleepstudy))
+fclow <- subset(df, `(Intercept)` < 251)
+fchigh <- subset(df, `(Intercept)` > 251)
+cc1 <- as.data.frame(coef(fm9)$Subject)
+names(cc1) <- c("A", "B")
+df <- cbind(df, cc1)
+ff <- fixef(fm9)
+with(df,
+     print(xyplot(`(Intercept)` ~ Days, aspect = 1,
+                  x1 = B, y1 = A,
+                  panel = function(x, y, x1, y1, subscripts, ...) {
+                      panel.grid(h = -1, v = -1)
+                      x1 <- x1[subscripts]
+                      y1 <- y1[subscripts]
+                      larrows(x, y, x1, y1, type = "closed", length = 0.1,
+                              angle = 15, ...)
+                      lpoints(x, y,
+                              pch = trellis.par.get("superpose.symbol")$pch[2],
+                              col = trellis.par.get("superpose.symbol")$col[2])
+                      lpoints(x1, y1,
+                              pch = trellis.par.get("superpose.symbol")$pch[1],
+                              col = trellis.par.get("superpose.symbol")$col[1])
+                      lpoints(ff[2], ff[1], 
+                              pch = trellis.par.get("superpose.symbol")$pch[3],
+                              col = trellis.par.get("superpose.symbol")$col[3])
+                      ltext(fclow[,2], fclow[,1], row.names(fclow),
+                            adj = c(0.5, 1.7))
+                      ltext(fchigh[,2], fchigh[,1], row.names(fchigh),
+                            adj = c(0.5, -0.6))
+                  },
+                  key = list(space = "top", columns = 3,
+                  text = list(c("Mixed model", "Within-group", "Population")),
+                   points = list(col = trellis.par.get("superpose.symbol")$col[1:3],
+                   pch = trellis.par.get("superpose.symbol")$pch[1:3]))
+               )))
+```
+
+
+
+
+여기서 혼합모형의 식 @eq-re-lme1  의 임의효과에 대한 계획행렬 $Z$의 구조를 살펴보자. R 의 적합된 결과에서 `getME` 함수를 이용하여  계획행렬 $\pmb Z$의 전치행렬(transpose matrix, $\pmb Z^t$)을 얻을 수 있다. 계획행렬 $\pmb Z$는 그 값의 많은 부분이 0으로 구성되어 있어서 성김행렬(saprse matrix)라고 부르며 이런 행렬은 특별한 형식으로 저장되어 있다. 
+
+```{r ex25,echo=T , out.width='1.0\\linewidth'}
+image(getME(fm1,"Zt"))
+```
+
+또한 혼합모형의 식 @eq-re-lme1 에서 임의효과의 상관계수가 $\rho=0$인 경우의 모형을 고려해 보자
+
+$$ 
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix} \sim
+N \left (
+\begin{bmatrix}
+0 \\
+0 \\
+\end{bmatrix}
+,
+\begin{bmatrix}
+\sigma^2_{b1} & 0\\
+0 & \sigma^2_{b2} \\
+\end{bmatrix}
+\right )
+$$ 
+
+
+임의효과의 상관계수가 $\rho=0$인  모형은 아래와 같이 `(1+Days | Subject)` 를 사용하는 대신 두 개의 바 `||` 를 사용한 `(1+Days || Subject)`으로  적합시키면 결과를 다음과 같이 얻을 수 있다.
+
+```{r ex26,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+fm2 <- lmer(Reaction ~ 1 + Days + (1+Days||Subject), sleepstudy)
+# 다음 명령어는 위의 명령어와 같은 모형을 적합한다.
+# fm2 <- lmer(Reaction ~ 1 + Days + (1|Subject) + (0+Days|Subject), sleepstudy)
+
+summary(fm2)
+```
+
+
+
+위의 고정효과와 임의효과의 분산성분에 대한 추정치를 이용하여 모형의 적합의 결과를 다음과 같이 나타낼 수 있다. 
+
+$$
+\text{Reaction Time} = N(251.405 + 10.467 \text{ Days}, 25.6^2)
+$$ 
+
+$$
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix} \sim
+N \left (
+\begin{bmatrix}
+0 \\
+0 \\
+\end{bmatrix}
+,
+\begin{bmatrix}
+25.1^2 & 0\\
+0& 6.0^2 \\
+\end{bmatrix}
+\right )
+$$ 
+
+두 모형, 즉 절편과 기울기에 대한  두 임의효과가 종속인지 또는 독립인지에 대한 두 모형을 AIC(Akaike Information Criteris)로 비교하해 보자.
+두 모형은 AIC의 값은 거의 동일하지만 임의효과의 상관게수가 0인 모형이 AIC 값이 약간 작으며 상관게수의 추정치가 메우 작으므로 
+임의효과의 상관게수가 0인 모형을 선택하는 것이 합리적이라고 판단된다.
+
+```{r ex26-1,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
+AIC(fm1)
+AIC(fm2)
+```
+
+
+## 예제: 고혈압 강하제 살험 
+
+
+여기서 다룰 예제는 @lee2005 6장에 나오는 예제이다.
+
+고혈압 환자 66명을 대상으로 32명에게는 기존의 혈압 강하제(C)를 투여하고, 나머지 34명에게는 새로운 혈압 강하제(E)를 투여하였다.
+환자가 치료를 시작하기 전에 혈압을 측정하고(0주) 치료를 받은 후  4주, 8주 후에 2번 반복 측정하였다. 이 실험의 목표는 다음과 같다.
+
+1. 기존의 약과 새로운 혈압 강하제 간의 유의한 차이가 있는가?
+2. 방문 시간(`time`)에 따라서 혈압(`bp`)의 차이가 있는가?
+3. 약(`trt`)과 방문 시간(`time`) 간에 상호작용(interaction)이 있는가?
+
+이제 자료를 읽어서 `blood_data`에 저장하자.
+
+```{r}
+blood_data<- read.csv(here("data", "ex0601.txt"), header=T, sep="")
+head(blood_data,5)
+```
+
+모형식을 고려하기 전에 각 처리 그룹에서 시간에 따른 혈압의 변화를 살펴보자. 강하제를 복용한 후에 평균 혈압은 크게 내려갔지만 8주 후에는 다소 올라가는 경향을 보인다. 
+
+```{r, echo=T, out.width='.9\\linewidth'}
+with(blood_data, interaction.plot(x.factor = time, trace.factor = trt, response = bp))
+```
+
+### 혼합효과 모형 
+
+반응값 $y_{ijk}$를 $i$ 번째 강하제($i=1,2$)를 복용한 $j$ 번째 환자의 $k$ 시간에 측정한 혈압이라고 하자($j=1,2,..,n_i$, $k=0,1,2$). 
+
+먼저 약을 복용하기 전의 혈압 $y_{ij0}$ 은 처리 전의 기준이 되는 값이다. 따라서 우리는 4주와 8주에 측정한 혈압, $y_{ij1}$와 $y_{ij2}$ 에서 0주에 측정한 혈압 $y_{ij0}$을 뺀 두 개의 차이, $d_{ij1}$ 과 $d_{ij2}$를 반응 변수로 사용할 것이다. 각 환자는 2개의 관측값을 가지며 이는 반복측정 자료이다.
+
+$$ d_{ij1} = y_{ij1} -y_{ij0}, \quad d_{ij2} = y_{ij2} -y_{ij0} $$
+
+혈압의 차이를 계산하여 다음과 같이 새로운 데이터프레임을 만들자.
+
+```{r}
+df0 <- blood_data %>% filter(time == 0) %>% select(id, bp) %>% rename( bp0 = bp)
+df1 <- blood_data %>% filter(time != 0)
+blood_data1 <- left_join(df1, df0, by='id') %>% mutate(d = bp - bp0)
+head(blood_data1 ,10)
+```
+
+```{r, echo=T, out.width='.9\\linewidth'}
+with(blood_data1, interaction.plot(x.factor = time, trace.factor = trt, response = d))
+```
+
+이제 다음과 같은 모형을 고려하자.
+
+$$
+d_{ijk} = \mu + \alpha_i + \beta_k +  (\alpha\beta)_{ik} + b_{ij} + e_{ijk}, \quad i=1,2 ~~ j=1,...,n_i~~ k=1,2
+$$ {#eq-re-bloodtrial} 
+
+ 일단 반복 측정한 시점이 2번이므로 측정 시간은 연속형 변수가 아닌 범주형 변수로 지정한다.
+
+
+.
+위의 모형식 @eq-re-bloodtrial  에서 각 항의 의미는 다음과 같다.
+
+- $\mu$ : 전체 평균 혈압
+- $\alpha_i$ : 혈압 강하제의 효과 ($i=1,2$)
+- $\beta_k$ : 시간 효과($k=1,2$)
+- $(\alpha\beta)_{ik}$ : 강하제와 시간의 상호작용
+- $b_{ij} \sim_{iid} N(0,\sigma_b^2)$ :  환자의 효과를 나타내는 임의효과 ($i=1,2$, $j=1,2,\dots,n_i$)
+- $e_{ijk} \sim_{iid} N(0, \sigma_e^2)$:  오차항 
+
+위에서 환자의 효과를 나타내는 임의효과와 오차항은 독립이라고 가정한다.
+
+이제 자료에서 치료약(`trt`), 시간(`time`), 환자의 ID(`id`)를 범주형 변수로 변환하자.
+
+```{r}
+blood_data1$id <- factor(blood_data1$id)
+blood_data1$trt <- factor(blood_data1$trt)
+blood_data1$time <- factor(blood_data1$time)
+```
+
+이제 다음과 같은 R 명령문을 이용하여 모형 @eq-re-bloodtrial  을 적합하고 추정 결과를 살펴 보자. 
+
+```{r}
+blood_fit <- lmer(d ~ trt + time + trt*time +(1|id), data=blood_data1)
+summary(blood_fit)
+```
+
+위의 적합 결과를 보면 다음과 같은 해석이 가능하다.
+
+1. 혈압 강하제 간의 유의한 차이는 있다. 기존의 혈압 강하제(C)가 더 효과적이다
+2. 시간에 따른 효과의 차이는 유의하지 않다.
+3. 강하제와 시간 간의 상호작용도 유의하지 않다.
+
+또한 환자의 개인적인 효과를 반영한 임의효과의 분산이 오차항의 분산의 거의 4배이다.이는 개인 간의 변동이 개인 내의 변동보다 매우 크다는 것을 의미한다. 
+
+$$ \hat \sigma^2_b = 58.00  \quad \hat \sigma^2_e = 14.87$$
+반복측정한 자료의 상관계수, 즉 그룹 내의 관측값의  상관계수는 0.7956 으로 매우 높다.
+
+$$ \hat \rho(d_{ij1},d_{ij2}) = \frac{\hat \sigma^2_b }{\hat \sigma^2_b + \hat \sigma^2_2} =\frac{58.0}{58.0 + 14.9} = 0.7956 $$
+
+
+이제 각 요인에 대한 유의성을 보기 위하여 분산분석을 실시해 보자. 선택 명령문으로 `ddf =  "Kenward-Roger"`를 사용하는 것이 좋으며  이는 혼합효과 모형에서 잔차제곱합의 자유도를 적절하게 추정해 준다. 위의 분산분석 결과를 보면 약의 효과와 상호작용은 앞에서 내린 결론과 동일하지만 시간에 따른 효과가 유의하게 나타난다. 
+
+```{r}
+anova(blood_fit, ddf =  "Kenward-Roger")
+```
+
+### 임의효과가 없는 모형 
+
+만약 반복측정 자료의 구조를 무시하고 개인에 대한 임의효과를 고려하지 않으면 어떻게 될까? 이러한 가정은 
+실험에서 얻은  모든 반응값들이 독립이라는 것이다.
+
+다음과 같이 개인에 대한 임의효과가 없는 모형을 고려하고 적합해 보자.
+
+$$
+d_{ijk} = \mu + \alpha_i + \beta_k +  (\alpha\beta)_{ik} + e_{ijk}, \quad i=1,2 ~~ j=1,...,n_i~~ k=1,2
+$$ {#eq-re-bloodtrial2} 
+
+```{r}
+blood_fit1 <- lm(d ~ trt + time + trt*time , data=blood_data1)
+summary(blood_fit1)
+Anova(blood_fit1, type="III")
+```
+
+혈압 강하제의 효과가 임의효과를 포함한 모형과 같이 유의하게 나타난다. 그런데 여기서 임의효과를 포함 하지 않는 모형의 분석 결과에 유의해야 할 점은 다음과 같다.
+
+- 임의효과를 고려하지 않으면 마치 66명의 두 배인 132 명으로 구성된 독립 표본으로 실험한 것처럼 가정하는 것이다. 따라서 표본의 수가 늘어나는 효과가 생긴다.  
+
+- 반면 임의 효과로 설명되는 그룹의 변동이 오차의 변동에 합쳐지기 때문에 오차항의 분산이 크게 추정된다. 
+
+위의 두 분석 결과를 비교해보면 혼합효과 모형에서 오차항의 분산에 대한 추정치는 $\hat \sigma_e^2 =14.87$ 이지만  임의효과를 고려하지 않은 모형에서는  $\hat \sigma_e^2 =(8.537)^2 = 72.88$ 로 추정된다. 
+
+하지만 임의효과를 고려하지 않은 모형에서는 표본의 수가 늘어나므로, 오차항의 분산이 크게 추정되더라도 추정량에 대한 표준오차(standard error)는 혼합모형과 유사하게 나타난다. 
+
+
+혼합모형으로 추정한 그룹 내 상관계수($\hat \rho =0.8$)가 매우 크게 나타났으므로 관측값들이 모두 독립이라는 가정은  적절하지 않다. 
+
+각 환자에 대하여 두 반응값을  연결하여 그리면  환자들의 두 반응값들이 매우 가깝게 나타나는 것을 알 수 있다.  
+
+```{r}
+ ggplot(blood_data1, aes(x=id, y=d, color=trt)) + 
+    geom_point()  +
+    geom_line() 
+```
+
+### 공분산분석
+
+실제로 많은 임상 실험에서는 여러 번 반복 측정을 실시해도 결과를 분석하는 경우 최종 측정값만을 고려한다.
+이제 약을 복용하기 전과  8주의 혈압의 차이를 반응변수로 하는 공분산 분석을 실시해 보자. 
+
+약을 복용하기 전과  8주의 혈압의 차이 $d_{ij2} = y_{ij2} - y_{ij0}$ 를 반응변수로 하고 공변량을 실험 전 혈압 $y_{ij0}$으로 하여 분석을 실시한다. 모형은 공분산분석 모형으로 다음과 같다.
+
+$$ d_{ij2} = \mu + \alpha_i + \beta y_{ij0} + e_{ij} $$
+
+
+
+```{r}
+blood_data2 <- blood_data1 %>% filter(time == 8)
+head(blood_data2,5)
+```
+```{r}
+plot(d ~ trt, data=blood_data2)
+```
+
+이제 공분산 모형을 적합해 보자.  처리 간의 차이도 매우 유의하고 실험 전의 혈압도 유의하다. 주목할 점은 
+실험 전의 혈압에 대한 회귀계수의 부호가 음수이므로 약을 먹기 전에 혈압이 높을수록 약을 먹은 후의 혈압이 더 많이 감소한다.
+이러한 현상은 임상실험에서 자주 나타나는 현상이다. 일반적으로  질병의 정도가 심한 환자일 수록 평균적으로 치료 효과가 더 커진다.  
+
+```{r}
+blood_ancova <- lm( d ~ trt + bp0, data = blood_data2)
+summary(blood_ancova)
+Anova(blood_ancova, type="III")
+```
+
+
+## 분산의 구조 
+
+위의 반복측정자료 예제에서 개체가 3개이고($I=3$) 반복한 시간의 개수가 4번인 경우($J=4$)
+각 개체에 대한 임의효과에 대한 계획행렬 $\pmb Z_i$와 전체 계획행렬 $\pmb Z$ 은 다음과 같이 나타난다.
+
+$$  
+\pmb Z_i = \pmb Z_* =
+\begin{bmatrix}
+1 & t_1 \\
+1 & t_2 \\
+1 & t_3 \\
+1 & t_4 
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+1 & 2 \\
+1 & 3 
+\end{bmatrix}
+, ~i=1,2,3 \quad
+\pmb Z =
+\begin{bmatrix}
+\pmb Z_1 & \pmb 0 & \pmb 0 \\
+\pmb 0 & \pmb Z_2 & \pmb 0  \\
+\pmb 0 &   \pmb 0 & \pmb Z_3  \\
+\end{bmatrix}
+$$ 
+각 개체에 대한 임의효과 벡터 $\pmb b_i$의 분포를  다음과 같이 나타내면
+
+$$  
+\pmb b_i =
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix} \sim
+N \left (
+\begin{bmatrix}
+0 \\
+0 \\
+\end{bmatrix}
+,
+\begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12} \\
+ \sigma_{b12} & \sigma_{b22}  \\
+\end{bmatrix}
+\right )
+$$ 
+위에서 한 개체에 대한 임의효과 벡터 $\pmb b_i$의 공분산을 $\pmb \Psi$라고 하자.
+
+$$ 
+ \pmb \Psi = 
+ \begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12} \\
+ \sigma_{b12} & \sigma_{b22}  \\
+\end{bmatrix}
+$$ 
+이제 전체 임의효과 $\pmb b = (\pmb b_1^t,\pmb b_2^t,\pmb b_3^t)^t$의 공분산 행렬 $\pmb G$은 다음과 같다.
+
+$$  
+\pmb G = Cov(\pmb b) = 
+\begin{bmatrix}
+\pmb \Psi & \pmb 0 & \pmb 0\\
+\pmb 0 & \pmb \Psi &\pmb 0\\
+\pmb 0 & \pmb 0 & \pmb \Psi
+\end{bmatrix}
+$$ 
+
+따라서  $\pmb Z \pmb G \pmb Z^t$은 다음과 같이 나타난다. 
+
+$$
+\begin{aligned}
+\pmb Z \pmb G \pmb Z^t
+&= 
+\begin{bmatrix}
+\pmb Z_1 & \pmb 0 & \pmb 0 \\
+\pmb 0 & \pmb Z_2 & \pmb 0 \\
+\pmb 0 & \pmb 0 & \pmb Z_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+\pmb \Psi & \pmb 0 & \pmb 0\\
+\pmb 0 & \pmb \Psi &\pmb 0\\
+\pmb 0 & \pmb 0 & \pmb \Psi
+\end{bmatrix}
+\begin{bmatrix}
+\pmb Z_1 & \pmb 0 & \pmb 0 \\
+\pmb 0 & \pmb Z_2 & \pmb 0 \\
+\pmb 0 & \pmb 0 & \pmb Z_3 \\
+\end{bmatrix}^t \\
+& =
+\begin{bmatrix}
+ \pmb Z_1 \pmb \Psi \pmb Z_1^t & \pmb 0 & \pmb 0 \\
+\pmb 0 & \pmb Z_2 \pmb \Psi \pmb Z_2^t & \pmb 0 \\
+\pmb 0 & \pmb 0 &  \pmb Z_3 \pmb \Psi \pmb Z_3^t\\
+\end{bmatrix}
+\end{aligned}
+$$
+
+이때 $\pmb Z_i \pmb \Psi \pmb Z_i^t= \pmb Z_*  \pmb \Psi\pmb Z_*^t$의 형태는 다음과 같이 모두 같으므로 
+
+$$
+\begin{aligned}
+\pmb Z_i \pmb \Psi \pmb Z_i^t && =\pmb Z_* \pmb \Psi \pmb Z_*^t \\
+& =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+1 & 2 \\
+1 & 3 
+\end{bmatrix}
+ \begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12} \\
+ \sigma_{b12} & \sigma_{b22}  \\
+\end{bmatrix}
+\begin{bmatrix}
+1  & 1 & 1 & 1\\
+0 & 1 & 2 & 3
+\end{bmatrix} \\
+& =
+\begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12}\\
+\sigma_{b11} + \sigma_{b12}  & \sigma_{b12} + \sigma_{b22} \\
+\sigma_{b11} + 2 \sigma_{b12}  & \sigma_{b12} +  2 \sigma_{b22} \\
+\sigma_{b11} + 3 \sigma_{b12}  & \sigma_{b12} + 3 \sigma_{b22} \\
+\end{bmatrix} 
+\begin{bmatrix}
+1  & 1 & 1 & 1\\
+0 & 1 & 2 & 3
+\end{bmatrix} \\
+& =
+\begin{bmatrix}
+\sigma_{b11} &  \sigma_{b11} + \sigma_{b12} 
+   & \sigma_{b11} + 2\sigma_{b12} & \sigma_{b11} + 3\sigma_{b12}\\
+\sigma_{b11} + \sigma_{b12}  & \sigma_{b22} + 2\sigma_{b12} + \sigma_{b22}
+    &  \sigma_{b22} + 3\sigma_{b12} + 2\sigma_{b22} & \sigma_{b22} + 4\sigma_{b12} + 3\sigma_{b22} \\
+\sigma_{b11} + 2\sigma_{b12}  & \sigma_{b22} + 3\sigma_{b12} + 2\sigma_{b22}
+    &  \sigma_{b22} + 4\sigma_{b12} + 4\sigma_{b22} & \sigma_{b22} + 5\sigma_{b12} + 6\sigma_{b22} \\
+\sigma_{b11} + 3\sigma_{b12}  & \sigma_{b22} + 4\sigma_{b12} + 3\sigma_{b22}
+    &  \sigma_{b22} + 5\sigma_{b12} + 6\sigma_{b22} & \sigma_{b22} + 6\sigma_{b12} + 9\sigma_{b22}
+\end{bmatrix}
+\end{aligned}
+$$
+
+관측벡터의 공분산 행렬 $\pmb V=\pmb Z \pmb G \pmb Z^t + \sigma^2_e \pmb I$는 다음과 같이 주어진다.
+$$  
+\pmb V = diag \{\pmb Z_i \Psi \pmb Z_i^t \}_{i=1}^3 + \sigma^2_e \pmb I_{12}
+$$ 
+
+같은 그룹에 속한 관측값의 분산과 공분산은 다음과 같이 직접 계산할 수도 있다.
+$$  
+ var(y_{ij}) = var((\beta_0 + b_{0i}) + (\beta_1 + b_{1i})t_j + e_{ij})
+ = \sigma_{b11} + 2 t_j \sigma_{b12} +  t_j^2 \sigma_{b11} +  \sigma_{e}^2
+$$ 
+$$
+\begin{aligned}
+cov(y_{ij}, y_{ik}) & = cov[(\beta_0 + b_{0i}) + (\beta_1 + b_{1i})t_j + e_{ij}, ~
+(\beta_0 + b_{0i}) + (\beta_1 + b_{1i})t_k + e_{ik} ] \\
+&= cov(b_{0i},b_{0i})) + (t_j +t_k) cov(b_{0i},b_{1i})  + t_j t_k cov(b_{1i},b_{1i})  +
+cov(e_{ij} ,e_{ik} ) \\
+&= \sigma_{b11} +   (t_j +t_k) \sigma_{b12} +  t_j t_k \sigma_{b11} + 0
+\end{aligned}
+$$
+
+따라서 같은 그룹에 속한 두 관측값의 상관계수는 다음과  같다.
+
+$$  
+cor(y_{ij}, y_{ik}) = 
+\frac{\sigma_{b11} +   (t_j +t_k) \sigma_{b12} +  t_j t_k \sigma_{b11} }
+{\sqrt{ (\sigma_{b11} + 2 t_j \sigma_{b12} +  t_j^2 \sigma_{b11} +  \sigma_{e}^2)
+(\sigma_{b11} + 2 t_k \sigma_{b12} +  t_k^2 \sigma_{b11} +  \sigma_{e}^2)} }
+$$ 
+
+--->
+
+
