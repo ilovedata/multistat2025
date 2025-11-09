@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../references.html" rel="next">
+<link href="../qmd/multivar-anova.html" rel="next">
 <link href="../qmd/multivar-factor.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -251,6 +251,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../qmd/multivar-cluster.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">군집 분석</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../qmd/multivar-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">다변량 분산분석</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1336,7 +1342,7 @@ CT  0.368 0.3895254 0.37869822 0.3577661 0.6525054 0.9147595 0.5539033</code></p
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">centers =</span> i)<span class="sc">$</span>withinss)</span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>wss</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 20.568070 10.569006  8.824753  7.746073  6.834965  5.676624</code></pre>
+<pre><code>[1] 20.568070 10.569006  8.824753  7.634718  6.853599  5.755424</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, wss, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">xlab =</span> <span class="st">"Number of groups"</span>,</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Within groups sum of squares"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1352,21 +1358,21 @@ CT  0.368 0.3895254 0.37869822 0.3577661 0.6525054 0.9147595 0.5539033</code></p
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(crime_s, <span class="at">centers =</span> <span class="dv">2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 2 clusters of sizes 28, 22
+<pre><code>K-means clustering with 2 clusters of sizes 22, 28
 
 Cluster means:
      Murder      Rape   Robbery   Assault  Burglary     Theft   Vehicle
-1 0.3791429 0.4059504 0.1456044 0.3177512 0.5033847 0.8506515 0.3061161
-2 0.7494545 0.7425978 0.4516765 0.6889576 0.8406368 1.1170963 0.6868311
+1 0.7494545 0.7425978 0.4516765 0.6889576 0.8406368 1.1170963 0.6868311
+2 0.3791429 0.4059504 0.1456044 0.3177512 0.5033847 0.8506515 0.3061161
 
 Clustering vector:
 ME NH VT MA RI CT NY NJ PA OH IN IL MI WI MN IA MO ND SD NE KS DE MD VA WV NC 
- 1  1  1  2  1  1  2  2  1  1  1  2  2  1  1  1  2  1  1  1  1  1  2  1  1  1 
+ 2  2  2  1  2  2  1  1  2  2  2  1  1  2  2  2  1  2  2  2  2  2  1  2  2  2 
 SC GA FL KY TN AL MS AR LA OK TX MT ID WY CO NM AZ UT NV WA OR CA AK HI 
- 2  2  2  1  2  1  1  1  2  2  2  1  1  1  2  2  2  1  2  2  2  2  2  1 
+ 1  1  1  2  1  2  2  2  1  1  1  2  2  2  1  1  1  2  1  1  1  1  1  2 
 
 Within cluster sum of squares by cluster:
-[1] 4.521055 6.047951
+[1] 6.047951 4.521055
  (between_SS / total_SS =  48.6 %)
 
 Available components:
@@ -2000,8 +2006,8 @@ pottery_cluster  1  2  3  4  5
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../qmd/multivar-anova.html" class="pagination-link" aria-label="다변량 분산분석">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">다변량 분산분석</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
