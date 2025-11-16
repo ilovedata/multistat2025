@@ -312,6 +312,11 @@ window.Quarto = {
   <li><a href="#고정효과-모형" id="toc-고정효과-모형" class="nav-link" data-scroll-target="#고정효과-모형"><span class="header-section-number">10.2.1</span> 고정효과 모형</a></li>
   <li><a href="#혼합효과-모형" id="toc-혼합효과-모형" class="nav-link" data-scroll-target="#혼합효과-모형"><span class="header-section-number">10.2.2</span> 혼합효과 모형</a></li>
   </ul></li>
+  <li><a href="#반복측정자료" id="toc-반복측정자료" class="nav-link" data-scroll-target="#반복측정자료"><span class="header-section-number">10.3</span> 반복측정자료</a>
+  <ul class="collapse">
+  <li><a href="#개체들의-선형-회귀모형" id="toc-개체들의-선형-회귀모형" class="nav-link" data-scroll-target="#개체들의-선형-회귀모형"><span class="header-section-number">10.3.1</span> 개체들의 선형 회귀모형</a></li>
+  <li><a href="#sec-randomcoef" id="toc-sec-randomcoef" class="nav-link" data-scroll-target="#sec-randomcoef"><span class="header-section-number">10.3.2</span> 임의계수 모형</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -484,55 +489,27 @@ y_{ij} = \mu + \tau_{k(i)} + a_i + e_{ij}
 <p>고정효과는 보통 모형식에서 그릭 문자(<span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>)로 표시하고 임의효과는 모형식에서 영어 알파벳 문자(<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>)로 표시한다</p>
 </div>
 </div>
-<!------
-
-## 반복측정자료
-
-
-반복측정자료(longitudinal data, repeated measurements)는 관측단위안에서 여러 개의 관측값을 측정한 자료의 형식을 말한다.
- 예를 들어 환자가 병원을 여러 번 방문하고 방문시마다 혈압을 측정하였다면 한 명의 환자에서 반복 측정한 자료는 서로 독립이 아니다. 또한 가구조사(household survey)에서 가구원의 취업 여부, 건겅 상태등을 여러 해동안 매년 측정하는 경우 이러한 자료를 패널자료(panel data) 또는 longitudinal 자료라고 한다. 이렇게 하나의 관측단위 안에서 측정한 자료들은 서로 독립이 아닌 특징이 있고 자료를 분석하는 경우 이러한 자료들의 종속구조를 고려하는 모형을 사용하는 것이 적절하다. 이렇게 반복측정자료에서 반복자료들의 공분산구조를 설정하는 통계적 방법들은 다양하지만 대표적으로 쉽게 사용할 수 있는 방법이 임의효과를 포함한 혼합모형을 사용하는 방법이다.
- 
-
- 
-::: {#exm-sleep} 
- 
-### 트럭운전사의 수면시간 
-
-  `lme4` 패키지에 자료인 `spleepstudy`는 화물트럭 운전사들에 대한 수면부족 현상에 대하여 연구한 자료이다.  18명의 운전자들이 매일 3시간의 수면(부족한 수면)을 하면서 
- 매일 일정한 동작의 반응시간을 10일동안 반복적으로 측정한 자료가 있다. 한명의 운전사에게 10일 동안의 반응에 대한 측정자료 10개가 존재하므로 이는 반복측정 자료이며 이러한 10개의 자료는 독립이 아니다. 
-일단 자료의 구조를 살펴보자. 반응변수 ``Reaction`은 반응시간(ms)를 나타내며 설명변수로서 `Days`는 날짜($t=0,1,2,\dots,9$), `Subject` 는 운전자의 고유번호를 나타낸다.
-:::
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-library(lme4)
-library(lmerTest)
-str(sleepstudy)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-'data.frame':   180 obs. of  3 variables:
+</section>
+</section>
+<section id="반복측정자료" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="반복측정자료"><span class="header-section-number">10.3</span> 반복측정자료</h2>
+<p>반복측정자료(longitudinal data, repeated measurements)는 관측단위안에서 여러 개의 관측값을 측정한 자료의 형식을 말한다. 예를 들어 환자가 병원을 여러 번 방문하고 방문시마다 혈압을 측정하였다면 한 명의 환자에서 반복 측정한 자료는 서로 독립이 아니다. 또한 가구조사(household survey)에서 가구원의 취업 여부, 건겅 상태등을 여러 해동안 매년 측정하는 경우 이러한 자료를 패널자료(panel data) 또는 longitudinal 자료라고 한다. 이렇게 하나의 관측단위 안에서 측정한 자료들은 서로 독립이 아닌 특징이 있고 자료를 분석하는 경우 이러한 자료들의 종속구조를 고려하는 모형을 사용하는 것이 적절하다. 이렇게 반복측정자료에서 반복자료들의 공분산구조를 설정하는 통계적 방법들은 다양하지만 대표적으로 쉽게 사용할 수 있는 방법이 임의효과를 포함한 혼합모형을 사용하는 방법이다.</p>
+<div id="exm-sleep" class="theorem example">
+<p><span class="theorem-title"><strong>보기 10.1 (트럭운전사의 수면시간)</strong></span> <code>lme4</code> 패키지에 자료인 <code>spleepstudy</code>는 화물트럭 운전사들에 대한 수면부족 현상에 대하여 연구한 자료이다. 18명의 운전자들이 매일 3시간의 수면(부족한 수면)을 하면서 매일 일정한 동작의 반응시간을 10일동안 반복적으로 측정한 자료가 있다. 한명의 운전사에게 10일 동안의 반응에 대한 측정자료 10개가 존재하므로 이는 반복측정 자료이며 이러한 10개의 자료는 독립이 아니다. 일단 자료의 구조를 살펴보자. 반응변수 `<code>Reaction</code>은 반응시간(ms)를 나타내며 설명변수로서 <code>Days</code>는 날짜(<span class="math inline">\(t=0,1,2,\dots,9\)</span>), <code>Subject</code> 는 운전자의 고유번호를 나타낸다.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sleepstudy)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   180 obs. of  3 variables:
  $ Reaction: num  250 259 251 321 357 ...
  $ Days    : num  0 1 2 3 4 5 6 7 8 9 ...
- $ Subject : Factor w/ 18 levels "308","309","310",..: 1 1 1 1 1 1 1 1 1 1 ...
-```
-
-
-:::
-
-```{.r .cell-code}
-head(sleepstudy, n = 20)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-   Reaction Days Subject
+ $ Subject : Factor w/ 18 levels "308","309","310",..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sleepstudy, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Reaction Days Subject
 1  249.5600    0     308
 2  258.7047    1     308
 3  250.8006    2     308
@@ -552,63 +529,40 @@ head(sleepstudy, n = 20)
 17 213.6303    6     309
 18 217.7272    7     309
 19 224.2957    8     309
-20 237.3142    9     309
-```
-
-
-:::
-:::
-
-
-각 운전자에 대한 10일 간의 반응속도가 시간에 따라 어떻게 변하는 가를 알아보자. 전반적으로 시간이 지나면서 운전자들의 반응시간이 증가하고 있음을 알 수 있다. 또한 개인 별로 반응 시간의 변화와 패턴이 다르다는 것을 알 수 있다.  
-
-::: {.cell}
-
-```{.r .cell-code}
-library(ggplot2)
-ggplot(sleepstudy, aes(x = Days, y = Reaction)) +
-    geom_point(size = 0.5) +
-    geom_smooth(method = lm, se = FALSE, linewidth = 0.5) +
-    facet_wrap("Subject", labeller = label_both) +
-    theme_bw()
-```
-
-::: {.cell-output .cell-output-stderr}
-
-```
-`geom_smooth()` using formula = 'y ~ x'
-```
-
-
-:::
-
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/ex15-1.png){width=80%}
-:::
-:::
-
-
-
-### 개체들의 선형 회귀모형
-
-
-각 운전자 $i$ 에 대하여 10일간 측정한 반응속도 $y_{ij}$를 시간에 대하여 선형모형으로 적합하면 개인별 회귀직선을 다음과 같이 표시할 수 있다.
-
-
-$$
+20 237.3142    9     309</code></pre>
+</div>
+</div>
+<p>각 운전자에 대한 10일 간의 반응속도가 시간에 따라 어떻게 변하는 가를 알아보자. 전반적으로 시간이 지나면서 운전자들의 반응시간이 증가하고 있음을 알 수 있다. 또한 개인 별로 반응 시간의 변화와 패턴이 다르다는 것을 알 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"Subject"</span>, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/ex15-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="개체들의-선형-회귀모형" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="개체들의-선형-회귀모형"><span class="header-section-number">10.3.1</span> 개체들의 선형 회귀모형</h3>
+<p>각 운전자 <span class="math inline">\(i\)</span> 에 대하여 10일간 측정한 반응속도 <span class="math inline">\(y_{ij}\)</span>를 시간에 대하여 선형모형으로 적합하면 개인별 회귀직선을 다음과 같이 표시할 수 있다.</p>
+<p><span id="eq-re-lmlist1"><span class="math display">\[
 y_{ij} = \beta_{0i} + \beta_{1i} t_j + e_{ij},\quad i=1,2,\dots,18,\quad j=1,2,\dots,10
-$$ {#eq-re-lmlist1} 
-
-여기서 오차항 $e_{ij}$은 서로 독립이며 $N(0, \sigma^2_e)$를 따른다고 가정한다.
-
-행렬식으로는 다음과 같이 나타낼 수 있다.
-
-$$  
-\pmb y_i =\pmb X_i \pmb \beta_{i} +\pmb e_i 
-$$ 
-
-여기서 
-$$ 
+\tag{10.10}\]</span></span></p>
+<p>여기서 오차항 <span class="math inline">\(e_{ij}\)</span>은 서로 독립이며 <span class="math inline">\(N(0, \sigma^2_e)\)</span>를 따른다고 가정한다.</p>
+<p>행렬식으로는 다음과 같이 나타낼 수 있다.</p>
+<p><span class="math display">\[  
+\pmb y_i =\pmb X_i \pmb \beta_{i} +\pmb e_i
+\]</span></p>
+<p>여기서 <span class="math display">\[
 \pmb y_i=\begin{bmatrix}
 y_{i1} \\
 y_{i2} \\
@@ -616,37 +570,28 @@ y_{i2} \\
 y_{i,10}
 \end{bmatrix},~ \pmb X_i =
 \begin{bmatrix}
-1 & 0 \\
-1 & 1 \\
-\vdots & \vdots  \\
-1 & 9 
+1 &amp; 0 \\
+1 &amp; 1 \\
+\vdots &amp; \vdots  \\
+1 &amp; 9
 \end{bmatrix}, \pmb \beta_i=
 \begin{bmatrix}
 \beta_{0i} \\
 \beta_{1i} \\
-\end{bmatrix}, \pmb e_i= 
+\end{bmatrix}, \pmb e_i=
 \begin{bmatrix}
 e_{i1} \\
 e_{i2} \\
 \vdots \\
 e_{i,10}
 \end{bmatrix}
-$$ 
-
-위의 식에서 $\beta_{0i}$와 $\beta_{1i}$는 $i$번째 운전사의 반응속도를 설명내는 회귀직선의 절편과 기울기이다. 절편 $\beta_{0i}$는 실험 시작때 반응속도를 의미하고 기울기 $\beta_{1i}$는 실험이 진행되는 동안 반응속도가 어떻게 변하는 지 변화의 방향과 크기를 보여준다. 함수 \texttt{lmList}를 아래와 같이 이용하면 식 @eq-re-lmlist1  을 각 운전사마다 적합시켜 각각의 절편과 기울기를 구할 수 있다.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-lmf1 <- lmList(Reaction ~ Days | Subject, sleepstudy)
-lmf1
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-Call: lmList(formula = Reaction ~ Days | Subject, data = sleepstudy) 
+\]</span></p>
+<p>위의 식에서 <span class="math inline">\(\beta_{0i}\)</span>와 <span class="math inline">\(\beta_{1i}\)</span>는 <span class="math inline">\(i\)</span>번째 운전사의 반응속도를 설명내는 회귀직선의 절편과 기울기이다. 절편 <span class="math inline">\(\beta_{0i}\)</span>는 실험 시작때 반응속도를 의미하고 기울기 <span class="math inline">\(\beta_{1i}\)</span>는 실험이 진행되는 동안 반응속도가 어떻게 변하는 지 변화의 방향과 크기를 보여준다. 함수 를 아래와 같이 이용하면 식 <a href="#eq-re-lmlist1" class="quarto-xref">식&nbsp;<span>10.10</span></a> 을 각 운전사마다 적합시켜 각각의 절편과 기울기를 구할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lmf1 <span class="ot">&lt;-</span> <span class="fu">lmList</span>(Reaction <span class="sc">~</span> Days <span class="sc">|</span> Subject, sleepstudy)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>lmf1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: lmList(formula = Reaction ~ Days | Subject, data = sleepstudy) 
 Coefficients:
     (Intercept)      Days
 308    244.1927 21.764702
@@ -669,81 +614,54 @@ Coefficients:
 372    267.0448 11.298073
 
 Degrees of freedom: 180 total; 144 residual
-Residual standard error: 25.59182
-```
-
-
-:::
-
-```{.r .cell-code}
-cor(coef(lmf1))
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-            (Intercept)       Days
+Residual standard error: 25.59182</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">coef</span>(lmf1))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            (Intercept)       Days
 (Intercept)   1.0000000 -0.1375534
-Days         -0.1375534  1.0000000
-```
-
-
-:::
-
-```{.r .cell-code}
-plot(coef(lmf1), main = "intercepts and slopes on drivers: sleep study ")
-```
-
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/ex16-1.png){width=80%}
-:::
-:::
-
-
-18개의 절편과 기울기는 큰 상관관계는 없는것으로 보이지만 약한 음의 상관계수가 나타났다.  
-절편과 기울기에 대한 분포를 보기 위하여 상자그림을 그려보면 평균을 중심으로 대칭인 분포를 보이고 있다.  
-
-
-::: {.cell}
-
-```{.r .cell-code}
-boxplot(coef(lmf1)[1])
-boxplot(coef(lmf1)[2])
-```
-
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/box-1.png){width=9cm height=9cm}
-:::
-
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/box-2.png){width=9cm height=9cm}
-:::
-:::
-
-
-
-이제 각 운전사에 대하여  회귀식을 따로 적합하지 않고 전체 운전사들의 자료를 모두 합쳐서 하나의 회귀식을 고려할 수 있다. 개체의 특성을 반영하는 모형이 아닌 전체 집단에 대한 평균적인 모형(population model)을 고려하는 것이다. 
-
-$$ 
-y_{ij} = \beta_0 + \beta_1 t_j + e_{ij} ,\quad i=1,2\dots,18,  j=1,2, \dots, 10 
-$$ {#eq-re-popmodel} 
-
-여기서 오차항은 서로 독립이며 $N(0, \sigma^2_e)$를 따른다고 가정한다.
-
-위와 같은 전체 운전사 집단의 관측값을 운전자의 특성을 고려하지 않고 세운 모형으로서 시간에 따른 반응시간에 대한  모집단의 전체적인 평균적 함수 관계를 파악하는 모형이라고 할 수 있다.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-lmpop <- lm(Reaction ~ Days, sleepstudy)
-summary(lmpop)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-
+Days         -0.1375534  1.0000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">coef</span>(lmf1), <span class="at">main =</span> <span class="st">"intercepts and slopes on drivers: sleep study "</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/ex16-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>18개의 절편과 기울기는 큰 상관관계는 없는것으로 보이지만 약한 음의 상관계수가 나타났다.<br>
+절편과 기울기에 대한 분포를 보기 위하여 상자그림을 그려보면 평균을 중심으로 대칭인 분포를 보이고 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">coef</span>(lmf1)[<span class="dv">1</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">coef</span>(lmf1)[<span class="dv">2</span>])</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/box-1.png" style="width:9cm;height:9cm" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/box-2.png" style="width:9cm;height:9cm" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>이제 각 운전사에 대하여 회귀식을 따로 적합하지 않고 전체 운전사들의 자료를 모두 합쳐서 하나의 회귀식을 고려할 수 있다. 개체의 특성을 반영하는 모형이 아닌 전체 집단에 대한 평균적인 모형(population model)을 고려하는 것이다.</p>
+<p><span id="eq-re-popmodel"><span class="math display">\[
+y_{ij} = \beta_0 + \beta_1 t_j + e_{ij} ,\quad i=1,2\dots,18,  j=1,2, \dots, 10
+\tag{10.11}\]</span></span></p>
+<p>여기서 오차항은 서로 독립이며 <span class="math inline">\(N(0, \sigma^2_e)\)</span>를 따른다고 가정한다.</p>
+<p>위와 같은 전체 운전사 집단의 관측값을 운전자의 특성을 고려하지 않고 세운 모형으로서 시간에 따른 반응시간에 대한 모집단의 전체적인 평균적 함수 관계를 파악하는 모형이라고 할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>lmpop <span class="ot">&lt;-</span> <span class="fu">lm</span>(Reaction <span class="sc">~</span> Days, sleepstudy)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmpop)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
 Call:
 lm(formula = Reaction ~ Days, data = sleepstudy)
 
@@ -752,101 +670,63 @@ Residuals:
 -110.848  -27.483    1.546   26.142  139.953 
 
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  251.405      6.610  38.033  < 2e-16 ***
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  251.405      6.610  38.033  &lt; 2e-16 ***
 Days          10.467      1.238   8.454 9.89e-15 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 47.71 on 178 degrees of freedom
 Multiple R-squared:  0.2865,    Adjusted R-squared:  0.2825 
-F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15
-```
-
-
-:::
-
-```{.r .cell-code}
-with(sleepstudy, plot(Days, Reaction, main = "Population and individual regression lines"))
-abline(a = coef(lmpop)[1], b = coef(lmpop)[2], lwd = 3)
-for (i in 1:18) {
-    xx <- as.numeric(coef(lmf1)[i, ])
-    abline(a = xx[1], b = xx[2], lty = 2)
-}
-```
-
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/pmodel-1.png){width=672}
-:::
-:::
-
-
-이제 각 운전사에 대하여 개체별로 적합한 회귀식의 계수들$(\hat \beta_{0i}, \hat \beta_{1i})$ 와 전체집단에 적한한 회귀식의 계수 $(\hat \beta_{0}, \hat \beta_{1})$의 관계를 보면 개체별로 회귀 계수들의 평균이 전체에 적용한 모형의 계수와 매우 가까운 사실을 알 수 있다.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-apply(coef(lmf1), 2, mean)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-(Intercept)        Days 
-  251.40510    10.46729 
-```
-
-
-:::
-
-```{.r .cell-code}
-coef(lmpop)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-(Intercept)        Days 
-  251.40510    10.46729 
-```
-
-
-:::
-:::
-
-
-
-### 임의계수 모형 {#sec-randomcoef}
-
-앞 절의  모형과 분석에서 알 수 있듯이 한 개체에 대하여 여러 개의 관측값을 측정한 자료에 회귀방정식을 각각 적합시켜보고 또한 개체의 특성을 고려하지않은 전체 모형을 적합해보면   다음과 같은 두 가지 결과를 볼 수 있다.
-
-
-- 각 개체별 회귀식은 개인의 특성을 반영한다. 즉, 개체에 따라 시간에 따른 반응시간의 변화가 다르게 나타난다. 
-- 하지만 개인별로 볼 때도 전체적으로는 시간에 따라서 반응시간이 증가하는 경향이 있음을 알 수 있다.
-- 전체 자료에 적합한 모형을 보면 개인별로 적합한 모형의 공통적인 성격, 즉 시간에 따른 반응시간의 증가를 알 수 있다.
-- 이러한 결과를 보고 각 개인의 변화는 전체적인 변화를 따르면서 각 개인의 특성이 반영되었다고 가정할 수 있다.
-
-
-위에서 논의하였듯이 전체적인 경향과 개인의 특성을 동시에 고려할 수 있는 모형이 생각할 수 있고 이러한 모형이 다음과 같은 모형이다. 
-
-$$ 
+F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(sleepstudy, <span class="fu">plot</span>(Days, Reaction, <span class="at">main =</span> <span class="st">"Population and individual regression lines"</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="fu">coef</span>(lmpop)[<span class="dv">1</span>], <span class="at">b =</span> <span class="fu">coef</span>(lmpop)[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>) {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    xx <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">coef</span>(lmf1)[i, ])</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="at">a =</span> xx[<span class="dv">1</span>], <span class="at">b =</span> xx[<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/pmodel-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>이제 각 운전사에 대하여 개체별로 적합한 회귀식의 계수들<span class="math inline">\((\hat \beta_{0i}, \hat \beta_{1i})\)</span> 와 전체집단에 적한한 회귀식의 계수 <span class="math inline">\((\hat \beta_{0}, \hat \beta_{1})\)</span>의 관계를 보면 개체별로 회귀 계수들의 평균이 전체에 적용한 모형의 계수와 매우 가까운 사실을 알 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">coef</span>(lmf1), <span class="dv">2</span>, mean)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)        Days 
+  251.40510    10.46729 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lmpop)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)        Days 
+  251.40510    10.46729 </code></pre>
+</div>
+</div>
+</section>
+<section id="sec-randomcoef" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="sec-randomcoef"><span class="header-section-number">10.3.2</span> 임의계수 모형</h3>
+<p>앞 절의 모형과 분석에서 알 수 있듯이 한 개체에 대하여 여러 개의 관측값을 측정한 자료에 회귀방정식을 각각 적합시켜보고 또한 개체의 특성을 고려하지않은 전체 모형을 적합해보면 다음과 같은 두 가지 결과를 볼 수 있다.</p>
+<ul>
+<li>각 개체별 회귀식은 개인의 특성을 반영한다. 즉, 개체에 따라 시간에 따른 반응시간의 변화가 다르게 나타난다.</li>
+<li>하지만 개인별로 볼 때도 전체적으로는 시간에 따라서 반응시간이 증가하는 경향이 있음을 알 수 있다.</li>
+<li>전체 자료에 적합한 모형을 보면 개인별로 적합한 모형의 공통적인 성격, 즉 시간에 따른 반응시간의 증가를 알 수 있다.</li>
+<li>이러한 결과를 보고 각 개인의 변화는 전체적인 변화를 따르면서 각 개인의 특성이 반영되었다고 가정할 수 있다.</li>
+</ul>
+<p>위에서 논의하였듯이 전체적인 경향과 개인의 특성을 동시에 고려할 수 있는 모형이 생각할 수 있고 이러한 모형이 다음과 같은 모형이다.</p>
+<p><span id="eq-re-repeat"><span class="math display">\[
 y_{ij} = (\beta_0 + b_{0i}) + (\beta_1 + b_{1i}) t_j + e_{ij} , \quad i=1,2,\dots,18,\quad j=1,2,\dots,10
-$$ {#eq-re-repeat} 
-
-모형 @eq-re-repeat  는 절편과 기울기가 두 개의 구성 요소로 더해져서 표현된다.기울기는 $\beta_1+b_{1i}$로서 나타내어지며 $\beta_1$은 모집단이 가지는 공통적인 경향을 반영하는 모수이고 $b_{1i}$는 $i$ 번째 개체의 특성을 반영한 확률변수이다. 절편도 유사한 형식으로 구성된다.
-
-각 개인에 대한 특성을 나타내는 변수 $(b_{0i}, b_{1i})$ 을 확률변수로 설정하고 이를 모수($\beta_0, \beta_1)$ (parameter or fixed effect)와 구별하여 임의효과(random effect)라고 한다.
-
-임의효과는 모집단을 구성하는 개인이 표본에 추출되었다고 생각하며 확률분포를 따른다고 가정한다.
-반복측정자료에서 인의효과를 공통으로 가지고 있는 관측치는 독립이 아니게 돼며 따라서 같은 개체에서 나온 관측값은 독립이 아니다.
-
-모형 @eq-re-repeat 처럼 각 개인의 임의 효과가 포함된 선형모형을  **임의계수모형(random coefficient model)** 이라고 한다. 이러한 모형은 반복측정자료에서 개인의 특성을 고려하여 모형을 설정하는데 유용하다.
-
-
-18명에 대한 회귀직선의 절편과 기울기를 보면 개인의 차이에 따른 변동을 볼 수 있으며 이러한 각 개인간의 변동을 임의효과 를  이용하여 다음과 같은 모형을 생각해보자.
-
-$$ 
+\tag{10.12}\]</span></span></p>
+<p>모형 <a href="#eq-re-repeat" class="quarto-xref">식&nbsp;<span>10.12</span></a> 는 절편과 기울기가 두 개의 구성 요소로 더해져서 표현된다.기울기는 <span class="math inline">\(\beta_1+b_{1i}\)</span>로서 나타내어지며 <span class="math inline">\(\beta_1\)</span>은 모집단이 가지는 공통적인 경향을 반영하는 모수이고 <span class="math inline">\(b_{1i}\)</span>는 <span class="math inline">\(i\)</span> 번째 개체의 특성을 반영한 확률변수이다. 절편도 유사한 형식으로 구성된다.</p>
+<p>각 개인에 대한 특성을 나타내는 변수 <span class="math inline">\((b_{0i}, b_{1i})\)</span> 을 확률변수로 설정하고 이를 모수(<span class="math inline">\(\beta_0, \beta_1)\)</span> (parameter or fixed effect)와 구별하여 임의효과(random effect)라고 한다.</p>
+<p>임의효과는 모집단을 구성하는 개인이 표본에 추출되었다고 생각하며 확률분포를 따른다고 가정한다. 반복측정자료에서 인의효과를 공통으로 가지고 있는 관측치는 독립이 아니게 돼며 따라서 같은 개체에서 나온 관측값은 독립이 아니다.</p>
+<p>모형 <a href="#eq-re-repeat" class="quarto-xref">식&nbsp;<span>10.12</span></a> 처럼 각 개인의 임의 효과가 포함된 선형모형을 <strong>임의계수모형(random coefficient model)</strong> 이라고 한다. 이러한 모형은 반복측정자료에서 개인의 특성을 고려하여 모형을 설정하는데 유용하다.</p>
+<p>18명에 대한 회귀직선의 절편과 기울기를 보면 개인의 차이에 따른 변동을 볼 수 있으며 이러한 각 개인간의 변동을 임의효과 를 이용하여 다음과 같은 모형을 생각해보자.</p>
+<p><span class="math display">\[
 \pmb \beta_i=
 \begin{bmatrix}
 \beta_{0} \\
@@ -869,36 +749,23 @@ N \left (
 \end{bmatrix}
 ,
 \begin{bmatrix}
-\sigma^2_{b1} & \rho \sigma_{b1} \sigma_{b2}\\
-\rho \sigma_{b1} \sigma_{b2} & \sigma^2_{b2} \\
+\sigma^2_{b1} &amp; \rho \sigma_{b1} \sigma_{b2}\\
+\rho \sigma_{b1} \sigma_{b2} &amp; \sigma^2_{b2} \\
 \end{bmatrix}
 \right )
-$$ 
-
-
-위의 모형은 각 개인의 회귀직선에서 각 절편과 기울기가 전체평균 $\beta_0$와 $\beta_1$를 따르며 각 개인의 차이는 전체평균에 임의효과인 $b_{0i}$와 $b_{1i}$가 더해져서 나타난다는 것을 의미한다. 이변량 임의효과 $b_{0i}$와 $b_{1i}$는 이변량 정규분포를 따르며 각각의 분산과 상관계수가 $\sigma^2_{b1}$, $\sigma^2_{b2}$, $\rho$이다.
-
-다른 개체에 대한 임의효과는 서로 독립이며 임의 효과와 오차항은 독립이다. 여기서 오차항은 서로 독립이며 $N(0, \sigma^2_e)$를 따른다고 가정한다.
-
-$$  
+\]</span></p>
+<p>위의 모형은 각 개인의 회귀직선에서 각 절편과 기울기가 전체평균 <span class="math inline">\(\beta_0\)</span>와 <span class="math inline">\(\beta_1\)</span>를 따르며 각 개인의 차이는 전체평균에 임의효과인 <span class="math inline">\(b_{0i}\)</span>와 <span class="math inline">\(b_{1i}\)</span>가 더해져서 나타난다는 것을 의미한다. 이변량 임의효과 <span class="math inline">\(b_{0i}\)</span>와 <span class="math inline">\(b_{1i}\)</span>는 이변량 정규분포를 따르며 각각의 분산과 상관계수가 <span class="math inline">\(\sigma^2_{b1}\)</span>, <span class="math inline">\(\sigma^2_{b2}\)</span>, <span class="math inline">\(\rho\)</span>이다.</p>
+<p>다른 개체에 대한 임의효과는 서로 독립이며 임의 효과와 오차항은 독립이다. 여기서 오차항은 서로 독립이며 <span class="math inline">\(N(0, \sigma^2_e)\)</span>를 따른다고 가정한다.</p>
+<p><span class="math display">\[  
 Cov(\pmb b_{i}, \pmb b_{j}) =\pmb 0 \text{ when } i \ne j,\quad
-Cov(\pmb b_{i}, e_{jk}) =\pmb 0 \text{ for all } i,j,k 
-$$ 
-
-
-
-위 @eq-re-repeat 같은 혼합효과모형(mixed effects model)을 각 개인 $i$에 대하여 행렬식으로 표시하면 다음과 같다.
-아래 모형식은 일반적으로 독립군집 모형에서 하나의 군집에 대한 반복된 관측값들에 대한 모형이며  독립군집 모형의 일반적인 이론은
-@sec-lmmtheory 에서 더 논의할 것이다.
-
-$$  
+Cov(\pmb b_{i}, e_{jk}) =\pmb 0 \text{ for all } i,j,k
+\]</span></p>
+<p>위 <a href="#eq-re-repeat" class="quarto-xref">식&nbsp;<span>10.12</span></a> 같은 혼합효과모형(mixed effects model)을 각 개인 <span class="math inline">\(i\)</span>에 대하여 행렬식으로 표시하면 다음과 같다. 아래 모형식은 일반적으로 독립군집 모형에서 하나의 군집에 대한 반복된 관측값들에 대한 모형이며 독립군집 모형의 일반적인 이론은 <span class="quarto-unresolved-ref">?sec-lmmtheory</span> 에서 더 논의할 것이다.</p>
+<p><span class="math display">\[  
 \pmb y_i = \pmb X_i \pmb \beta + \pmb Z_i \pmb b_i + \pmb e_i , \quad i=1,2,\dots,18
-$$ 
-
-여기서 
-
-
-$$  
+\]</span></p>
+<p>여기서</p>
+<p><span class="math display">\[  
 \pmb y_i=\begin{bmatrix}
 y_{i1} \\
 y_{i2} \\
@@ -906,43 +773,39 @@ y_{i2} \\
 y_{i,10}
 \end{bmatrix},~\pmb X_i =
 \begin{bmatrix}
-1 & 0 \\
-1 & 1 \\
-\vdots & \vdots  \\
-1 & 9 
+1 &amp; 0 \\
+1 &amp; 1 \\
+\vdots &amp; \vdots  \\
+1 &amp; 9
 \end{bmatrix}, \pmb  \beta=
 \begin{bmatrix}
 \beta_{0} \\
 \beta_{1} \\
 \end{bmatrix}, ~\pmb Z_i =
 \begin{bmatrix}
-1 & 0 \\
-1 & 1 \\
-\vdots & \vdots  \\
-1 & 9 
+1 &amp; 0 \\
+1 &amp; 1 \\
+\vdots &amp; \vdots  \\
+1 &amp; 9
 \end{bmatrix},~ \pmb b_i =
 \begin{bmatrix}
 b_{0i} \\
 b_{1i} \\
 \end{bmatrix},~
-\pmb  e_i= 
+\pmb  e_i=
 \begin{bmatrix}
 e_{i1} \\
 e_{i2} \\
 \vdots \\
 e_{i,10}
 \end{bmatrix}
-$$ 
-
-위의 각 개인에 대한 모형을 모두 합쳐서 하나의 혼합효과모형으로 나타내면 다음과 같이 표현할 수 있다.
-
-$$
-\pmb  y = \pmb  X \pmb \beta + \pmb Z \pmb b + \pmb e 
-$$ {#eq-re-lme1} 
-
-여기서 반응변수벡터 $\pmb y$와 고정효과 $\pmb \beta$에 대한 계획행렬 $X$는 각 개인의 반응변수벡터 $\pmb y_i$와 $\pmb X_i$를 행으로 쌓아놓은 것으로 표현된다. 오차항에 대한 벡터 $\pmb e$도 동일한 형식의 벡터이다.
-
-$$  
+\]</span></p>
+<p>위의 각 개인에 대한 모형을 모두 합쳐서 하나의 혼합효과모형으로 나타내면 다음과 같이 표현할 수 있다.</p>
+<p><span id="eq-re-lme1"><span class="math display">\[
+\pmb  y = \pmb  X \pmb \beta + \pmb Z \pmb b + \pmb e
+\tag{10.13}\]</span></span></p>
+<p>여기서 반응변수벡터 <span class="math inline">\(\pmb y\)</span>와 고정효과 <span class="math inline">\(\pmb \beta\)</span>에 대한 계획행렬 <span class="math inline">\(X\)</span>는 각 개인의 반응변수벡터 <span class="math inline">\(\pmb y_i\)</span>와 <span class="math inline">\(\pmb X_i\)</span>를 행으로 쌓아놓은 것으로 표현된다. 오차항에 대한 벡터 <span class="math inline">\(\pmb e\)</span>도 동일한 형식의 벡터이다.</p>
+<p><span class="math display">\[  
 \pmb y=\begin{bmatrix}
 \pmb y_{1} \\
 \pmb y_{2} \\
@@ -953,20 +816,18 @@ $$
 \pmb X_1 \\
 \pmb X_2 \\
 \vdots \\
-\pmb  X_{18} 
+\pmb  X_{18}
 \end{bmatrix}
 ~ \pmb e =
 \begin{bmatrix}
 \pmb e_1 \\
 \pmb e_2 \\
 \vdots  \\
-\pmb e_{18} 
+\pmb e_{18}
 \end{bmatrix}
-$$ 
-
-임의효과 벡터 ${\pmb  b}$ 는 각 개인에 대한 임의효과벡터 $\pmb b_i$ 를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 $\pmb Z$ 는 각 개인의 계획행렬 $\pmb Z_i$ 를 대각원소로 구성하는 행렬이다.
-
-$$ 
+\]</span></p>
+<p>임의효과 벡터 <span class="math inline">\({\pmb  b}\)</span> 는 각 개인에 대한 임의효과벡터 <span class="math inline">\(\pmb b_i\)</span> 를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 <span class="math inline">\(\pmb Z\)</span> 는 각 개인의 계획행렬 <span class="math inline">\(\pmb Z_i\)</span> 를 대각원소로 구성하는 행렬이다.</p>
+<p><span class="math display">\[
 \pmb b=\begin{bmatrix}
 \pmb b_{1} \\
 \pmb b_{2} \\
@@ -974,29 +835,18 @@ $$
 \pmb b_{18}
 \end{bmatrix},~\pmb Z =
 \begin{bmatrix}
-\pmb Z_1 & 0 & \dots & 0 \\
-0   & \pmb Z_2 & \dots & 0 \\
-\vdots & \vdots & \vdots & \vdots  \\
-0 & 0 & \dots & \pmb Z_{18}
+\pmb Z_1 &amp; 0 &amp; \dots &amp; 0 \\
+0   &amp; \pmb Z_2 &amp; \dots &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots  \\
+0 &amp; 0 &amp; \dots &amp; \pmb Z_{18}
 \end{bmatrix}
-$$ 
-
-혼합모형 @eq-re-lme1 를 `lmer()` 함수를 이용하여 적합시켜보자. 모형에서 `(1 + Days|Subject)`
-이 개체에 대하여 절편과 기울기에 대한 임의효과를 지정한다.
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-fm1 <- lmer(Reaction ~ 1 + Days + (1 + Days|Subject), sleepstudy)
-summary(fm1)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+\]</span></p>
+<p>혼합모형 <a href="#eq-re-lme1" class="quarto-xref">식&nbsp;<span>10.13</span></a> 를 <code>lmer()</code> 함수를 이용하여 적합시켜보자. 모형에서 <code>(1 + Days|Subject)</code> 이 개체에 대하여 절편과 기울기에 대한 임의효과를 지정한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days<span class="sc">|</span>Subject), sleepstudy)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fm1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
 Formula: Reaction ~ 1 + Days + (1 + Days | Subject)
    Data: sleepstudy
@@ -1015,72 +865,40 @@ Random effects:
 Number of obs: 180, groups:  Subject, 18
 
 Fixed effects:
-            Estimate Std. Error      df t value Pr(>|t|)    
-(Intercept)  251.405      6.825  17.000  36.838  < 2e-16 ***
+            Estimate Std. Error      df t value Pr(&gt;|t|)    
+(Intercept)  251.405      6.825  17.000  36.838  &lt; 2e-16 ***
 Days          10.467      1.546  17.000   6.771 3.26e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
      (Intr)
-Days -0.138
-```
-
-
-:::
-:::
-
-
-위의 혼합모형 적합결과를 살펴보자. 첫째로 고정효과에 대한 추정식은 다음과 같다
-
-
-::: {.cell}
-
-```{.r .cell-code}
-fixef(fm1)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-(Intercept)        Days 
-  251.40510    10.46729 
-```
-
-
-:::
-:::
-
-또한  오차항에 대한 분산 및 임의효과의 분산성분과 상관계수는 다음과 같이 나타난다. 
-
-::: {.cell}
-
-```{.r .cell-code}
-VarCorr(fm1)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
- Groups   Name        Std.Dev. Corr 
+Days -0.138</code></pre>
+</div>
+</div>
+<p>위의 혼합모형 적합결과를 살펴보자. 첫째로 고정효과에 대한 추정식은 다음과 같다</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fm1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)        Days 
+  251.40510    10.46729 </code></pre>
+</div>
+</div>
+<p>또한 오차항에 대한 분산 및 임의효과의 분산성분과 상관계수는 다음과 같이 나타난다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">VarCorr</span>(fm1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Groups   Name        Std.Dev. Corr 
  Subject  (Intercept) 24.7407       
           Days         5.9221  0.066
- Residual             25.5918       
-```
-
-
-:::
-:::
-
-
-
-위의 고정효과와 임의효과의 분산성분에 대한 추정치를 이용하여 모형의 적합의 결과를 다음과 같이 나타낼 수 있다. 
-
-$$
+ Residual             25.5918       </code></pre>
+</div>
+</div>
+<p>위의 고정효과와 임의효과의 분산성분에 대한 추정치를 이용하여 모형의 적합의 결과를 다음과 같이 나타낼 수 있다.</p>
+<p><span class="math display">\[
 \text{Reaction Time} = N(251.405 + 10.467 \text{ Days}, 25.6^2)
-$$ 
-
-$$
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
 b_{0i} \\
 b_{1i} \\
@@ -1092,26 +910,17 @@ N \left (
 \end{bmatrix}
 ,
 \begin{bmatrix}
-24.74^2 & (0.07)(24.74)(5.92)\\
-(0.07)(24.74)(5.92)& 5.92^2 \\
+24.74^2 &amp; (0.07)(24.74)(5.92)\\
+(0.07)(24.74)(5.92)&amp; 5.92^2 \\
 \end{bmatrix}
 \right )
-$$ 
-
-이제 임의효과 $\pmb b$에 대한 예측(prediction)을 생각해보자. 우리는 오직 관측벡터 $\pmb y$만을 관측하고 임의효과 $\pmb b$는 관측을 할 수 없는 확률변수이다. 하지만 주어진 관측벡터와 추정된 분산으로 임의효과의 값을 예측할 수있으며 그 결과는 다음과 같다.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-re <- ranef(fm1)$Subject
-re
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-    (Intercept)        Days
+\]</span></p>
+<p>이제 임의효과 <span class="math inline">\(\pmb b\)</span>에 대한 예측(prediction)을 생각해보자. 우리는 오직 관측벡터 <span class="math inline">\(\pmb y\)</span>만을 관측하고 임의효과 <span class="math inline">\(\pmb b\)</span>는 관측을 할 수 없는 확률변수이다. 하지만 주어진 관측벡터와 추정된 분산으로 임의효과의 값을 예측할 수있으며 그 결과는 다음과 같다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>re <span class="ot">&lt;-</span> <span class="fu">ranef</span>(fm1)<span class="sc">$</span>Subject</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>re</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    (Intercept)        Days
 308   2.2585510   9.1989758
 309 -40.3987381  -8.6196806
 310 -38.9604090  -5.4488565
@@ -1129,38 +938,23 @@ re
 369   3.2754656   0.8722149
 370 -25.6129993   4.8224850
 371   0.8070461  -0.9881562
-372  12.3145921   1.2840221
-```
-
-
-:::
-
-```{.r .cell-code}
-plot(re, main ="prediction of random effects ")
-```
-
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/ex21-1.png){width=80%}
-:::
-:::
-
-
-
-예측된 각 개인의 절편과 기울기에 대한 임의효과 $b_{0i}$과 $b_{1i}$에 고정효과의 추정량 $\hat \beta$를 더해주면 각
-개인의 절편과 기울기에 대한 예측값을 구할 수 있다.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-beta <- matrix(as.numeric(fixef(fm1)),18,2,byrow=T)
-beta + re 
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-    (Intercept)       Days
+372  12.3145921   1.2840221</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(re, <span class="at">main =</span><span class="st">"prediction of random effects "</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/ex21-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>예측된 각 개인의 절편과 기울기에 대한 임의효과 <span class="math inline">\(b_{0i}\)</span>과 <span class="math inline">\(b_{1i}\)</span>에 고정효과의 추정량 <span class="math inline">\(\hat \beta\)</span>를 더해주면 각 개인의 절편과 기울기에 대한 예측값을 구할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.numeric</span>(<span class="fu">fixef</span>(fm1)),<span class="dv">18</span>,<span class="dv">2</span>,<span class="at">byrow=</span>T)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>beta <span class="sc">+</span> re </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    (Intercept)       Days
 308    253.6637 19.6662617
 309    211.0064  1.8476053
 310    212.4447  5.0184295
@@ -1178,27 +972,14 @@ beta + re
 369    254.6806 11.3395008
 370    225.7921 15.2897709
 371    252.2122  9.4791297
-372    263.7197 11.7513080
-```
-
-
-:::
-:::
-
-
-위의 결과를 각 개체에 대해 별도의 회귀직선을 적합시켜서 얻은 18개의 절편과 기울기와 비교해보자.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-coef(lmf1)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-    (Intercept)      Days
+372    263.7197 11.7513080</code></pre>
+</div>
+</div>
+<p>위의 결과를 각 개체에 대해 별도의 회귀직선을 적합시켜서 얻은 18개의 절편과 기울기와 비교해보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lmf1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    (Intercept)      Days
 308    244.1927 21.764702
 309    205.0549  2.261785
 310    203.4842  6.114899
@@ -1216,47 +997,32 @@ coef(lmf1)
 369    254.9681 11.348109
 370    210.4491 18.056151
 371    253.6360  9.188445
-372    267.0448 11.298073
-```
-
-
-:::
-:::
-
-
-이렇게 혼합모형을 통해서 얻은 각 개인의 절편과 기울기에 대한 예측값과 각각의 개인에 대해서 회귀직선을 따로 적합하여 얻은
-절편과 기울기의 관계를 그림으로 그려보면 다음과 같다. 즉 혼합모형을 통해서 얻은 각 개인의 절편과 기울기는 절편과 기울기의 전체평균값 방향으로 축소되는 경향(shrinkage)을 볼수있다.
-
-
-
-::: {.cell}
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/ex24-1.png){width=80%}
-:::
-:::
-
-
-
-
-
-여기서 혼합모형의 식 @eq-re-lme1  의 임의효과에 대한 계획행렬 $Z$의 구조를 살펴보자. R 의 적합된 결과에서 `getME` 함수를 이용하여  계획행렬 $\pmb Z$의 전치행렬(transpose matrix, $\pmb Z^t$)을 얻을 수 있다. 계획행렬 $\pmb Z$는 그 값의 많은 부분이 0으로 구성되어 있어서 성김행렬(saprse matrix)라고 부르며 이런 행렬은 특별한 형식으로 저장되어 있다. 
-
-
-::: {.cell}
-
-```{.r .cell-code}
-image(getME(fm1,"Zt"))
-```
-
-::: {.cell-output-display}
-![](multivar-anova_files/figure-html/ex25-1.png){width=100%}
-:::
-:::
-
-
-또한 혼합모형의 식 @eq-re-lme1 에서 임의효과의 상관계수가 $\rho=0$인 경우의 모형을 고려해 보자
-
-$$ 
+372    267.0448 11.298073</code></pre>
+</div>
+</div>
+<p>이렇게 혼합모형을 통해서 얻은 각 개인의 절편과 기울기에 대한 예측값과 각각의 개인에 대해서 회귀직선을 따로 적합하여 얻은 절편과 기울기의 관계를 그림으로 그려보면 다음과 같다. 즉 혼합모형을 통해서 얻은 각 개인의 절편과 기울기는 절편과 기울기의 전체평균값 방향으로 축소되는 경향(shrinkage)을 볼수있다.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/ex24-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>여기서 혼합모형의 식 <a href="#eq-re-lme1" class="quarto-xref">식&nbsp;<span>10.13</span></a> 의 임의효과에 대한 계획행렬 <span class="math inline">\(Z\)</span>의 구조를 살펴보자. R 의 적합된 결과에서 <code>getME</code> 함수를 이용하여 계획행렬 <span class="math inline">\(\pmb Z\)</span>의 전치행렬(transpose matrix, <span class="math inline">\(\pmb Z^t\)</span>)을 얻을 수 있다. 계획행렬 <span class="math inline">\(\pmb Z\)</span>는 그 값의 많은 부분이 0으로 구성되어 있어서 성김행렬(saprse matrix)라고 부르며 이런 행렬은 특별한 형식으로 저장되어 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="fu">getME</span>(fm1,<span class="st">"Zt"</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/ex25-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>또한 혼합모형의 식 <a href="#eq-re-lme1" class="quarto-xref">식&nbsp;<span>10.13</span></a> 에서 임의효과의 상관계수가 <span class="math inline">\(\rho=0\)</span>인 경우의 모형을 고려해 보자</p>
+<p><span class="math display">\[
 \begin{bmatrix}
 b_{0i} \\
 b_{1i} \\
@@ -1268,30 +1034,20 @@ N \left (
 \end{bmatrix}
 ,
 \begin{bmatrix}
-\sigma^2_{b1} & 0\\
-0 & \sigma^2_{b2} \\
+\sigma^2_{b1} &amp; 0\\
+0 &amp; \sigma^2_{b2} \\
 \end{bmatrix}
 \right )
-$$ 
-
-
-임의효과의 상관계수가 $\rho=0$인  모형은 아래와 같이 `(1+Days | Subject)` 를 사용하는 대신 두 개의 바 `||` 를 사용한 `(1+Days || Subject)`으로  적합시키면 결과를 다음과 같이 얻을 수 있다.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-fm2 <- lmer(Reaction ~ 1 + Days + (1+Days||Subject), sleepstudy)
-# 다음 명령어는 위의 명령어와 같은 모형을 적합한다.
-# fm2 <- lmer(Reaction ~ 1 + Days + (1|Subject) + (0+Days|Subject), sleepstudy)
-
-summary(fm2)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+\]</span></p>
+<p>임의효과의 상관계수가 <span class="math inline">\(\rho=0\)</span>인 모형은 아래와 같이 <code>(1+Days | Subject)</code> 를 사용하는 대신 두 개의 바 <code>||</code> 를 사용한 <code>(1+Days || Subject)</code>으로 적합시키면 결과를 다음과 같이 얻을 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fm2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">+</span> (<span class="dv">1</span><span class="sc">+</span>Days<span class="sc">||</span>Subject), sleepstudy)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 다음 명령어는 위의 명령어와 같은 모형을 적합한다.</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fm2 &lt;- lmer(Reaction ~ 1 + Days + (1|Subject) + (0+Days|Subject), sleepstudy)</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fm2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
 Formula: Reaction ~ 1 + Days + (1 + Days || Subject)
    Data: sleepstudy
@@ -1310,31 +1066,22 @@ Random effects:
 Number of obs: 180, groups:  Subject, 18
 
 Fixed effects:
-            Estimate Std. Error      df t value Pr(>|t|)    
-(Intercept)  251.405      6.885  18.156  36.513  < 2e-16 ***
+            Estimate Std. Error      df t value Pr(&gt;|t|)    
+(Intercept)  251.405      6.885  18.156  36.513  &lt; 2e-16 ***
 Days          10.467      1.560  18.156   6.712 2.59e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
      (Intr)
-Days -0.184
-```
-
-
-:::
-:::
-
-
-
-
-위의 고정효과와 임의효과의 분산성분에 대한 추정치를 이용하여 모형의 적합의 결과를 다음과 같이 나타낼 수 있다. 
-
-$$
+Days -0.184</code></pre>
+</div>
+</div>
+<p>위의 고정효과와 임의효과의 분산성분에 대한 추정치를 이용하여 모형의 적합의 결과를 다음과 같이 나타낼 수 있다.</p>
+<p><span class="math display">\[
 \text{Reaction Time} = N(251.405 + 10.467 \text{ Days}, 25.6^2)
-$$ 
-
-$$
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
 b_{0i} \\
 b_{1i} \\
@@ -1346,47 +1093,23 @@ N \left (
 \end{bmatrix}
 ,
 \begin{bmatrix}
-25.1^2 & 0\\
-0& 6.0^2 \\
+25.1^2 &amp; 0\\
+0&amp; 6.0^2 \\
 \end{bmatrix}
 \right )
-$$ 
-
-두 모형, 즉 절편과 기울기에 대한  두 임의효과가 종속인지 또는 독립인지에 대한 두 모형을 AIC(Akaike Information Criteris)로 비교하해 보자.
-두 모형은 AIC의 값은 거의 동일하지만 임의효과의 상관게수가 0인 모형이 AIC 값이 약간 작으며 상관게수의 추정치가 메우 작으므로 
-임의효과의 상관게수가 0인 모형을 선택하는 것이 합리적이라고 판단된다.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-AIC(fm1)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-[1] 1755.628
-```
-
-
-:::
-
-```{.r .cell-code}
-AIC(fm2)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-[1] 1753.669
-```
-
-
-:::
-:::
-
-
+\]</span></p>
+<p>두 모형, 즉 절편과 기울기에 대한 두 임의효과가 종속인지 또는 독립인지에 대한 두 모형을 AIC(Akaike Information Criteris)로 비교하해 보자. 두 모형은 AIC의 값은 거의 동일하지만 임의효과의 상관게수가 0인 모형이 AIC 값이 약간 작으며 상관게수의 추정치가 메우 작으므로 임의효과의 상관게수가 0인 모형을 선택하는 것이 합리적이라고 판단된다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fm1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1755.628</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fm2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1753.669</code></pre>
+</div>
+</div>
+<!----
 
 ## 예제: 고혈압 강하제 살험 
 
