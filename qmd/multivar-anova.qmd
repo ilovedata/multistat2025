@@ -455,8 +455,7 @@ $$
 
 
 위 @eq-re-repeat 같은 혼합효과모형(mixed effects model)을 각 개인 $i$에 대하여 행렬식으로 표시하면 다음과 같다.
-아래 모형식은 일반적으로 독립군집 모형에서 하나의 군집에 대한 반복된 관측값들에 대한 모형이며  독립군집 모형의 일반적인 이론은
-@sec-lmmtheory 에서 더 논의할 것이다.
+아래 모형식은 일반적으로 독립군집 모형에서 하나의 군집에 대한 반복된 관측값들에 대한 모형이며  독립군집 모형의 일반적인 이론은 다음 절에서 더 논의할 것이다.
 
 $$  
 \pmb y_i = \pmb X_i \pmb \beta + \pmb Z_i \pmb b_i + \pmb e_i , \quad i=1,2,\dots,18
@@ -738,15 +737,1031 @@ AIC(fm1)
 AIC(fm2)
 ```
 
-<!----
+## 최대가능도 추정
 
-## 예제: 고혈압 강하제 살험 
+### 선형회귀모형
+
+반응변수가 $y$ 이고 $k$개의 독립변수 $(x_1, x_2, \cdots, x_k)$가 있다고 가정하고  표본의 크기 $n$ 인 자료가 얻어지면 선형회귀식을 행렬로 다음과 같이 표현할 수 있다.
+
+$$
+\begin{aligned}
+ y_i & = \beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \cdots + \beta_kx_{ik} + e_i \\
+     & = \pmb  x^t_i \pmb  \beta + e_i, \quad i=1,2,\cdots,n
+\end{aligned}
+$$
+
+위와 같은 회귀모형을 선형중회귀모형이라 부르며. 위의 모형식을 벡터와 행렬을 이용하여 표시하면 다음과 같다.
 
 
-여기서 다룰 예제는 @lee2005 6장에 나오는 예제이다.
+$$ 
+\pmb  y = \pmb  X \pmb  \beta + \pmb  e
+$$ {#eq-re-linreg1}
 
-고혈압 환자 66명을 대상으로 32명에게는 기존의 혈압 강하제(C)를 투여하고, 나머지 34명에게는 새로운 혈압 강하제(E)를 투여하였다.
-환자가 치료를 시작하기 전에 혈압을 측정하고(0주) 치료를 받은 후  4주, 8주 후에 2번 반복 측정하였다. 이 실험의 목표는 다음과 같다.
+여기서 회귀분석의 오차항의 가정을 살펴보면 오차항이 서로 독립이고 동일한 분산을 갖는다. 즉, 오차항은 다음의 분포를 따른다. 즉, $\pmb  e  \sim (0,\sigma_e^2 \pmb  I_n)$. 관측값 벡터 $\pmb  y$ 의 평균과 분산을 보면
+
+$$
+ E(\pmb  y|\pmb  X) =  \pmb  X \pmb  \beta, \quad
+ Var(\pmb  y|\pmb  X) =  \sigma_e^2 \pmb  I_n
+$$
+
+여기서 오차항이 정규분포를 따른다면 ($\pmb  e  \sim N(0,\sigma_e^2 \pmb  I_n)$) 관측값 벡터 $\pmb  y$ 또한 정규분포를 따른다
+
+$$
+\pmb  y \sim N(\pmb  X \pmb  \beta, \sigma_e^2 \pmb  I_n) 
+$$
+
+
+위의 선형 모형 가정 하에서, 최소제곱 추정량 $\hat {\pmb  \beta}$ (least square estimator)는 다음과 같이 오차제곱합(Error Sum of Sqaures) $SSE$ 를 최소로 하는 추정량이다.
+
+$$
+\begin{aligned}
+SSE(\pmb  \beta) & =  \sum_{i=1}^n (y_i - \pmb  x_i^t \pmb  \beta)^2 \\
+  &= (\pmb  y - \pmb  X \pmb  \beta)^t(\pmb  y - \pmb  X \pmb  \beta) \\
+  \hat {\pmb  \beta}  = \arg \min_{\pmb  \beta}~~ & SSE(\pmb  \beta)
+\end{aligned}
+$$
+참고로 최소제곱추정법은 오차항이 반드시 정규분포를 따르지 않아도 적용할 수 있는 방법이다. 
+
+따라서  $\hat {\pmb  \beta}$는 오차제곱합을 최소로 하는 계수 벡터이다. 오차제곱합에 최소제곱 추정량을 사용하면 이를 잔차제곱합(Residual Sum of Squares)라고 하며 이를  $SSE(\hat {\pmb  \beta})$로 표시한다.
+
+
+$$
+SSE(\hat {\pmb  \beta}) =  (\pmb  y - \pmb  X \hat {\pmb  \beta})^t(\pmb  y - \pmb  X \hat {\pmb  \beta}) 
+$$
+
+
+오차항의 분산에 대한 추정은 정규분포 가정을 오차항에 대한 정규분포를 가정하고 다음과 같은 잔차제곱합의 분포에 대한 결과를 이용하면 
+
+
+$$
+SSE(\hat {\pmb  \beta}) \sim \sigma^2_e \chi^2 (n-k-1) 
+$$
+
+오차항의 분산 $\sigma^2_e$의 불편추정량 $S^2$을 구할 수 있다.
+
+$$
+S^2 = \frac{ SSE(\hat {\pmb  \beta}) }{ (n-k-1)} 
+=\frac{ \sum_{i=1}^n (y_i - \pmb  x_i^t \hat {\pmb  \beta} )^2 }{ (n-k-1)} 
+$$
+
+
+여기서 자유도 $n-k-1$은 자료의 개수 $n$에서 절편을 포함한 회귀계수의 개수 $k+1$를 뺀 수이다.
+
+### 최대가능도 추정
+
+위에서 오차항에 대한 정규분포를 가정하면 반응변수가 정규분포를 따른다. 이러한 분포가정을 이용하여 회귀계수와 오차항의 분산에 대한 최대가능도 추정법(Maximum likelihoodestimation)을 고려할 수 있다.   선형모형과 정규분포 가정 하에서
+
+$$ \pmb  y \sim N(\pmb  X  \pmb  \beta, \sigma^2_e \pmb  I_n) $$
+
+
+$i$ 번째 관측치 $y_i$는 정규분포 $N(\pmb  x^t_i \pmb  \beta, \sigma^2_e)$를 따르고 서로 독립이므로  관측치의 가능도함수(likelihood function) $L=L(\pmb  \beta,\sigma^2_e| \pmb  y)$는 다음과 같다.
+
+$$
+\begin{aligned}
+ L & = L(\pmb  \beta,\sigma^2_e| \pmb  y) \\
+   & = \prod^n_{i=1} f(y_i)\\
+   & = \prod^n_{i=1}(2 \pi \sigma^2_e)^{-\frac{1}{2}} \exp \left [-\frac{1}{2\sigma^2_e} (y_i-\pmb  x_i^t\pmb  \beta)^2 \right ] \\
+   & = (2\pi\sigma^2_e)^{-\frac{n}{2}} \exp \left [ -\frac{1}{2\sigma^2_e}(\pmb  y-\pmb  X \pmb  \beta)^t(\pmb  y-\pmb  X \pmb  \beta) \right ]
+\end{aligned}
+$$
+
+
+
+모든 관측값은 독립이기 때문에 그들의 결합 확률함수는 그들의 주변 확률함수의 곱이다. 위의 식으로부터 로그가능도함수(Log likelihood function) $l=l(\pmb  \beta,\sigma^2_e| \pmb  y)$는 다음과 같이 주어진다.
+
+
+$$
+l=\log L = const -\frac{n}{2}\log \sigma^2_e
+-\frac{1}{2\sigma^2_e} (\pmb  y-\pmb  X \pmb  \beta)^t(\pmb  y-\pmb  X \pmb  \beta) $$
+
+
+
+로그가능도함수 $l$ 을 최대화하는 회귀계수 $\pmb  \beta$ 와 분산 $\sigma^2_e$ 을 찾아야한다.  따라서 로그가능도함수 $l$을 $\pmb  \beta$와 $\sigma^2_e$으로 미분하여 0이 되는 값을 찾으면 그 값이 최대가능도 추정량이다.
+ 
+ 
+ 여기서 주목할 점은  $(y-\pmb  X \pmb  \beta)^t(y-\pmb  X \pmb  \beta)$가 최소제곱법에서 나타나는 목표함수(오차제곱합)와 동일하다.  로그가능도함수 $l$을 미분하여 얻은 방정식은 다음과 같다.
+
+
+$$
+\frac{\partial l(\pmb  \beta , \sigma^2_e)}{\partial\pmb  \beta}
+  = -\frac{1}{2\sigma^2_e}(2\pmb  X^t\pmb  X  \pmb  \beta - 2\pmb  X ^t\pmb  y) =0 
+$$
+
+
+
+$$
+\frac{\partial l(\pmb  \beta , \sigma^2_e)}{\partial \sigma^2_e}
+  = -\frac{n}{2 \sigma^2_e }+\frac{1}{2\sigma^4_e}(\pmb  y-\pmb  X \pmb  \beta)^t(\pmb  y-\pmb  X\pmb  \beta) =0
+$$  
+  
+위의 최대가능도 추정량 $\hat\beta$와 $\hat\sigma^2_e$ 에 대한 방정식을 풀면 다음과 같이 쓸 수 있다.
+
+$$ 
+\hat {\pmb  \beta}           = (\pmb  X^t\pmb  X)^{-1} \pmb  X^t\pmb  y 
+$$
+
+$$ 
+\hat \sigma^2_e      = \frac{1}{n}(\pmb  y-\pmb  X \hat {\pmb  \beta})^t(\pmb  y-\pmb  X \hat {\pmb  \beta}) = \frac{1}{n} SSE(\hat {\pmb  \beta}) 
+$$
+
+그러므로 최대가능도 추정량 $\hat {\pmb  \beta}$는 최소제곱 추정량과 같다.
+여기서 오차 분산의 최대가능도추정량 $\hat \sigma^2_e$는 편향되어진다(biased estimator).
+
+$$
+E(\hat \sigma^2_e) = \frac{n-k-1}{n} \sigma^2_e \ne \sigma^2_e 
+$$
+
+
+결과적으로 불편 추정량 $S^2 =\frac{SSE(\hat {\pmb  \beta})}{(n-k-1)}$과 유사한 것을 선호한다. 그러나, n이 증가할 때, 그 $\hat\sigma^2_e$ 편향은 $0$으로 감소하게된다.
+
+하나 주목할 점은 가능도함수에 최대가능도추정량을 대입하면 그 값이 $SSE(\hat {\pmb  \beta})$의 함수로 나타난다.
+
+$$
+\begin{aligned}
+ L(\hat {\pmb  \beta} ,\hat \sigma^2_e ) & =
+ (2\pi\hat \sigma^2_e)^{-\frac{n}{2}} \exp \left [-\frac{1}{2 \hat \sigma^2_e}(\pmb  y-\pmb  X \hat {\pmb  \beta})^t(\pmb  y-\pmb  X \hat {\pmb  \beta} ) \right ] \\
+& = (2\pi\hat \sigma^2_e)^{-\frac{n}{2}} \exp \left [-\frac{n}{2} \right ] \\
+& = \exp \left [-\frac{n}{2} \right ] \left (2\pi \frac{SSE(\hat {\pmb  \beta})}{n} \right )^{-\frac{n}{2}}\\
+l(\hat {\pmb  \beta} ,\hat \sigma^2_e ) &=
+\text{constant}  - \frac{n}{2} \log SSE(\hat {\pmb  \beta})
+\end{aligned}
+$$
+
+따라서 잔차제곱함 $SSE(\hat {\pmb  \beta})$ 작아지면 가능도함수는 커진다. 
+
+### 선형혼합효과모형의 구조
+
+
+이번 절에서는  일반적인 선형모형에 임의효과가 추가되는 선형혼합효과모형의 예제를 통하여  선형혼합모형의 구조를 살펴보고자 한다.  
+
+먼저 @eq-re-onewayrandom 에 주어진 일원배치 혼합효과 모형(one-way random effect model)은 선형혼합효과모형의 가장 단순한 구조이다.
+
+$$
+y_{ij} = \mu + a_i + e_{ij}, \quad i=1,2,\dots,I \text{ and } j=1,2,\dots, J 
+$$ {#eq-re-onewayrandom2}
+
+
+여기서 
+
+1. $a_i,i=1,2,\dots,I$ 는 첫 번째 계층(군집)의 표본 효과(예를 들어 학교 효과)를 나타내는 임의효과이며 서로 독립이고 $N(0,\sigma_a^2)$를 따른다. 
+
+2. 계층내에서 관측값(예를 들어 학생)에 대한 오차항 $e_{ij}$는 서로 독립이며 $N(0,\sigma_e^2)$를 따른다. 
+
+3. 임의효과 $a_i$와 오차항 $e_{ij}$는 서로 독립이다. 
+
+
+위와 같은 일원배치 혼합효과 모형을 각 개체 $i$에 대하여 행렬식으로 표시하면 다음과 같다.
+
+$$
+\pmb  y_i = \pmb  X_i \pmb  \beta + \pmb  Z_i  b_i + \pmb  e_i , \quad i=1,2,\cdots,I
+$$
+
+여기서 
+\begin{displaymath}
+\pmb  y_i=\left[ \begin{array}{c}
+y_{i1} \\
+y_{i2} \\
+\vdots \\
+y_{iJ}
+\end{array} \right],~\pmb  X_i =
+\left[ \begin{array}{c}
+1  \\
+1  \\
+\vdots  \\
+1  
+\end{array} \right], \pmb   \beta=
+\left[ \begin{array}{c}
+\mu \\
+\end{array} \right], ~\pmb  Z_i =
+\left[ \begin{array}{c}
+1  \\
+1  \\
+\vdots  \\
+1  
+\end{array} \right],~ \pmb  b_i =
+\left[ \begin{array}{c}
+b_{i} \\
+\end{array} \right],~
+\pmb   e_i= 
+\left[ \begin{array}{c}
+e_{i1} \\
+e_{i2} \\
+\vdots \\
+e_{iJ}
+\end{array} \right]
+\end{displaymath}
+
+
+
+위의 각 개체에 대한 혼합효과모형을 합쳐서 아래와 같은 행렬식으로 표현할 수 있다.  
+
+
+$$
+\pmb y_i =
+\begin{bmatrix}
+y_{i1} \\
+y_{i2} \\
+\vdots \\
+y_{iJ}
+\end{bmatrix},
+\quad
+\pmb X_i =
+\begin{bmatrix}
+1 \\
+1 \\
+\vdots \\
+1
+\end{bmatrix},
+\quad
+\pmb \beta =
+\begin{bmatrix}
+\mu
+\end{bmatrix},
+\quad
+\pmb Z_i =
+\begin{bmatrix}
+1 \\
+1 \\
+\vdots \\
+1
+\end{bmatrix},
+\quad
+\pmb a_i =
+\begin{bmatrix}
+a_i
+\end{bmatrix},
+\quad
+\pmb e_i =
+\begin{bmatrix}
+e_{i1} \\
+e_{i2} \\
+\vdots \\
+e_{iJ}
+\end{bmatrix}, i=1,2,\cdots,I
+$$
+이제 모든 개체에 대한 혼합효과모형을 하나의 행렬식으로 표현하면 다음과 같다.
+
+$$ 
+\pmb y = \pmb  X \pmb  \beta + \pmb Z \pmb  a + \pmb  e
+$$ {#eq-re-lme2}
+
+여기서 @eq-re-lme2 의 각 행렬과 벡터는 다음과 같이 표현된다.
+
+$$
+\pmb y =
+\begin{bmatrix}
+\pmb y_1 \\
+\pmb y_2 \\
+\vdots \\
+\pmb y_I
+\end{bmatrix},
+\quad
+\pmb X =
+\begin{bmatrix}
+\pmb X_1 \\
+\pmb X_2 \\
+\vdots \\
+\pmb X_I
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \\
+1 \\
+\vdots \\
+1 \\
+1 \\
+1 \\
+\vdots \\
+1 \\
+\vdots \\
+1 \\
+1 \\
+\vdots \\
+1
+\end{bmatrix}
+$$
+
+
+$$
+\pmb Z =
+\begin{bmatrix}
+\pmb Z_1 & 0        & \dots & 0 \\
+0        & \pmb Z_2 & \dots & 0 \\
+\vdots   & \vdots   & \ddots & \vdots \\
+0        & 0        & \dots & \pmb Z_I
+\end{bmatrix}
+=
+\begin{bmatrix}
+1      & 0      & \dots & 0      \\
+1      & 0      & \dots & 0      \\
+\vdots & \vdots & \dots & \vdots \\
+1      & 0      & \dots & 0      \\
+\hdashline
+0      & 1      & \dots & 0      \\
+0      & 1      & \dots & 0      \\
+\vdots & \vdots & \dots & \vdots \\
+0      & 1      & \dots & 0      \\
+\hdashline
+\vdots & \vdots & \dots & \vdots \\
+\hdashline
+0      & 0      & \dots & 1      \\
+0      & 0      & \dots & 1      \\
+\vdots & \vdots & \dots & \vdots \\
+0      & 0      & \dots & 1
+\end{bmatrix}
+,\quad
+\pmb a =
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_I
+\end{bmatrix}
+$$
+
+
+
+$$
+\pmb e =
+\begin{bmatrix}
+\pmb e_1 \\
+\pmb e_2 \\
+\vdots \\
+\pmb e_I
+\end{bmatrix}
+=
+\begin{bmatrix}
+e_{11} \\
+e_{12} \\
+\vdots \\
+e_{1J} \\
+\hdashline
+e_{21} \\
+e_{22} \\
+\vdots \\
+e_{2J} \\
+\hdashline
+\vdots \\
+\hdashline
+e_{I1} \\
+e_{I2} \\
+\vdots \\
+e_{IJ}
+\end{bmatrix}
+$$
+
+
+
+위의 행렬식에서 $\pmb  y$ 는 $IJ \times 1$ 의 관측값을 가지는 반응변수 벡터이고 $\pmb X$ 는 전체평균 $\mu$에 대한 설계행렬(design matrix)로 모두 1인 값을 가지는 $IJ \times 1$ 벡터이다. 
+여기서 반응변수벡터 $\pmb  y$와 고정효과 $\pmb  \beta$에 대한 계획행렬 $X$는 각 개인의 반응변수벡터 $\pmb  y_i$와 $\pmb  X_i$를 행으로 쌓아놓은 것으로 표현된다. 오차항에 대한 벡터 $\pmb  e$도 동일한 형식의 벡터이다.
+
+임의효과 벡터 $\pmb a$는 각 개인에 대한 임의효과 $a_i$를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 $\pmb  Z$는 각 개인의 계획행렬 $\pmb  Z_i$를 대각원소로 같은 행렬이다.
+
+임의효과 벡터 $\pmb  a$는 $I$ 개의 임의효과를 가지는 벡터이고 그 분포는 평균이 0이고 공분산행렬이 $\sigma^2_a I$를 가지는 다변량 정규분포를 따른다. 오차항의 벡터는 일반적인 선형모형과 같이  평균이 0 이고 분산이 $\sigma_e^2 I$인 다변량정규분포를 따른다고 가정한다.
+
+$$
+\pmb  a \sim N(\pmb  0, \sigma^2_a \pmb  I_{I}), \quad \pmb  e \sim N(\pmb  0, \sigma^2_e \pmb  I_{IJ}) 
+$$
+
+여기서 주의할 점은 오차항의 분산과는 달리 임의효과의 분산 $\sigma^2_a$의 
+ 가능한 값의 범위는 0을 포함한 양수이다. 따라서 분산 $\sigma^2_a$의 추정값은 0의 값을 가질수 있으며 이러한 경우는 첫번 째 계층에서 나오는 변동이 없다는 것을 의미한다. 
+ 
+ 임의효과에 대한 설계행렬(design matrix) $\pmb  Z$는  $IJ \times I$의 행렬로서 원소의 값이 1 또는 0인 행렬이며 이 설계행렬은 각각의 관측치 $y_{ij}$에 해당하는 임의효과 $a_i$를 지정해주는 역활을 한다. 
+
+
+
+### 선형혼합모형의 분포
+
+일반적인 선형혼합모형은 다음과 같은 행렬식을 통해 표현할 수 있다.
+
+$$
+\pmb  y=\pmb  X \pmb  \beta+ \pmb  Z \pmb  b+\pmb  e
+$$
+
+
+여기서 $\pmb  y$ 는 $n \times 1$ 벡터로 반응변수이다.  $\pmb  X$는 $n \times p$ 차원으로  설명변수로 이루어진 행렬이며 절편항과 $p-1$개의 독립변수를 포함한다(따라서 절편을 포함한 설명변수의 수는 $p$개이다). $\pmb  \beta$는 $p \times 1$의 고정 효과 벡터이다.  
+
+$\pmb  Z$는 $n \times q$  행렬이며 임의효과를 고려한 설명변수 벡터로 특수한 형태를 갖는다. $\pmb  b$는 $q \times 1$의 임의효과 벡터이고 오차항 $\pmb  e$은 $n \times 1$ 확률벡터이다.
+
+이 때 임의효과 $\pmb  b$와 잔차 $\pmb  e$는 각각 $\pmb  b \sim N(0,\pmb  G), \pmb  e \sim N(0,\sigma_e^2 \pmb  I_n)$을 따르며 $\pmb  b$와 $\pmb  e$는 서로 독립이다. 따라서 $\pmb  y$의 평균과 분산은 다음과 같이 표현된다.
+
+$$
+\begin{aligned}
+E( \pmb  y) & = \pmb  X \pmb  \beta \\
+Var( \pmb  y) & = Var( \pmb  X \pmb  \beta+ \pmb  Z \pmb  b+\pmb  e ) \\
+   & = Var(\pmb  Z \pmb  b) + Var( \pmb  e) \\
+   & = \pmb  Z \pmb  G \pmb  Z^{t}+\sigma_e^2 \pmb  I_n \\
+   & \equiv \pmb  V
+\end{aligned}
+$$
+
+
+
+또한 만약 임의효과 $\pmb  b$가 주어졌을 경우 $\pmb  y$의 조건부 분포는 $N(\pmb  X \pmb  \beta+ \pmb  Z \pmb  b,\sigma^2 \pmb  I_n)$ 이므로 조건부  평균과 분산은 다음과 같다.
+
+$$
+\begin{aligned}
+ E(\pmb  y| \pmb  b) & =\pmb  X \pmb  \beta + \pmb  Z \pmb  b \\
+ Var(\pmb  y| \pmb  b) & = \sigma_e^2 \pmb  I_n
+\end{aligned}
+$$
+
+
+임의효과 $\pmb  b$의 공분산 행렬은 $\pmb  G$는  임의효과의 구조에 따라 그 형태가 정해지는  공분산 행렬이며  임의효과들 사이의 상관성을 나타낼 수 있다. 
+
+또한 관측벡터의 공분산행렬은  $\pmb  V =\pmb  Z \pmb  G \pmb  Z^t + \sigma^2_e \pmb  I$이고 이 행렬은 관측값들의 분산과 공분산을 나타낸다. 
+
+따라서 선형혼합모형에서 추정해야 할 모수들은 고정효과인 $\pmb  \beta$, 임의효과의 분산인 $\pmb  G$, 오차의 분산인 $\sigma_e^2$이 된다. 
+
+여기서 관측벡터의 공분산 행렬 $\pmb  V$의 형태를 앞에서 본 두 예제들 경우에 살펴보자. 
+
+::: {#exm-re01}
+
+#### 일원배치모형: $I=3, J=2$인 경우
+
+일원배치모형 @eq-re-onewayrandom2 에서 층(그룹)의 수가 3개이고($I=3$) 각 층에서 관측치가 2개($J=2$)인 경우 임의효과 $\pmb  b$와 공분산 행렬 $\pmb  G$이 다음과 같다. 여기서 유의할 점은 임의 벡터의 공분산행렬 $\pmb  G$에서 추정해야할 모수는 $\sigma^2_a$ 하나이다. 
+
+$$
+\pmb  b=
+\begin{bmatrix}
+a_{1} \\
+a_{2} \\
+a_{3}
+\end{bmatrix}
+, \quad
+\pmb  G = Cov(\pmb  b) =  
+\begin{bmatrix}
+\sigma^2_a & 0 & 0 \\
+0 & \sigma^2_a & 0 \\
+ 0 & 0 & \sigma^2_a
+\end{bmatrix}
+$$
+
+
+또한  각 개체에 대한 임의효과에 대한 계획행렬 $\pmb  Z_i$와 전체 계획행렬 $\pmb  Z$는 다음과 같이 나타나고 
+
+$$ 
+\pmb  Z_i = \pmb  Z_* =
+\begin{bmatrix}
+1  \\
+1  \\
+\end{bmatrix}
+, ~i=1,2,3 \quad
+\pmb  Z =
+\begin{bmatrix}
+1 & 0 & 0 \\
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+0 & 0 & 1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\pmb  Z_1 & \pmb  0 & \pmb  0 \\
+\pmb  0 & \pmb  Z_2 & \pmb  0 \\
+\pmb  0 & \pmb  0 & \pmb  Z_3 \\
+\end{bmatrix}
+$$
+
+또한 $\pmb  G \pmb  \Sigma \pmb  Z^t$은 다음과 같이 나타난다. 
+
+$$
+\begin{aligned}
+\pmb  Z \pmb  G \pmb  Z^t
+& = 
+\begin{bmatrix}
+\pmb  Z_1 & \pmb  0 & \pmb  0 \\
+\pmb  0 & \pmb  Z_2 & \pmb  0 \\
+\pmb  0 & \pmb  0 & \pmb  Z_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+\sigma^2_a & 0 & 0 \\
+0 & \sigma^2_a & 0 \\
+ 0 & 0 & \sigma^2_a
+\end{bmatrix}
+\begin{bmatrix}
+\pmb  Z_1 & \pmb  0 & \pmb  0 \\
+\pmb  0 & \pmb  Z_2 & \pmb  0 \\
+\pmb  0 & \pmb  0 & \pmb  Z_3 \\
+\end{bmatrix}^t \\
+& =
+\begin{bmatrix}
+\sigma^2_a \pmb  Z_1 \pmb  Z_1^t & \pmb  0 & \pmb  0 \\
+\pmb  0 & \sigma^2_a \pmb  Z_2 \pmb  Z_2^t & \pmb  0 \\
+\pmb  0 & \pmb  0 & \sigma^2_a \pmb  Z_3 \pmb  Z_3^t\\
+\end{bmatrix}
+\end{aligned}
+$$
+
+
+이때 $\pmb  Z_i\pmb  Z_i^t$의 형태는 모두 $\pmb  Z_*\pmb  Z_*^t$로 모두 동일하고 다음과 같으므로 
+
+$$ 
+\pmb  Z_i\pmb  Z_i^t = \pmb  Z_* \pmb  Z_*^t  =
+\begin{bmatrix}
+1  \\
+1  \\
+\end{bmatrix}
+\begin{bmatrix}
+1  & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1  & 1\\
+1  & 1\\
+\end{bmatrix}
+$$
+
+
+위에서 행렬 $\pmb  Z \pmb  G \pmb  Z^t $는 3개의 $2 \times 2$ 행렬이 대각(diagonal)으로 배치된   형태로서 다음과 같이 나타낼 수 있다. 
+
+$$ 
+\pmb  Z \pmb  G \pmb  Z^t = diag \{\sigma^2_a \pmb  Z_i \pmb  Z_i^t \}_{i=1}^3 
+$$
+
+
+여기서 $diag \{ \pmb  A_i \}_{i=1}^q$ 기호는 행렬 $\pmb  A_i$들을 $i$번째 대각위치로 구성하는 행렬을  나타낸다. 또한
+관측벡터의 공분산 행렬 $\pmb  V=\pmb  Z \pmb  G \pmb  Z^t + \sigma^2_e \pmb  I$는 다음과 같이 주어진다.
+
+
+$$ 
+\pmb  V =
+\begin{bmatrix}
+\sigma^2_b +\sigma^2_e & \sigma^2_b  & 0 & 0 & 0 & 0\\
+\sigma^2_b & \sigma^2_b+\sigma^2_e   & 0 & 0 & 0 & 0\\
+ 0 & 0 &\sigma^2_b +\sigma^2_e& \sigma^2_b &  0 & 0\\
+ 0 & 0 &\sigma^2_b & \sigma^2_b +\sigma^2_e&  0 & 0\\
+ 0 & 0 & 0 & 0 & \sigma^2_b +\sigma^2_e& \sigma^2_b  \\
+ 0 & 0 & 0 & 0 & \sigma^2_b & \sigma^2_b+\sigma^2_e  \\
+\end{bmatrix}
+$$
+
+
+또는 
+
+$$ 
+\pmb  V = diag \{\sigma^2_b \pmb  Z_i \pmb  Z_i^t \}_{i=1}^3 + \sigma^2_e \pmb  I_6
+$$
+
+같은 그룹에 속한 관측값의 공분산은 $\sigma^2_b$이고 상관계수는 다음과 같다.
+
+$$ 
+cor(y_{ij}, y_{ik}) = \frac{\sigma^2_b }{\sigma^2_b+\sigma^2_e } 
+$$
+:::
+
+::: {#exm-re02}
+
+#### 반복측정자료: $I=3, J=4$인 경우
+
+반복측정자료 예제에서 임의계수 모형 @eq-re-repeat 를 고려하자.
+
+개체가 3개이고($I=3$) 반복한 시간의 개수가 4번인 경우($J=4$) 각 개체에 대한 임의효과에 대한 계획행렬 $\pmb  Z_i$와 전체 계획행렬 $\pmb  Z$ 은 다음과 같이 나타난다.
+
+$$ 
+\pmb  Z_i = \pmb  Z_* =
+\begin{bmatrix}
+1 & t_1 \\
+1 & t_2 \\
+1 & t_3 \\
+1 & t_4 
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+1 & 2 \\
+1 & 3 
+\end{bmatrix}
+, ~i=1,2,3 \quad
+\pmb  Z =
+\begin{bmatrix}
+\pmb  Z_1 & \pmb  0 & \pmb  0 \\
+\pmb  0 & \pmb  Z_2 & \pmb  0  \\
+\pmb  0 &   \pmb  0 & \pmb  Z_3  \\
+\end{bmatrix}
+$$
+
+각 개체에 대한 임의효과 벡터 $\pmb  b_i$의 분포를  다음과 같이 나타내면
+
+$$ 
+\pmb  b_i =
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix} \sim
+N \left (
+\begin{bmatrix}
+0 \\
+0 \\
+\end{bmatrix}
+,
+\begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12} \\
+ \sigma_{b12} & \sigma_{b22}  \\
+\end{bmatrix}
+\right )
+$$
+
+위에서 한 개체에 대한 임의효과 벡터 $\pmb  b_i$의 공분산을 $\pmb  \Psi$라고 하자.
+
+$$
+ \pmb  \Psi = 
+ \begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12} \\
+ \sigma_{b12} & \sigma_{b22}  \\
+\end{bmatrix}
+$$
+
+
+이제 전체 임의효과 $\pmb  b = (\pmb  b_1^t,\pmb  b_2^t,\pmb  b_3^t)^t$의 공분산 행렬 $\pmb  G$은 다음과 같다.
+
+
+$$ 
+\pmb  G = Cov(\pmb  b) = 
+\begin{bmatrix}
+\pmb  \Psi & \pmb  0 & \pmb  0\\
+\pmb  0 & \pmb  \Psi &\pmb  0\\
+\pmb  0 & \pmb  0 & \pmb  \Psi
+\end{bmatrix}
+$$
+
+따라서  $\pmb  Z \pmb  G \pmb  Z^t$은 다음과 같이 나타난다. 
+
+$$
+\begin{aligned}
+\pmb  Z \pmb  G \pmb  Z^t
+&= 
+\begin{bmatrix}
+\pmb  Z_1 & \pmb  0 & \pmb  0 \\
+\pmb  0 & \pmb  Z_2 & \pmb  0 \\
+\pmb  0 & \pmb  0 & \pmb  Z_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+\pmb  \Psi & \pmb  0 & \pmb  0\\
+\pmb  0 & \pmb  \Psi &\pmb  0\\
+\pmb  0 & \pmb  0 & \pmb  \Psi
+\end{bmatrix}
+\begin{bmatrix}
+\pmb  Z_1 & \pmb  0 & \pmb  0 \\
+\pmb  0 & \pmb  Z_2 & \pmb  0 \\
+\pmb  0 & \pmb  0 & \pmb  Z_3 \\
+\end{bmatrix}^t \\
+& =
+\begin{bmatrix}
+ \pmb  Z_1 \pmb  \Psi \pmb  Z_1^t & \pmb  0 & \pmb  0 \\
+\pmb  0 & \pmb  Z_2 \pmb  \Psi \pmb  Z_2^t & \pmb  0 \\
+\pmb  0 & \pmb  0 &  \pmb  Z_3 \pmb  \Psi \pmb  Z_3^t\\
+\end{bmatrix}
+\end{aligned}
+$$
+
+
+
+이때 $\pmb  Z_i \pmb  \Psi \pmb  Z_i^t= \pmb  Z_*  \pmb  \Psi\pmb  Z_*^t$의 형태는 다음과 같이 모두 같으므로 
+
+
+$$
+\begin{aligned}
+\pmb  Z_i \pmb  \Psi \pmb  Z_i^t && =\pmb  Z_* \pmb  \Psi \pmb  Z_*^t \\
+& =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+1 & 2 \\
+1 & 3 
+\end{bmatrix}
+ \begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12} \\
+ \sigma_{b12} & \sigma_{b22}  \\
+\end{bmatrix}
+\begin{bmatrix}
+1  & 1 & 1 & 1\\
+0 & 1 & 2 & 3
+\end{bmatrix} \\
+& =
+\begin{bmatrix}
+\sigma_{b11} &  \sigma_{b12}\\
+\sigma_{b11} + \sigma_{b12}  & \sigma_{b12} + \sigma_{b22} \\
+\sigma_{b11} + 2 \sigma_{b12}  & \sigma_{b12} +  2 \sigma_{b22} \\
+\sigma_{b11} + 3 \sigma_{b12}  & \sigma_{b12} + 3 \sigma_{b22} \\
+\end{bmatrix} 
+\begin{bmatrix}
+1  & 1 & 1 & 1\\
+0 & 1 & 2 & 3
+\end{bmatrix} \\
+& =
+\begin{bmatrix}
+\sigma_{b11} &  \sigma_{b11} + \sigma_{b12} 
+   & \sigma_{b11} + 2\sigma_{b12} & \sigma_{b11} + 3\sigma_{b12}\\
+\sigma_{b11} + \sigma_{b12}  & \sigma_{b22} + 2\sigma_{b12} + \sigma_{b22}
+    &  \sigma_{b22} + 3\sigma_{b12} + 2\sigma_{b22} & \sigma_{b22} + 4\sigma_{b12} + 3\sigma_{b22} \\
+\sigma_{b11} + 2\sigma_{b12}  & \sigma_{b22} + 3\sigma_{b12} + 2\sigma_{b22}
+    &  \sigma_{b22} + 4\sigma_{b12} + 4\sigma_{b22} & \sigma_{b22} + 5\sigma_{b12} + 6\sigma_{b22} \\
+\sigma_{b11} + 3\sigma_{b12}  & \sigma_{b22} + 4\sigma_{b12} + 3\sigma_{b22}
+    &  \sigma_{b22} + 5\sigma_{b12} + 6\sigma_{b22} & \sigma_{b22} + 6\sigma_{b12} + 9\sigma_{b22}
+\end{bmatrix}
+\end{aligned}
+$$
+
+
+
+관측벡터의 공분산 행렬 $\pmb  V=\pmb  Z \pmb  G \pmb  Z^t + \sigma^2_e \pmb  I$는 다음과 같이 주어진다.
+
+$$ 
+\pmb  V = diag \{\pmb  Z_i \Psi \pmb  Z_i^t \}_{i=1}^3 + \sigma^2_e \pmb  I_{12}
+$$
+ 
+ 같은 그룹에 속한 관측값의 분산과 공분산은 다음과 같이 직접 계산할 수도 있다.
+ 
+ 
+ $$ 
+ var(y_{ij}) = var((\beta_0 + b_{0i}) + (\beta_1 + b_{1i})t_j + e_{ij})
+ = \sigma_{b11} + 2 t_j \sigma_{b12} +  t_j^2 \sigma_{b11} +  \sigma_{e}^2
+ $$
+ 
+ $$
+ \begin{aligned}
+cov(y_{ij}, y_{ik}) & = cov[(\beta_0 + b_{0i}) + (\beta_1 + b_{1i})t_j + e_{ij}, ~
+(\beta_0 + b_{0i}) + (\beta_1 + b_{1i})t_k + e_{ik} ] \\
+&= cov(b_{0i},b_{0i})) + (t_j +t_k) cov(b_{0i},b_{1i})  + t_j t_k cov(b_{1i},b_{1i})  +
+cov(e_{ij} ,e_{ik} ) \\
+&= \sigma_{b11} +   (t_j +t_k) \sigma_{b12} +  t_j t_k \sigma_{b11} + 0
+\end{aligned}
+$$
+
+
+따라서 같은 그룹에 속한 두 관측값의 상관계수는 다음과  같다.
+
+
+$$ 
+cor(y_{ij}, y_{ik}) = 
+\frac{\sigma_{b11} +   (t_j +t_k) \sigma_{b12} +  t_j t_k \sigma_{b11} }
+{\sqrt{ (\sigma_{b11} + 2 t_j \sigma_{b12} +  t_j^2 \sigma_{b11} +  \sigma_{e}^2)
+(\sigma_{b11} + 2 t_k \sigma_{b12} +  t_k^2 \sigma_{b11} +  \sigma_{e}^2)} }
+$$
+
+:::
+
+### 최대가능도 추정법 
+
+#### 분포의 가정
+
+선형혼합모형에서 모수를 추정하는 방법은 모형이 단순한 경우, 적률법(method of moments)를 이용하여 평균과  분산성분을 추정할 수 있다.  하지만 일반적인 모형에 대하여 각각 적률법을 적용할 제곱합을 설정하고 그 기대값을 구하는것은 어려운 일이다. 따라서 선형혼합모형에서는 정규분포를 가정하고 모수의 추정을 최대가능도 추정법을 사용한다.
+
+잎에서 본 예제들과 같이 선형혼합모형은 각 개체 또는 그룹안에서 관측된 확률변수들은 독립이 아니지만 다른 그룹에서 나온 관측 변수들은 독립을 가정한다. 
+위와 같은 혼합효과모형(mixed effects model)을 각 개체 $i$에 대하여 행렬식으로 표시하면 다음과 같다.
+
+$$
+\pmb  y_i = \pmb  X_i \pmb  \beta + \pmb  Z_i \pmb  b_i + \pmb  e_i , i=1.2\cdots,I
+$$
+
+일반적으로 그룹간에서 반복된 관측치를 가지는 모형은 다음과 같은 분포를 고려할 수 있다.
+
+$$ 
+\pmb  b_i \sim_{iid} N( \pmb  0, \sigma^2_e \pmb  \Psi), \quad \pmb  e_i \sim N(\pmb  0, \sigma^2_e \pmb  I) 
+$$
+
+여기서 $\pmb  b_i$와 $\pmb  e_{i}$는 독립이다. 위의 가정에서 주의할 점은 임의효과의 공분산행렬을 오차항의 분산 $\sigma^2_e$과 행렬 $\pmb  \Psi$의 곱으로 표현한 것이며 그 이유는 최대가능도 추정함수를 좀 더 간결하게 표시하기 위해서이다.   
+
+
+
+#### 가능도함수
+
+
+가능도 함수는 반응 벡터 $\pmb  y_i$의 분포를 이용하여 표현할 수 있다. $\pmb  y_i$의 분포는 다변량 정규분포를 따르고 
+
+$$
+E(\pmb  y_i) = \pmb  X_i \pmb  \beta, \quad V(\pmb  y_i) = V_i= \sigma^2_e (\pmb  Z_i \pmb  \Psi \pmb  Z_i^t +\pmb  I ) 
+$$
+
+
+
+이므로 관측벡터 $\pmb  y_i$의 차원이 $J$라면 
+
+$$
+\begin{aligned}
+L(\pmb  \theta | \pmb  y_i) & = f(\pmb  y_i|\pmb  \theta)  \nonumber \\
+& =   (2\pi )^{-J/2} |V_i |^{-1/2}
+\exp \left [ - \frac{(\pmb  y_i - \pmb  X_i \pmb  \beta )^t V_i^{-1} (\pmb  y_i - \pmb  X_i \pmb  \beta )}{2} \right ] \nonumber \\
+& =   (2\pi \sigma^2_e)^{-J/2} |\pmb  Z_i \pmb  \Psi \pmb  Z_i^t +\pmb  I |^{-1/2}
+\exp \left [ - \frac{(\pmb  y_i - \pmb  X_i \pmb  \beta )^t [\pmb  Z_i \pmb  \Psi \pmb  Z_i^t +\pmb  I ]^{-1} (\pmb  y_i - \pmb  X_i \pmb  \beta )}{2 \sigma^2_e} \right ] 
+\end{aligned}
+$$
+
+여기서 모수벡터  $\pmb  \theta$는 회귀계수 $\pmb  \beta$, 임의효과의 공분산 $\Psi$을 결정하는 분산성분에 대한 모수들 $\pmb  \psi$, 오차항의 분산 $\sigma^2_e$를 모아 놓은 벡터이다.
+
+이제 반응값들의 벡터들 $\pmb  y_1, \pmb  y_2, \dots, \pmb  y_I$들이 모두 독립이므로 모든 관측값을 
+모아 놓은 관측벡터 $\pmb  y = (\pmb  y_1^t, \pmb  y_2^t, \dots, \pmb  y_I^t)^t$에 의한 최대가능도 함수는 각각의 최대가능도 함수들을 곱한것과 같다.
+
+
+$$
+L(\pmb  \theta|\pmb  y ) = \prod_{i=1}^I L(\pmb  \theta|\pmb  y_i)
+$$
+
+위에서 구한 가능도함수는 일반적으로 계산하기가 쉽지 않다. 왜냐하면 
+관측벡터 $\pmb  y_i$의 공분산 행렬 $\pmb  V_i$에 대한 역행렬을 구하는 것이 단순한 모형을 제외하면 일반적으로 쉽지 않다.
+ 
+#### 일원배치모형
+
+
+선형혼합모형의 가장 기본적인 형태는 앞에서 공부한 @eq-re-onewayrandom 의  일원배치모형이다. 하나의 요인이 반응변수에 미치는 영향을 알 수 있는 모형으로 다음과 같이 정의할 수 있다.
+
+
+일원배치모형의 가능도 함수를 얻기 위해서 $i$번쨰 관측벡터 $\pmb  y_i$의 분포를 알아야 한다. $\pmb  y_i$의 분포는 다음과 같다.
+
+$$
+\begin{aligned}
+\pmb  y_{i} \sim_{ind} \ N(\mu \pmb  1, \pmb  V_{i}), \ \pmb  V_{i}=\sigma^{2}_{e} \pmb  I+\sigma_{b}^{2} \pmb  1 \pmb  1^t, \quad i=1,2,\dots,I
+\end{aligned}
+$$
+
+
+여기서 $\pmb  1$은 모든 원소가 1이고 차원이 $J$ 인 벡터, $\pmb  I$은 차원이  $J \times J$ 인 항등행렬이다. 또한 모수들은  $\pmb  \theta = (\mu,\sigma_a^2,\sigma_e^2)^t$으로 구성된다.
+
+
+따라서 정규분포의 가능도함수를 이용하여 식을 표현하면 다음과 같다.
+
+
+$$
+L(\pmb  \theta | \pmb  y)  = \prod_{i=1}^{I} 
+(2\pi)^{-J/2} | {\pmb  V}_i|^{-1/2} 
+\exp \left [  -\frac{1}{2}(\pmb  y_i- \mu {\pmb  1})^{t}{\pmb  V}_{i}^{-1}(\pmb  y_i-\mu {\pmb  1}) \right ]
+$$
+
+
+
+여기서 $V_{i}$의 행렬식와 역행렬은 각각  $|\pmb  V_{i}| =   (\sigma_e^2 + J \sigma_{b}^{2})(\sigma_e^2)^{J-1}$
+
+$$
+{\pmb  V}_{i}^{-1} = \frac{1}{\sigma_e^2} \left [ \pmb  I -\frac{\sigma_{b}^{2}}{\sigma_e^2+J\sigma_{b}^{2}} \pmb  J \right ]
+$$
+
+위의 결과는 부록의 @eq-app-det-uvt 와 @eq-woodbury 이용한 것이다. 위 결과를  가능도함수에 대입하여 로그 가능도함수를 구해보면 다음과 같다. 
+
+$$
+\begin{aligned}
+\log L = & -\frac{1}{2}(IJ) \log 2\pi -\frac{1}{2}\sum_{i} \log(\sigma_e^2+J\sigma_{b}^2) - \frac{1}{2}I(J-1)\log\sigma_e ^2 \\
+& - \frac{1}{2\sigma_e^2}\sum_{i}\sum_{j} (y_{ij}-\mu)^2 + \frac{J^2\sigma_{b}^2}{2\sigma_e^2}\sum_{i}\frac{(\bar y_{i\cdot}-\mu)^2}{\sigma_e^2 + J \sigma_{b}^{2}}
+\end{aligned}
+$$
+
+
+여기서 $\bar y_{i.} = \sum_{j=1}^J y_{ij} /J$이다. 또한 여기서  $\lambda = \sigma_e^{2} + J\sigma_{b}^2$로 놓으면  
+
+$$
+\begin{aligned}
+\log L = & -\frac{1}{2} (IJ) \log2\pi - \frac{1}{2} I(J-1)\log \sigma_e^2 - \frac{1}{2}I \log \lambda \nonumber \\
+& - \frac{SSE}{2\sigma_e^2}-\frac{SSA}{2\lambda}
+- \frac{IJ(\bar y_{\cdot\cdot} - \mu)^2 }{2\lambda}
+\end{aligned}
+$$
+
+
+
+위 식에서  $SSA = \sum_{i} n (\bar y_{i\cdot} - \bar y_{\cdot\cdot} )^2$, $SSE = \sum_{i}\sum_{j} (y_{ij}- \bar y_{i\cdot}) ^2$ 이다.
+
+
+로그가능도함수를 각 모수 $(\mu, \sigma^2_e, \lambda)$에 대해 미분하면 다음과 같은 식이 주어진다.
+
+$$
+\begin{aligned}
+\frac{\partial \log L}{\partial \mu } & = \frac{IJ(\bar y_{\cdot\cdot} - \mu) }{\lambda} \\
+\frac{\partial \log L}{\partial \sigma^2_e } & = -\frac{J(I-1)}{2\sigma^2_e} + \frac{SSE}{\sigma^4_e} \\
+\frac{\partial \log L}{\partial \sigma^2_a} & = \frac{-I}{2\lambda} + \frac{SSA}{2\lambda^2} 
++\frac{IJ(\bar y_{..}-\mu)^2}{2\lambda^2}
+\end{aligned}
+$$
+
+
+
+위의 방정식들을 0으로 놓고 풀면 다음과 같은 추정량의 근을 구할 수 있다.
+
+$$ 
+\tilde \mu = \bar y_{\cdot\cdot},\quad \tilde \sigma_e^2 = MSE = \frac{SSE}{I(J-1)},\quad \tilde \lambda = \frac{SSA}{I}
+$$
+
+
+모수  $\lambda = \sigma_e^{2} + J\sigma_{b}^2$임을 이용하면 
+
+$$
+\tilde \sigma_{b}^2 = \frac{\hat \lambda - \hat \sigma^2_e}{J} = \frac{SSA/I-MSE}{J}
+$$
+이다.
+
+위에서 구한 가능도함수의 미분 방정식의 근 $(\tilde \mu,\tilde \sigma_e^2,\tilde \sigma_{b}^2 )$ 중에서 평균과 오차항의 추정량은 최대가은도 추정량으로 설정할 수 있지만 
+임의효과의 분산의 근은 0보다 작은 값이 나올 수 있으므로 다음과 같은 추정량이 최대가능도 추정량이다.
+
+$$
+\begin{aligned} 
+\hat \mu & = \bar y_{\cdot\cdot} \nonumber \\
+\hat \sigma_e^2 & = \frac{SSE}{I(J-1)} = MSE  \nonumber \\
+\hat \sigma_{b}^2 & =
+\begin{cases}
+ \frac{SSA/I-MSE}{J} & \text{ if } \frac{SSA/I-MSE}{J} \ge 0 \\
+ 0 & \text{ otherwise }
+\end{cases}
+\end{aligned}
+$$
+
+
+위의 최대가능도 추정량을 적률법으로 구한 추정량과 비교하면 평균과 오차항의 추정량은 동일하고 임의효과의 분산 추정량이 다른 점을 알 수 있다. 
+
+#### 임의효과의 예측 
+
+임의효과는 관측할 수 없는 확률변수이지만 관측값이 주어진 경우 임의효과에 대한 기대값으로 그 값을 예측할 수 있다. 임의효과는 모수가 아니라 확률변수이므로 이에 대한 추론을 추정(estimation)이라고 하지 않고 예측(prediction)이라고 한다. 
+
+앞에서 공부한 일원배치모형에서 임의효과 $b_i$와 그룹의 평균 $\bar y_{i.}$의 공분산 구해보자.
+
+$$
+\begin{aligned}
+cov(b_i, \bar y_{i.}) & = cov( b_i, \mu + bi + \bar e_{i.}) \\
+  & = cov(b_i, b_i ) \\
+  & =var(b_i) \\
+  & = \sigma^2_a
+\end{aligned}
+$$
+
+
+임의효과 $b_i$와 그룹의 평균 $\bar y_{i.}$는 각각 다음과 같은 정규분포를 따르므로 
+
+$$
+b_i \sim N(0, \sigma^2_a), \quad \bar y_{i.} \sim N(\mu, \sigma^2_a + \sigma^2_e/J) $$
+
+임의효과 $b_i$와 그룹의 평균 $\bar y_{i.}$는 다음과 같은 이변량 정규분포를 따른다.
+
+$$ 
+\begin{bmatrix}
+b_i \\
+\bar y_{i.}
+\end{bmatrix}
+\sim 
+N \left (
+\begin{bmatrix}
+0 \\
+\mu 
+\end{bmatrix}
+, ~
+\begin{bmatrix}
+ \sigma^2_a & \sigma^2_a \\
+ \sigma^2_a & \sigma^2_a + \sigma^2_e/J
+\end{bmatrix}
+\right )
+$$
+
+
+따라서  그룹의 평균 $\bar y_{i.}$ 이 주어진 경우 임의효과 $b_i$의 조건부 분포는 정규분포이며  조건부 기대값은 다음과 같이 주어진다 (강의노트 이변량 정규분포 참조). 는 다음과 같다.
+
+
+$$
+E(b_i | \bar y_{i.}) = E(b_i) + \frac{cov(b_i, \bar y_{i.})}{var(\bar y_{i.})} (\bar y_{i.}-E[\bar y_{i.}]) 
+$$
+
+
+따라서 
+
+
+$$
+E(b_i | \bar y_{i.}) = \frac{\sigma^2_a}{\sigma^2_a + \sigma^2_e/J } (\bar y_{i.}-\mu)
+$$
+
+로 주어진다. 위의 식에서 모르는 모수를 최대가능도 추정량으로 대체해주면 임의료과에 대한 예측값을 구할 수 있다.
+
+$$
+ \hat b_i = \hat E(b_i | \bar y_{i.}) = \frac{\hat \sigma^2_a}{\hat \sigma^2_a + \hat \sigma^2_e/J } (\bar y_{i.}- \bar y_{..})
+$$ {#eq-re-pred1}
+
+위의 @eq-re-pred1 을 보면 고정효과를 고려한 일원배치모형 @eq-re-anova 에서 각 그룹의 효과 $\alpha_i$의 추정식 $\hat \alpha_i$인 다음의 식과 차이가 나는 것을 볼 수 있다. 
+
+
+$$ 
+\hat \alpha_i = y_{i.}- \bar y_{..} 
+$$
+
+임의효과를 이용하면 그룹의 효과가 고정효과를 이용한 모형보다 그 절대값이  작게 나오는 것을 알 수 있다.
+
+$$ 
+\left | \frac{\hat \sigma^2_a}{\hat \sigma^2_a + \hat \sigma^2_e/J } (\bar y_{i.}- \bar y_{..}) \right | 
+ \le  \left  | y_{i.}- \bar y_{..} \right | 
+$$
+
+이러한 현상을 전체 평균으로의 축소현상(shrinkage to grand mean)이라고 부른다.
+
+앞에서 공부한 반복측정자료 에서 혼합모형을 통해서 얻은 각 개인의 절편과 기울기에 대한 예측값과 각각의 개인에 대해서 회귀직선을 따로 적합하여 얻은
+절편과 기울기의 관계를 그림으로 그려보면 다음과 같다. 즉 혼합모형을 통해서 얻은 각 개인의 절편과 기울기는 절편과 기울기의 전체평균값 방향으로 축소되는 경향(shrinkage)을 볼수있다.
+
+
+
+
+
+
+<!---
+
+### 예제: 고혈압 강하제 살험 
+
+
+고혈압 환자 66명을 대상으로 32명에게는 기존의 혈압 강하제(C)를 투여하고, 나머지 34명에게는 새로운 혈압 강하제(E)를 투여하였다. 환자가 치료를 시작하기 전에 혈압을 측정하고(0주) 치료를 받은 후  4주, 8주 후에 2번 반복 측정하였다. 이 실험의 목표는 다음과 같다.
 
 1. 기존의 약과 새로운 혈압 강하제 간의 유의한 차이가 있는가?
 2. 방문 시간(`time`)에 따라서 혈압(`bp`)의 차이가 있는가?
@@ -755,32 +1770,56 @@ AIC(fm2)
 이제 자료를 읽어서 `blood_data`에 저장하자.
 
 ```{r}
-blood_data<- read.csv(here("data", "ex0601.txt"), header=T, sep="")
-head(blood_data,5)
+#| echo: true
+#| message: false
+#| warning: false
+#| 
+blood_data <- read.csv(here("data", "ex0601.txt"), header=T, sep="")
+head(blood_data,10)
 ```
 
-모형식을 고려하기 전에 각 처리 그룹에서 시간에 따른 혈압의 변화를 살펴보자. 강하제를 복용한 후에 평균 혈압은 크게 내려갔지만 8주 후에는 다소 올라가는 경향을 보인다. 
+모형식을 고려하기 전에 각 처리 그룹에서 시간에 따른 혈압의 변화를 살펴보자. 패키지 `stats` 의 함수 `interaction.plot` 은 반복측정자료의 관측 시점에 따라서 반응 변수의 평균 변화를 처리 그룹에 대해서 그래프를 그려준다.
+
+강하제를 복용한 후에 평균 혈압은 크게 내려갔지만 8주 후에는 다소 올라가는 경향을 보인다. 
 
 ```{r, echo=T, out.width='.9\\linewidth'}
+
 with(blood_data, interaction.plot(x.factor = time, trace.factor = trt, response = bp))
 ```
 
-### 혼합효과 모형 
+#### 혼합효과 모형 
 
 반응값 $y_{ijk}$를 $i$ 번째 강하제($i=1,2$)를 복용한 $j$ 번째 환자의 $k$ 시간에 측정한 혈압이라고 하자($j=1,2,..,n_i$, $k=0,1,2$). 
 
 먼저 약을 복용하기 전의 혈압 $y_{ij0}$ 은 처리 전의 기준이 되는 값이다. 따라서 우리는 4주와 8주에 측정한 혈압, $y_{ij1}$와 $y_{ij2}$ 에서 0주에 측정한 혈압 $y_{ij0}$을 뺀 두 개의 차이, $d_{ij1}$ 과 $d_{ij2}$를 반응 변수로 사용할 것이다. 각 환자는 2개의 관측값을 가지며 이는 반복측정 자료이다.
 
 $$ d_{ij1} = y_{ij1} -y_{ij0}, \quad d_{ij2} = y_{ij2} -y_{ij0} $$
+새로운 반응변수 $d_{ijk}$는 치료 전의 혈압을 기준으로 하여 치료 후에 혈압이 얼마나 변하였는가를 나타낸다. 따라서 $d_{ijk}$ 값이 작을 수록 약의 효과는 더 좋다고 할 수 있다. 
+
 
 혈압의 차이를 계산하여 다음과 같이 새로운 데이터프레임을 만들자.
 
 ```{r}
-df0 <- blood_data %>% filter(time == 0) %>% select(id, bp) %>% rename( bp0 = bp)
-df1 <- blood_data %>% filter(time != 0)
-blood_data1 <- left_join(df1, df0, by='id') %>% mutate(d = bp - bp0)
+#| echo: true
+#| message: false
+#| warning: false
+
+
+df0 <- blood_data %>% 
+  filter(time == 0) %>% 
+  select(id, bp) %>% 
+  rename( bp0 = bp)
+
+df1 <- blood_data %>% 
+  filter(time != 0)
+
+blood_data1 <- left_join(df1, df0, by='id') %>% 
+  mutate(d = bp - bp0)
+
 head(blood_data1 ,10)
 ```
+
+다시 새로운 자료를 이용하여 처리에 따라서 혈압의 변화를 그림으로 살펴보자.
 
 ```{r, echo=T, out.width='.9\\linewidth'}
 with(blood_data1, interaction.plot(x.factor = time, trace.factor = trt, response = d))
@@ -792,10 +1831,8 @@ $$
 d_{ijk} = \mu + \alpha_i + \beta_k +  (\alpha\beta)_{ik} + b_{ij} + e_{ijk}, \quad i=1,2 ~~ j=1,...,n_i~~ k=1,2
 $$ {#eq-re-bloodtrial} 
 
- 일단 반복 측정한 시점이 2번이므로 측정 시간은 연속형 변수가 아닌 범주형 변수로 지정한다.
+일단 반복 측정한 횟수가 2 번이므로 측정 시간은 연속형 변수가 아닌 범주형 변수로 지정한다.
 
-
-.
 위의 모형식 @eq-re-bloodtrial  에서 각 항의 의미는 다음과 같다.
 
 - $\mu$ : 전체 평균 혈압
@@ -822,13 +1859,16 @@ blood_fit <- lmer(d ~ trt + time + trt*time +(1|id), data=blood_data1)
 summary(blood_fit)
 ```
 
-위의 적합 결과를 보면 다음과 같은 해석이 가능하다.
+위의 적합 결과를 보면 다음과 같은 해석이 가능하다. 먼저 각 요인에 대한 추정치를 살펴보자. 
 
-1. 혈압 강하제 간의 유의한 차이는 있다. 기존의 혈압 강하제(C)가 더 효과적이다
-2. 시간에 따른 효과의 차이는 유의하지 않다.
-3. 강하제와 시간 간의 상호작용도 유의하지 않다.
 
-또한 환자의 개인적인 효과를 반영한 임의효과의 분산이 오차항의 분산의 거의 4배이다.이는 개인 간의 변동이 개인 내의 변동보다 매우 크다는 것을 의미한다. 
+1. 혈압 강하제의 효과를 보면 기존의 강하제(`C`)를 기준으로 새로운 강하제(`E`)의 효과가 평균적으로 `4.2022` 만큼 크다 (`trtE = 4.2022`). 또한 효과의 차이를 검정하는 경우 p-값은 `p-value = 0.0491` 로 유의수준 $\alpha = 0.05$ 기준으로 유의한 차이를 보인다. 결론은  혈압 강하제 간의 유의한 차이는 있으며 기존의 혈압 강하제(`C`)가 더 효과적이다
+
+2. 혈압 강화제의 시간에 따른 효과의 변화는 `time8 = 1.000` 으로 4주차 변화를 기준으로 8주차에 1 mmHg 만큼 평균적으로 증가하지만(`time8 = 1.0`) 시간에 따른 효과의 차이는 유의하지 않다 (`p-value = 0.3036`).
+
+3. 강하제와 시간 간의 상호작용도 유의하지 않다(`trtE:time8 = 1.0` 그리고 `p-value = 0.4594`)
+
+다음으로 환자의 개인적인 효과를 반영하는 임의효과의 분산이 오차항의 분산의 거의 4배이다.이는 개인 간의 변동이 개인 내의 변동보다 매우 크다는 것을 의미한다. 
 
 $$ \hat \sigma^2_b = 58.00  \quad \hat \sigma^2_e = 14.87$$
 반복측정한 자료의 상관계수, 즉 그룹 내의 관측값의  상관계수는 0.7956 으로 매우 높다.
@@ -836,16 +1876,9 @@ $$ \hat \sigma^2_b = 58.00  \quad \hat \sigma^2_e = 14.87$$
 $$ \hat \rho(d_{ij1},d_{ij2}) = \frac{\hat \sigma^2_b }{\hat \sigma^2_b + \hat \sigma^2_2} =\frac{58.0}{58.0 + 14.9} = 0.7956 $$
 
 
-이제 각 요인에 대한 유의성을 보기 위하여 분산분석을 실시해 보자. 선택 명령문으로 `ddf =  "Kenward-Roger"`를 사용하는 것이 좋으며  이는 혼합효과 모형에서 잔차제곱합의 자유도를 적절하게 추정해 준다. 위의 분산분석 결과를 보면 약의 효과와 상호작용은 앞에서 내린 결론과 동일하지만 시간에 따른 효과가 유의하게 나타난다. 
+#### 임의효과가 없는 모형 
 
-```{r}
-anova(blood_fit, ddf =  "Kenward-Roger")
-```
-
-### 임의효과가 없는 모형 
-
-만약 반복측정 자료의 구조를 무시하고 개인에 대한 임의효과를 고려하지 않으면 어떻게 될까? 이러한 가정은 
-실험에서 얻은  모든 반응값들이 독립이라는 것이다.
+만약 반복측정 자료의 구조를 무시하고 개인에 대한 임의효과를 고려하지 않으면 어떻게 될까?임의효과를 모형에 포함하지 않는다면 실험에서 얻은  모든 반응값들이 독립이라는 것이다.
 
 다음과 같이 개인에 대한 임의효과가 없는 모형을 고려하고 적합해 보자.
 
@@ -1012,7 +2045,7 @@ $$
 
 $$
 \begin{aligned}
-\pmb Z_i \pmb \Psi \pmb Z_i^t && =\pmb Z_* \pmb \Psi \pmb Z_*^t \\
+\pmb Z_i \pmb \Psi \pmb Z_i^t & =\pmb Z_* \pmb \Psi \pmb Z_*^t \\
 & =
 \begin{bmatrix}
 1 & 0 \\

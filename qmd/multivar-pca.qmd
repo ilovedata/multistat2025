@@ -1065,7 +1065,9 @@ plot(df_1$score, df_pca$`Comp.1`, xlab="Olympic Score", ylab="PCA1")
 #| message: false
 #| warning: false
 
-url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
+#url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
+url <- here("data","wine.txt")
+
 wine <- read.csv(url, header = FALSE)
 
 # Add column names from UCI description

@@ -71,27 +71,27 @@ format:
            }
           };
           </script>
-  pdf:
-    documentclass: scrbook
-    classoption: oneside
-    papersize: A4
-    fontsize: 11pt
-    lof: true
-    lot: true
-    code-overflow: wrap
-    language: custom.yml
-    latex-auto-install: true
-    latex-tinytex: true
-    pdf-engine: xelatex
-    crossref:
-      fig-title: "그림"
-      tbl-title: "표"
-      fig-prefix:  "그림" # (default is "Figure")
-      tbl-prefix: 표    # (default is "Table")
-      eq-prefix:  식     # (default is "Equation")
-      ref-hyperlink: true # (default is true)
-    include-in-header: latex/preamble.tex
+#  pdf:
+#    documentclass: scrbook
+#    classoption: oneside
+#    papersize: A4
+#    fontsize: 11pt
+#    lof: true
+#    lot: true
+#    code-overflow: wrap
+#    language: custom.yml
+#    latex-auto-install: true
+#    latex-tinytex: true
+#    pdf-engine: xelatex
+#    crossref:
+#      fig-title: "그림"
+#      tbl-title: "표"
+#      fig-prefix:  "그림" # (default is "Figure")
+#      tbl-prefix: 표    # (default is "Table")
+#      eq-prefix:  식     # (default is "Equation")
+#      ref-hyperlink: true # (default is true)
+#    include-in-header: latex/preamble.tex
 
-pdf-engine: xelatex
-keep-tex: false
-latex-min-runs: 2
+#pdf-engine: xelatex
+#keep-tex: false
+#latex-min-runs: 2

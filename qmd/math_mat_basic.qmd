@@ -532,7 +532,9 @@ $$ |{\pmb A}| = |{\pmb A}_{11}| |{\pmb A}_{22} | $$
 
 다음과 같은 행렬식에 대한 공식도 유용하다. p-차원 행렬 $\pmb A$가 역행렬이 존재하고 벡터 $\pmb u$ 와 $\pmb v$ 에 대하여 
 
-$$ | \pmb A + \pmb u \pmb v^t | = | \pmb A | (1 + \pmb v^t \pmb A^{-1} \pmb u)  $$
+$$ 
+| \pmb A + \pmb u \pmb v^t | = | \pmb A | (1 + \pmb v^t \pmb A^{-1} \pmb u)  
+$$ {#eq-app-det-uvt} 
 
 ## 역행렬
 
