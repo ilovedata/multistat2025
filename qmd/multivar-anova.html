@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -324,6 +344,10 @@ window.Quarto = {
   <li><a href="#선형혼합효과모형의-구조" id="toc-선형혼합효과모형의-구조" class="nav-link" data-scroll-target="#선형혼합효과모형의-구조"><span class="header-section-number">10.4.3</span> 선형혼합효과모형의 구조</a></li>
   <li><a href="#선형혼합모형의-분포" id="toc-선형혼합모형의-분포" class="nav-link" data-scroll-target="#선형혼합모형의-분포"><span class="header-section-number">10.4.4</span> 선형혼합모형의 분포</a></li>
   <li><a href="#최대가능도-추정법" id="toc-최대가능도-추정법" class="nav-link" data-scroll-target="#최대가능도-추정법"><span class="header-section-number">10.4.5</span> 최대가능도 추정법</a></li>
+  </ul></li>
+  <li><a href="#예제" id="toc-예제" class="nav-link" data-scroll-target="#예제"><span class="header-section-number">10.5</span> 예제</a>
+  <ul class="collapse">
+  <li><a href="#청소년의-일탈행동에-대한-관용도" id="toc-청소년의-일탈행동에-대한-관용도" class="nav-link" data-scroll-target="#청소년의-일탈행동에-대한-관용도"><span class="header-section-number">10.5.1</span> 청소년의 일탈행동에 대한 관용도</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2461,8 +2485,521 @@ cor(y_{ij}, y_{ik}) =
 $$ 
 
 --->
+</section>
+</section>
+</section>
+<section id="예제" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="예제"><span class="header-section-number">10.5</span> 예제</h2>
+<section id="청소년의-일탈행동에-대한-관용도" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="청소년의-일탈행동에-대한-관용도"><span class="header-section-number">10.5.1</span> 청소년의 일탈행동에 대한 관용도</h3>
+<section id="데이터-설명" class="level4" data-number="10.5.1.1">
+<h4 data-number="10.5.1.1" class="anchored" data-anchor-id="데이터-설명"><span class="header-section-number">10.5.1.1</span> 데이터 설명</h4>
+<p>이 절에서 다룰 자료는 <span class="citation" data-cites="singer2003applied">Singer 와/과 Willett (<a href="../references.html#ref-singer2003applied" role="doc-biblioref">2003</a>)</span> 의 2장에 나오는 청소년의 일탈행동에 대한 태도(관용도) 변화에 대한 자료를 사용한다.</p>
+<p>미국의 국가청소년조사(National Youth Survey)에서 수집하는 일탈행동에 대한 관용도(Attitudes Toward Deviance)에 대한 자료로서 청소년 16명에 대하여 11세부터 15세까지 1년에 1번씩 일탈행동에 대한 관용도를 5번 반복 측정한 결과이다.</p>
+<p>9가지 문항에 대한 설문을 주고 4점 척도로 측정하였다. 9개 문항의 내용은 다음과 같다.</p>
+<ol type="1">
+<li>학교 시험에서 부정행위를 하는 것</li>
+<li>자기 것이 아닌 물건이나 시설을 일부러 파손하는 것</li>
+<li>마리화나(대마초 등 불법 약물)를 사용하는 것</li>
+<li>소액(예: 5달러 미만)이라도 물건을 훔치는 것</li>
+<li>아무 이유 없이 다른 사람을 때리거나 폭력을 행사하는 것</li>
+<li>(또래 나이에) 술을 마시는 것</li>
+<li>물건을 훔치기 위해 자동차나 건물 등에 침입하는 것</li>
+<li>헤로인, 코카인 같은 ’하드 드럭’을 판매하는 것</li>
+<li>50달러 이상 가치가 있는 물건을 훔치는 것</li>
+</ol>
+<p>위의 각 문항에 대하여 “너와 같은 또래가 이런 행동을 하는 것이 얼마나 잘못됐다고 생각하는가?” 라는 의견을 다음과 같은 4점 척도 점수로 답하게 질문하였다.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>답변 척도</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>매우 나쁘다</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>나쁘다</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>조금 나쁘다</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>전혀 나쁘지 않다</td>
+</tr>
+</tbody>
+</table>
+<p>즉, 점수가 높을수록 일탈행동에 대해 관용적인 태도를 가진다는 의미이다. 최종 반응변수는 9개 문항에 대한 반응값들의 평균점수이다</p>
+<p>설명변수는 성별(<code>male</code>)과 일탈 친구에 대한 노출 정도(<code>exposure</code>)이다. <code>exposure</code> 변수는 11세 시점의 일탈 행동에 대한 조기 노출 정도를 나타낸다. 노출 정도는 아이가 어느 정도 일탈 행동에 노출된 환경에서 자라나고 있는가를 나타내는 지표(주로 일탈 행동을 하는 또래/친구들에 대한 노출, 주변에서 그런 행동을 얼마나 자주 보는지 등)이며 값의 범위는 0-4 이고 0 은 전혀 노출이 안되는 경우이고 4는 매우 노출이 심한 경우이다.</p>
+<p>성별은 시간에 따라서 변하지 않지만(time invariant) 노출정도는 시간이 지나면서 변할 수 있다(time variant). 하지만 이 연구에서는 11세 시점의 조기 노출(early exposure at age 11)을 대표값으로 만들어 한 사람당 하나의 값만 가지도록 구성하였다.</p>
+<p>데이터는 R 패키지 <code>alda</code>에 내장되어 있으며 다음과 같은 컬럼으로 구성된다.</p>
+<ul>
+<li><code>id</code>: 개인 식별자</li>
+<li><code>age</code>: 나이(11–15세)</li>
+<li><code>tolerance</code>: 9개 문항 평균 점수 (1=매우 나쁘다 ~ 4=전혀 나쁘지 않다)</li>
+<li><code>male</code>: 남자(1) / 여자(0)</li>
+<li><code>exposure</code>: 일탈 친구에 대한 노출 정도 (0~4 Likert 평균)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># github 에 있는 패키지 alda 를 설치(한번만 실행)</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("devtools")</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github("mccarthy-m-g/alda")</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(alda)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(deviant_tolerance_pp)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  id      age tolerance  male exposure
+  &lt;fct&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1 9        11      2.23     0     1.54
+2 9        12      1.79     0     1.54
+3 9        13      1.9      0     1.54
+4 9        14      2.12     0     1.54
+5 9        15      2.66     0     1.54
+6 45       11      1.12     1     1.16</code></pre>
+</div>
+</div>
+</section>
+<section id="자료구조-긴-형식과-넓은-형식" class="level4" data-number="10.5.1.2">
+<h4 data-number="10.5.1.2" class="anchored" data-anchor-id="자료구조-긴-형식과-넓은-형식"><span class="header-section-number">10.5.1.2</span> 자료구조: 긴 형식과 넓은 형식</h4>
+<p>반복측정 자료는 2 가지 형식으로 자료가 저장될 수 있다</p>
+<ul>
+<li><p>넓은 형식(wide-format): 한 사람(개체)당 행 1줄로 구성되고 11~15세 점수가 <code>tolerance_11</code>~<code>tolerance_15</code> 열로 저장된다.</p></li>
+<li><p>긴 형식(long-format) : 한 사람당 연령별 점수가 각각 다른 행에 저장된다. (<code>age</code>, <code>tolerance</code>)</p></li>
+</ul>
+<p>다음은 일탈행동 관용도 자료가 넓은 형식으로 저장된 데이터프레임이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(deviant_tolerance_pl)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  id    tolerance_11 tolerance_12 tolerance_13 tolerance_14 tolerance_15  male
+  &lt;fct&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
+1 9             2.23         1.79         1.9          2.12         2.66     0
+2 45            1.12         1.45         1.45         1.45         1.99     1
+3 268           1.45         1.34         1.99         1.79         1.34     1
+4 314           1.22         1.22         1.55         1.12         1.12     0
+5 442           1.45         1.99         1.45         1.67         1.9      0
+6 514           1.34         1.67         2.23         2.12         2.44     1
+# ℹ 1 more variable: exposure &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>일반적으로 자료를 수집하는 경우 넓은 형식의 자료를 이용하는 경우가 많다. 넓은 형식의 자료는 사용자가 보기 편하고 이해하기 쉬운 형식이지만 프로그램을 이용하여 분석을 적용하는 것은 긴 형식의 자료가 더 편리하다.</p>
+<p>다음은 넓은 형식의 자료를 긴 형식의 자료로 변환하는 프로그램이며 <code>tidyr</code> 패키지의 <code>pivot_longer</code> 함수를 사용한 예제이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>tol_long <span class="ot">&lt;-</span> deviant_tolerance_pl <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"tolerance_"</span>),  <span class="co"># 긴 형식으로 바꿀 자료를 가진 컬럼이름</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"age"</span>, <span class="co"># 긴 형식으로 바꾸었을 때 구별할 수 있는 자료를 가진 컬럼이름 </span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"tolerance_"</span>, <span class="co"># 자료를 가진 컬럼이름에서 names_to 로 저장시 해당하지 않는 부분  </span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_transform =</span> as.integer, <span class="co"># 긴 형식으로 바꿀때 names_to 의 형식 변환 </span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"tolerance"</span> <span class="co"># 긴 형식으로 바꿀때 제이터를 포함하는 컬럼 이름 </span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>tol_long</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 80 × 5
+   id     male exposure   age tolerance
+   &lt;fct&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt;
+ 1 9         0     1.54    11      2.23
+ 2 9         0     1.54    12      1.79
+ 3 9         0     1.54    13      1.9 
+ 4 9         0     1.54    14      2.12
+ 5 9         0     1.54    15      2.66
+ 6 45        1     1.16    11      1.12
+ 7 45        1     1.16    12      1.45
+ 8 45        1     1.16    13      1.45
+ 9 45        1     1.16    14      1.45
+10 45        1     1.16    15      1.99
+# ℹ 70 more rows</code></pre>
+</div>
+</div>
+<p>위에서 긴 형식으로 바꾼 데이터프레임 <code>tol_long</code>은 원자료 <code>deviant_tolerance_pp</code>와 동일한 구조를 가지고 있는지 <code>all.equal</code> 로 확인할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tol_long2 <span class="ot">&lt;-</span> tol_long <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, age, tolerance, male, exposure) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(id, age)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>tol_pp2 <span class="ot">&lt;-</span> deviant_tolerance_pp <span class="sc">|&gt;</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(id, age)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(tol_long2, tol_pp2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p><code>TRUE</code>가 나오면 두 자료와 구조가 동일하다고 볼 수 있습니다.</p>
+<p>위와 반대로 긴 형식의 자료를 넓은 형식의 자료로 변환할 경우가 있는데 다음과 같이 <code>pivot_wider</code> 함수를 사용한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>tol_wide_back <span class="ot">&lt;-</span> deviant_tolerance_pp <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from   =</span> age, <span class="co"># 넓은 형식으로 바꿀 때 구별할 수 있는 자료를 가진 컬럼이름</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"tolerance_"</span>, <span class="co"># 넓은 형식으로 바꿀 때 names_from 에서 해당하지 않는 부분</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from  =</span> tolerance <span class="co"># 넓은 형식으로 바꿀 때 자료를 포함하는 컬럼 이름</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tol_wide_back)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  id     male exposure tolerance_11 tolerance_12 tolerance_13 tolerance_14
+  &lt;fct&gt; &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+1 9         0     1.54         2.23         1.79         1.9          2.12
+2 45        1     1.16         1.12         1.45         1.45         1.45
+3 268       1     0.9          1.45         1.34         1.99         1.79
+4 314       0     0.81         1.22         1.22         1.55         1.12
+5 442       0     1.13         1.45         1.99         1.45         1.67
+6 514       1     0.9          1.34         1.67         2.23         2.12
+# ℹ 1 more variable: tolerance_15 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="시점별-점수-간-상관관계" class="level4" data-number="10.5.1.3">
+<h4 data-number="10.5.1.3" class="anchored" data-anchor-id="시점별-점수-간-상관관계"><span class="header-section-number">10.5.1.3</span> 시점별 점수 간 상관관계</h4>
+<p>11세부터 15세까지 측정된 관용도 점수들 간의 상관관계를 살펴보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>tol_wide <span class="ot">&lt;-</span> deviant_tolerance_pl <span class="sc">|&gt;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"tolerance_"</span>))</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(tol_wide), <span class="dv">2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             tolerance_11 tolerance_12 tolerance_13 tolerance_14 tolerance_15
+tolerance_11         1.00         0.66         0.06         0.14         0.26
+tolerance_12         0.66         1.00         0.25         0.21         0.39
+tolerance_13         0.06         0.25         1.00         0.59         0.57
+tolerance_14         0.14         0.21         0.59         1.00         0.83
+tolerance_15         0.26         0.39         0.57         0.83         1.00</code></pre>
+</div>
+</div>
+<p>위의 결과를 보면 모든 상관이 양수로 나타나고 있어서 11세에 관용도가 높은 아이는 다른 나이에서도 대체로 높다는 현상을 반영한다. 하지만, 시간에 따라 평균적으로 증가/감소했는지, 개인별로 어떻게 변하는지는 이 정보만으로는 잘 보이지 않는다.</p>
+</section>
+<section id="개체별-시각적-분석" class="level4" data-number="10.5.1.4">
+<h4 data-number="10.5.1.4" class="anchored" data-anchor-id="개체별-시각적-분석"><span class="header-section-number">10.5.1.4</span> 개체별 시각적 분석</h4>
+<p>이제 관용도 점수에 대하여 개체별로 변화 양상을 시각화해보자. 다음과 같이 모든 학생들에 대하여 11세부터 15세까지 점수의 변화를 선그래프로 그릴 수 있다.</p>
+<p>선그래프는 학생들의 관용도가 나이가 증가하면서 약간 증가하는 경향을 보이지만 1명의 학생을 제외하면 크게 변하는 모습을 보이지는 않는다. 하지만 개인별로 매우 다른 경향이 나타는 것을 알 수 있다.</p>
+<ul>
+<li>어떤 아이는 거의 평평한 직선</li>
+<li>어떤 아이는 11–13세에 올라갔다가 다시 내려가는 패턴</li>
+<li>어떤 아이는 꾸준히 증가 / 감소</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> deviant_tolerance_pp <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">male =</span> <span class="fu">factor</span>(male, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>)))</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df1,</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> tolerance, <span class="at">group =</span> id)) <span class="sc">+</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Tolerance score"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/deviant-growth-all-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>청소년별 deviant tolerance 성장곡선 (전체)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>이제 남녀별로 관용도 점수의 변화를 보고 비교해 보자. 선그래프를 보면 1명의 학생(남자)을 제외하면 남녀별로 큰 차이를 보이지 않는다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df1,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> tolerance, <span class="at">group =</span> id)) <span class="sc">+</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> male</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Tolerance score"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/deviant-growth-sex-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>성별에 따른 deviant tolerance 성장곡선</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>이제 노출 수준(<code>exposure</code>)의 수준과 관용도 점수의 관계를 비교해보자. 먼저 노출수준 점수의 중앙값을 기준으로 높으면 노출이 높은 그룹(<code>High exposure</code>), 낮으면 낮은 그룹(<code>Low exposure</code>)으로 구별하여 두 그룹간의 차이를 비교하려고 한다.</p>
+<p>아래 그림을 보면 노출이 높은 그룹일수록 관용도가 높아지는 경향이 있는듯 보이며 이는 노출의 수준에 따라서 관용도의 변화 양상도 다를 수 있음을 직관적으로 보여주고 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df1 <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">hiexp =</span> <span class="fu">if_else</span>(</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>      exposure <span class="sc">&gt;</span> <span class="fu">median</span>(exposure),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"High exposure"</span>,</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Low exposure"</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2,</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> tolerance, <span class="at">group =</span> id)) <span class="sc">+</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> hiexp) <span class="sc">+</span></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Tolerance score"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/deviant-growth-exposure-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>일탈 친구 노출 수준에 따른 deviant tolerance 성장곡선</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="개체별-선형-회귀모형" class="level4" data-number="10.5.1.5">
+<h4 data-number="10.5.1.5" class="anchored" data-anchor-id="개체별-선형-회귀모형"><span class="header-section-number">10.5.1.5</span> 개체별 선형 회귀모형</h4>
+<p>각 개인에 대하여 다음과 같은 단순 선형 회귀모형을 적합해보자.</p>
+<p><span class="math display">\[
+\text{Tolerance}_{ij}
+= \beta_{0i} + \beta_{1i} \cdot \text{Age}_{ij} + e_{ij}, \quad i = 1, \cdots, I, ~ j = 1, \cdots, J
+\]</span></p>
+<p>여기서 단순 선형 회귀모형의 계수에 대한 의미는 다음과 같다.</p>
+<ul>
+<li><span class="math inline">\(\beta_{0i}\)</span>: 개인 <span class="math inline">\(i\)</span>의 관용도에 대한 초기 수준(initial status)</li>
+<li><span class="math inline">\(\beta_{1i}\)</span>: 개인 <span class="math inline">\(i\)</span>의 관용도에 대한 평균 변화율(rate of change)</li>
+</ul>
+<p>각 학생의 관용도 점수에 대하여 개인별로 선형 회귀모형을 적합하기 전에, 먼저 각 개인별로 산점도와 회귀선을 그려보면 다음과 같다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> tolerance)) <span class="sc">+</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"id"</span>, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>이제 개인별로 선형 회귀모형을 적합하고, 개인별 절편과 기울기 추정치를 살펴보자. 앞의 <code>sleepstudy</code> 예제에서 사용한 <code>lmList</code> 함수를 사용할 수도 있지만 다음과 같은 코드를 이용하여 회귀계수의 추정량과 결정계수도 같이 구할 수 있다. 13명의 학생들은 관용도 점수의 시간에 따른 변화가 증가하며(양의 회귀계수) 나머지 3명은 음의 계수를 보여서 감소하는 것으로 나타난다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>indiv_lm <span class="ot">&lt;-</span> df2 <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id) <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_modify</span>(<span class="sc">~</span> {</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(tolerance <span class="sc">~</span> age, <span class="at">data =</span> .x)</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">intercept =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>],</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">slope     =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>],</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">sigma2    =</span> <span class="fu">sigma</span>(fit)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">r2        =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>r.squared</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  }) <span class="sc">|&gt;</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>indiv_lm</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 5
+   id    intercept   slope  sigma2     r2
+   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+ 1 9         0.593  0.119  0.106   0.309 
+ 2 45       -0.770  0.174  0.0296  0.773 
+ 3 268       1.28   0.0230 0.113   0.0154
+ 4 314       1.64  -0.0300 0.0388  0.0717
+ 5 442       0.938  0.0580 0.0720  0.135 
+ 6 514      -1.49   0.265  0.0317  0.881 
+ 7 569       1.28   0.0490 0.00110 0.879 
+ 8 624       0.900  0.0200 0.00267 0.333 
+ 9 723       1.86  -0.0540 0.0119  0.450 
+10 918      -0.573  0.143  0.154   0.306 
+11 949       2.81  -0.0980 0.0969  0.248 
+12 978      -5.92   0.632  0.171   0.886 
+13 1105     -0.178  0.156  0.0381  0.681 
+14 1542     -1.41   0.237  0.0542  0.776 
+15 1552     -0.499  0.153  0.233   0.251 
+16 1653     -1.75   0.246  0.0323  0.862 </code></pre>
+</div>
+</div>
+<p>다음은 학생별로 구한 절편과 기울기의 기초 요약 통계 및 상관계수이다. 특별하게 학생별로 구한 절편과 기울기가 강한 음의 상관계수를 가지며 이는 초기 관용도 점수와 변화 패턴이 반대로 나타난다는 강력한 증거이다. 즉, 초기 관용도 점수가 낮으면 관용도가 시간에 따라서 상대적으로 빠르게 변하고, 반대로 초기 초기 관용도 점수가 높으면 관용도가 시간에 따라서 상대적으로 느리게 변한다는 의미이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(indiv_lm<span class="sc">$</span>intercept)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-5.92400 -0.93075  0.20750 -0.08119  1.27850  2.80600 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(indiv_lm<span class="sc">$</span>slope)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-0.09800  0.02225  0.13100  0.13081  0.18975  0.63200 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(indiv_lm<span class="sc">$</span>intercept, indiv_lm<span class="sc">$</span>slope)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.9915001</code></pre>
+</div>
+</div>
+<p>위의 결과를 절편과 기울기에 대한 산점도를 이용하여 확인할 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(indiv_lm, <span class="fu">aes</span>(<span class="at">x =</span> intercept, <span class="at">y =</span> slope)) <span class="sc">+</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"OLS initial status (intercept)"</span>,</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"OLS rate of change (slope)"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/deviant-intercept-slope-plot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>개인별 초기 수준 vs 변화율 (선형상관계수)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="임의계수-모형" class="level4" data-number="10.5.1.6">
+<h4 data-number="10.5.1.6" class="anchored" data-anchor-id="임의계수-모형"><span class="header-section-number">10.5.1.6</span> 임의계수 모형</h4>
+<p>이제 각 학생에 대한 절편과 기울기에 대한 효과를 임의효과로 표현하는 임의계수 모형으로 나타내보자.</p>
+<p>먼저 11세를 기준으로 중심화(centering)하여, 절편이 “11세에서의 기대 관용도”가 되게 변환한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> df2 <span class="sc">|&gt;</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_c =</span> age <span class="sc">-</span> <span class="dv">11</span>)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df3)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  id      age tolerance male   exposure hiexp         age_c
+  &lt;fct&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;
+1 9        11      2.23 Female     1.54 High exposure     0
+2 9        12      1.79 Female     1.54 High exposure     1
+3 9        13      1.9  Female     1.54 High exposure     2
+4 9        14      2.12 Female     1.54 High exposure     3
+5 9        15      2.66 Female     1.54 High exposure     4
+6 45       11      1.12 Male       1.16 High exposure     0</code></pre>
+</div>
+</div>
+<p>이제 다음과 같은 임의계수 모형을 고려하고 <code>lmer</code> 함수를 이용하여 적합해보자.</p>
+<p><span id="eq-anova-tol-model1"><span class="math display">\[
+\text{Tolerance}_{ij} = (\beta_0 + b_{0i}) +  (\beta_1 + b_{1i}) ~~\text{age}_{ij}  + e_{ij}
+\tag{10.18}\]</span></span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(tolerance <span class="sc">~</span> age_c <span class="sc">+</span> (age_c <span class="sc">|</span> id),</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> df3,</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: tolerance ~ age_c + (age_c | id)
+   Data: df3
+
+REML criterion at convergence: 72.1
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.5627 -0.5075 -0.2229  0.2722  2.5979 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ id       (Intercept) 0.04421  0.2103        
+          age_c       0.02227  0.1492   -0.26
+ Residual             0.07412  0.2722        
+Number of obs: 80, groups:  id, 16
+
+Fixed effects:
+            Estimate Std. Error       df t value Pr(&gt;|t|)    
+(Intercept)  1.35775    0.07445 14.99961  18.238  1.2e-11 ***
+age_c        0.13081    0.04307 14.99993   3.037  0.00832 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+      (Intr)
+age_c -0.448</code></pre>
+</div>
+</div>
+<p>이제 위의 적합한 결과를 다음과 같이 요약할 수 있다.</p>
+<ul>
+<li>고정효과 <code>(Intercept)</code>는 11세에서의 전체 평균 관용도이며 추정값은 <span class="math inline">\(\hat \beta_0 =\)</span> <code>1.35775</code>.</li>
+<li>고정효과 <code>age_c</code>: 1년 증가할 때 평균적으로 관용도점수가 얼마나 변하는지 나타내는 변화율이며 추정값은 <span class="math inline">\(\hat \beta_1 =\)</span> <code>0.13081</code>.</li>
+</ul>
+<p>따라서 일탈행동에 대한 관용도는 전체적으로 증가한다.</p>
+<p>임의 효과 분산/공분산은 개인별 초기 수준의 변동과 변화율의 변동을 나타낸다.</p>
+</section>
+<section id="설명변수-효과" class="level4" data-number="10.5.1.7">
+<h4 data-number="10.5.1.7" class="anchored" data-anchor-id="설명변수-효과"><span class="header-section-number">10.5.1.7</span> 설명변수 효과</h4>
+<p>이제 임의효과 모형에서 성별과 노출의 효과를 포함시켜서 남여별로 차이가 있는지 그리고 노츨의 정도에 따라서 어떤 차이가 있는지 살펴보자.</p>
+<p>위의 모형 <a href="#eq-anova-tol-model1" class="quarto-xref">식&nbsp;<span>10.18</span></a> 에 다음과 같이 성별과 노플에 대한 고정 효과를 포함시켜 보자.</p>
+<p><span id="eq-anova-tol-model2"><span class="math display">\[
+\text{Tolerance}_{ij} = \text{Sex}_k +  + (\beta_0 + b_{0i}) +  (\beta_1 + b_{1i}) ~~\text{age}_{ij}  +
+\beta_2 ~\text{Exposure} +  e_{ij}
+\tag{10.19}\]</span></span></p>
+<p>모형식 <a href="#eq-anova-tol-model2" class="quarto-xref">식&nbsp;<span>10.19</span></a> 를 <code>lmer</code> 함수를 이용하여 적합해 보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(tolerance <span class="sc">~</span> male <span class="sc">+</span> exposure <span class="sc">+</span> age_c <span class="sc">+</span> (age_c <span class="sc">|</span> id),</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> df3,</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: tolerance ~ male + exposure + age_c + (age_c | id)
+   Data: df3
+
+REML criterion at convergence: 69.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.5974 -0.5444 -0.1357  0.2027  2.7354 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ id       (Intercept) 0.06108  0.2471        
+          age_c       0.02227  0.1492   -0.69
+ Residual             0.07412  0.2722        
+Number of obs: 80, groups:  id, 16
+
+Fixed effects:
+            Estimate Std. Error       df t value Pr(&gt;|t|)   
+(Intercept)  0.59896    0.24482 14.45279   2.447  0.02776 * 
+maleMale     0.16623    0.11606 12.99997   1.432  0.17568   
+exposure     0.57592    0.18090 12.99997   3.184  0.00719 **
+age_c        0.13081    0.04307 14.99993   3.037  0.00832 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+         (Intr) maleMl exposr
+maleMale -0.381              
+exposure -0.921  0.197       
+age_c    -0.239  0.000  0.000</code></pre>
+</div>
+</div>
+<p>위의 적합 결과를 다음과 같이 요약할 수 있다.</p>
+<ul>
+<li><p>고정효과 <code>male</code>: 남학생이 여학생에 비하여 평균적으로 약 <code>0.16623</code> 만큼 관용도가 높지만 통계적으로 유의하지는 않다.</p></li>
+<li><p>고정효과 <code>exposure</code>: 노출 정도가 1단위 증가할 때 평균적으로 약 <code>0.57592</code> 만큼 관용도가 높아진다.즉, 일탈 친구에 대한 노출 정도가 높을수록 관용도가 높아지는 경향이 있으며 통계적으로 유의하다.</p></li>
+</ul>
+</section>
+<section id="축소현상의-시각화" class="level4" data-number="10.5.1.8">
+<h4 data-number="10.5.1.8" class="anchored" data-anchor-id="축소현상의-시각화"><span class="header-section-number">10.5.1.8</span> 축소현상의 시각화</h4>
+<p>이제 임의계수 모형에서 추정한 개인별 절편과 기울기를 개체별 선형회귀 모형에서의 추정치와 비교해 볼 수 있다. 아래 그림은 <code>sleepstudy</code> 와 유사하게 임의계수 모형에서 추정한 개인별 절편과 기울기가 개별 회귀모형에 비하여 전체 평균으로 축소되는 경향을 나타낸 그림이다.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="multivar-anova_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-singer2003applied" class="csl-entry" role="listitem">
+Singer, Judith D, 와/과 John B Willett. 2003. <em>Applied longitudinal data analysis: Modeling change and event occurrence</em>. Oxford university press.
+</div>
+</div>
 </section>
 </section>
 </section>

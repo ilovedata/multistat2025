@@ -1342,7 +1342,7 @@ CT  0.368 0.3895254 0.37869822 0.3577661 0.6525054 0.9147595 0.5539033</code></p
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">centers =</span> i)<span class="sc">$</span>withinss)</span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>wss</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 20.568070 10.569006  8.816383  7.684925  6.527976  5.702700</code></pre>
+<pre><code>[1] 20.568070 10.569006  8.824753  7.684925  6.638555  5.843030</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, wss, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">xlab =</span> <span class="st">"Number of groups"</span>,</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Within groups sum of squares"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1386,9 +1386,9 @@ Available components:
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>rge <span class="ot">&lt;-</span> <span class="fu">sapply</span>(crime2, <span class="cf">function</span>(x) <span class="fu">diff</span>(<span class="fu">range</span>(x)))</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kmeans</span>(crime_s, <span class="at">centers =</span> <span class="dv">2</span>)<span class="sc">$</span>centers <span class="sc">*</span> rge</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     Murder     Rape   Robbery   Assault Burglary     Theft  Vehicle
-1  4.739286 205.8169  267.3297 256.42521  30.7568  487.4233 922.9401
-2 45.791673 425.5086 1361.8047   8.61197 426.2028 2050.9889 554.2727</code></pre>
+<pre><code>     Murder     Rape  Robbery   Assault  Burglary     Theft   Vehicle
+1  9.368182 376.4971 829.2781 555.98881  51.36291  640.0962 2070.7959
+2 23.165629 232.6096 438.9973   3.97189 255.21604 1561.7962  247.0357</code></pre>
 </div>
 </div>
 <p>주성분 분석을 이용하여 군집을 시각화해보자. 첫번쨰 주성분은 모든 범죄에 대한 평균 개념이며 두 번째 주성분은 성폭행, 가택침입, 절도와 다른 범죄의 차이로 해것할 수 있다.</p>
